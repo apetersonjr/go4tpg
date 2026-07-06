@@ -18,16 +18,14 @@ export function ClientLogos() {
         {clientLogos.map((name) => (
           <div
             key={name}
-            className="border-tpg-border-strong text-tpg-subtle flex h-16 max-w-[250px] min-w-[42%] flex-1 items-center justify-center rounded-md border border-dashed font-mono text-[11.5px] opacity-55 grayscale transition-[opacity,filter] duration-300 hover:opacity-100 hover:grayscale-0"
+            className="border-tpg-border-strong text-tpg-muted hover:text-tpg-navy flex h-16 max-w-[250px] min-w-[42%] flex-1 items-center justify-center rounded-md border border-dashed font-mono text-[11.5px] grayscale transition-[color,filter] duration-300 hover:grayscale-0"
           >
             {name}
           </div>
         ))}
       </div>
 
-      <p className="text-tpg-border-strong mt-4 text-center font-mono text-[10px] tracking-[0.5px]">
-        logo slots — drop client marks here
-      </p>
+      {/* TODO: replace text placeholders with real client logo images once received */}
     </SectionContainer>
   );
 }
