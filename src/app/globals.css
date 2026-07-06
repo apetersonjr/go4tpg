@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+/*
+ * Brand design tokens.
+ * --tpg-blue and --tpg-cta are intentionally CSS custom properties (not
+ * hardcoded Tailwind colors) so the accent/CTA color can be swapped at the
+ * root without touching any component markup.
+ */
+:root {
+  --background: #ffffff;
+  --foreground: #16202b;
+
+  --tpg-navy: #0f2c4c;
+  --tpg-body: #16202b;
+  --tpg-muted: #3d4e5f;
+  --tpg-muted-soft: #5a6b7c;
+  --tpg-subtle: #8595a5;
+
+  --tpg-blue: #0088cc;
+  --tpg-blue-tint: #7fb0db;
+  --tpg-cta: #e8651f;
+  --tpg-cta-hover: #c9530e;
+
+  --tpg-border: #e7edf3;
+  --tpg-border-strong: #dce5ee;
+  --tpg-bg-tint: #fafbfd;
+  --tpg-bg-tint-blue: #f2f7fc;
+
+  --font-sans: var(--font-figtree);
+  --font-serif: var(--font-newsreader);
+  --font-mono: var(--font-plex-mono);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-tpg-navy: var(--tpg-navy);
+  --color-tpg-body: var(--tpg-body);
+  --color-tpg-muted: var(--tpg-muted);
+  --color-tpg-muted-soft: var(--tpg-muted-soft);
+  --color-tpg-subtle: var(--tpg-subtle);
+
+  --color-tpg-blue: var(--tpg-blue);
+  --color-tpg-blue-tint: var(--tpg-blue-tint);
+  --color-tpg-cta: var(--tpg-cta);
+  --color-tpg-cta-hover: var(--tpg-cta-hover);
+
+  --color-tpg-border: var(--tpg-border);
+  --color-tpg-border-strong: var(--tpg-border-strong);
+  --color-tpg-bg-tint: var(--tpg-bg-tint);
+  --color-tpg-bg-tint-blue: var(--tpg-bg-tint-blue);
+
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* Scroll offset so anchored sections aren't hidden under the sticky nav. */
+section[id] {
+  scroll-margin-top: 84px;
+}
