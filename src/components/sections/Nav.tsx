@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { navCta, navLinks } from "@/content/nav";
+import { withBasePath } from "@/lib/basePath";
 
 export function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -13,7 +14,7 @@ export function Nav() {
       <div className="mx-auto flex max-w-[1200px] items-center justify-between gap-8 px-6 py-4 sm:px-8 md:px-14">
         <a href="#top" className="flex-none" aria-label="The Peterson Group home">
           <Image
-            src="/assets/tpg-logo-header.png"
+            src={withBasePath("/assets/tpg-logo-header.png")}
             alt="The Peterson Group"
             width={576}
             height={82}

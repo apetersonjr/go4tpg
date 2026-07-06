@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { footerTagline } from "@/content/footer";
+import { withBasePath } from "@/lib/basePath";
 
 export function Footer() {
   return (
@@ -10,7 +11,7 @@ export function Footer() {
       innerClassName="flex flex-col items-center gap-4 py-11 text-center sm:flex-row sm:justify-between sm:text-left"
     >
       <Image
-        src="/assets/tpg-logo-footer.png"
+        src={withBasePath("/assets/tpg-logo-footer.png")}
         alt="The Peterson Group"
         width={576}
         height={82}
