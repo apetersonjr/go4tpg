@@ -12,11 +12,11 @@ export function Footer() {
     >
       <div className="mb-[52px] flex flex-wrap items-start justify-between gap-10">
         <Image
-          src={withBasePath("/assets/tpg-logo-footer.png")}
+          src={withBasePath("/assets/tpg-logo-white.svg")}
           alt="The Peterson Group"
-          width={576}
-          height={82}
-          className="h-8 w-auto"
+          width={210}
+          height={30}
+          className="h-7 w-auto"
         />
         <ul className="flex flex-wrap gap-8">
           {footerLinks.map((link) => (

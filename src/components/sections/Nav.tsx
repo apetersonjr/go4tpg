@@ -14,12 +14,12 @@ export function Nav() {
       <div className="mx-auto flex h-[76px] max-w-[1200px] items-center justify-between gap-8 px-[clamp(24px,5vw,64px)]">
         <a href="#top" className="flex-none" aria-label="The Peterson Group home">
           <Image
-            src={withBasePath("/assets/tpg-logo-header.png")}
+            src={withBasePath("/assets/tpg-logo-white.svg")}
             alt="The Peterson Group"
-            width={576}
-            height={82}
+            width={210}
+            height={30}
             priority
-            className="h-[34px] w-auto"
+            className="h-[30px] w-auto"
           />
         </a>
 
