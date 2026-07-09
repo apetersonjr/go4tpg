@@ -1,11 +1,13 @@
 import { Nav } from "@/components/sections/Nav";
 import { Hero } from "@/components/sections/Hero";
-import { ClientLogos } from "@/components/sections/ClientLogos";
 import { OpeningQuestion } from "@/components/sections/OpeningQuestion";
-import { BeforeAfter } from "@/components/sections/BeforeAfter";
-import { HowWeWork } from "@/components/sections/HowWeWork";
-import { Offers } from "@/components/sections/Offers";
-import { CostOfWaiting } from "@/components/sections/CostOfWaiting";
+import { Problem } from "@/components/sections/Problem";
+import { Formats } from "@/components/sections/Formats";
+import { Ste } from "@/components/sections/Ste";
+import { Headcount } from "@/components/sections/Headcount";
+import { Proof } from "@/components/sections/Proof";
+import { Commit } from "@/components/sections/Commit";
+import { Faq } from "@/components/sections/Faq";
 import { Footer } from "@/components/sections/Footer";
 
 export default function Home() {
@@ -14,12 +16,14 @@ export default function Home() {
       <Nav />
       <main className="flex-1">
         <Hero />
-        <ClientLogos />
         <OpeningQuestion />
-        <BeforeAfter />
-        <HowWeWork />
-        <Offers />
-        <CostOfWaiting />
+        <Problem />
+        <Formats />
+        <Ste />
+        <Headcount />
+        <Proof />
+        <Commit />
+        <Faq />
       </main>
       <Footer />
     </div>

@@ -1,59 +1,58 @@
 @import "tailwindcss";
 
 /*
- * Brand design tokens.
- * --tpg-blue and --tpg-cta are intentionally CSS custom properties (not
- * hardcoded Tailwind colors) so the accent/CTA color can be swapped at the
- * root without touching any component markup.
+ * Brand design tokens — HomeComp v8 palette.
+ * The blue system carries the brand; orange is reserved for CTAs and
+ * emphasis; purple is a supporting accent (kickers, numerals, quotes).
+ * All are CSS custom properties so any of them can be swapped at the
+ * root without touching component markup.
  */
 :root {
   --background: #ffffff;
-  --foreground: #16202b;
+  --foreground: #3a4e5f;
 
-  --tpg-navy: #0f2c4c;
-  --tpg-body: #16202b;
-  --tpg-muted: #3d4e5f;
-  --tpg-muted-soft: #5a6b7c;
-  --tpg-subtle: #8595a5;
+  --tpg-primary: #0088cc;
+  --tpg-primary-dark: #006ba8;
+  --tpg-deep: #053e63;
+  --tpg-ink: #032a45;
+  --tpg-tint: #f0f7fc;
+  --tpg-sky: #bfe6f7;
 
-  --tpg-blue: #0088cc;
-  --tpg-blue-tint: #7fb0db;
   --tpg-cta: #e8651f;
   --tpg-cta-hover: #c9530e;
 
-  --tpg-border: #e7edf3;
-  --tpg-border-strong: #dce5ee;
-  --tpg-bg-tint: #fafbfd;
-  --tpg-bg-tint-blue: #f2f7fc;
+  --tpg-accent: #5b2d8e;
+
+  --tpg-body: #3a4e5f;
+  --tpg-muted: #5a6b7c;
+  --tpg-border: #dfe8ef;
 
   --font-sans: var(--font-figtree);
   --font-serif: var(--font-newsreader);
-  --font-mono: var(--font-plex-mono);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
-  --color-tpg-navy: var(--tpg-navy);
-  --color-tpg-body: var(--tpg-body);
-  --color-tpg-muted: var(--tpg-muted);
-  --color-tpg-muted-soft: var(--tpg-muted-soft);
-  --color-tpg-subtle: var(--tpg-subtle);
+  --color-tpg-primary: var(--tpg-primary);
+  --color-tpg-primary-dark: var(--tpg-primary-dark);
+  --color-tpg-deep: var(--tpg-deep);
+  --color-tpg-ink: var(--tpg-ink);
+  --color-tpg-tint: var(--tpg-tint);
+  --color-tpg-sky: var(--tpg-sky);
 
-  --color-tpg-blue: var(--tpg-blue);
-  --color-tpg-blue-tint: var(--tpg-blue-tint);
   --color-tpg-cta: var(--tpg-cta);
   --color-tpg-cta-hover: var(--tpg-cta-hover);
 
+  --color-tpg-accent: var(--tpg-accent);
+
+  --color-tpg-body: var(--tpg-body);
+  --color-tpg-muted: var(--tpg-muted);
   --color-tpg-border: var(--tpg-border);
-  --color-tpg-border-strong: var(--tpg-border-strong);
-  --color-tpg-bg-tint: var(--tpg-bg-tint);
-  --color-tpg-bg-tint-blue: var(--tpg-bg-tint-blue);
 
   --font-sans: var(--font-sans);
   --font-serif: var(--font-serif);
-  --font-mono: var(--font-mono);
 }
 
 html {
@@ -64,9 +63,33 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* Scroll offset so anchored sections aren't hidden under the sticky nav. */
 section[id] {
   scroll-margin-top: 84px;
+}
+
+/*
+ * Multi-stop gradient backgrounds from the reference design. Kept as
+ * plain CSS classes — they're too long to be readable as Tailwind
+ * arbitrary values.
+ */
+.bg-hero {
+  background:
+    radial-gradient(1100px 520px at 82% -10%, rgba(232, 101, 31, 0.22), transparent 60%),
+    radial-gradient(900px 600px at -10% 110%, rgba(5, 62, 99, 0.5), transparent 60%),
+    linear-gradient(168deg, var(--tpg-primary) 0%, var(--tpg-primary-dark) 100%);
+}
+
+.bg-ste {
+  background: linear-gradient(160deg, var(--tpg-primary), var(--tpg-primary-dark));
+}
+
+.bg-commit {
+  background:
+    radial-gradient(900px 480px at 15% 120%, rgba(232, 101, 31, 0.25), transparent 60%),
+    linear-gradient(165deg, var(--tpg-primary-dark), var(--tpg-deep));
 }

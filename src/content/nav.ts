@@ -4,29 +4,18 @@ export type NavLink = {
 };
 
 /**
- * NOTE — section mapping is a best guess, not an explicit spec.
- *
- * The source design's nav links were all placeholder `#` anchors with no
- * indication of which section each one should point to. The mapping below
- * assigns each label to the most content-appropriate section on this
- * single-page site. Confirm with the client before shipping — in
- * particular "About" and "AI Fluency" are inferential:
- *
- *   Services    -> #offers        (Six ways to start)
- *   About       -> #about         (Opening question / transformation)
- *   AI Fluency  -> #ai-fluency    (How we work: S.T.E.)
- *   Results     -> #results       (Client logos strip)
- *   Contact     -> #contact       (Cost-of-waiting CTA band)
+ * Nav links per the v8 reference design:
+ *   Services -> #formats, Results -> #proof, About -> #faq,
+ *   Contact -> #commit (also the CTA target).
  */
 export const navLinks: NavLink[] = [
-  { label: "Services", href: "#offers" },
-  { label: "About", href: "#about" },
-  { label: "AI Fluency", href: "#ai-fluency" },
-  { label: "Results", href: "#results" },
-  { label: "Contact", href: "#contact" },
+  { label: "Services", href: "#formats" },
+  { label: "Results", href: "#proof" },
+  { label: "About", href: "#faq" },
+  { label: "Contact", href: "#commit" },
 ];
 
 export const navCta = {
-  label: "Book a Strategy Call",
-  href: "#contact",
+  label: "Book a Planning Summit",
+  href: "#commit",
 };

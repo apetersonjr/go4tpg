@@ -1,25 +1,27 @@
 import { SectionContainer } from "@/components/ui/SectionContainer";
-import { EyebrowLabel } from "@/components/ui/EyebrowLabel";
+import { Kicker } from "@/components/ui/Kicker";
 import {
-  openingQuestionEyebrow,
+  openingQuestionKicker,
   openingQuestionQuote,
-  openingQuestionSupport,
+  openingQuestionVerdict,
 } from "@/content/openingQuestion";
 
 export function OpeningQuestion() {
   return (
-    <SectionContainer
-      id="about"
-      as="section"
-      className="bg-tpg-bg-tint-blue"
-      innerClassName="py-24 text-center"
-    >
-      <EyebrowLabel className="mb-6 text-center">{openingQuestionEyebrow}</EyebrowLabel>
-      <p className="text-tpg-navy mx-auto max-w-[860px] font-serif text-[24px] leading-[1.36] tracking-[-0.01em] italic sm:text-[30px] lg:text-[36px]">
-        {openingQuestionQuote}
-      </p>
-      <p className="text-tpg-muted-soft mx-auto mt-6 max-w-[560px] text-base leading-[1.6]">
-        {openingQuestionSupport}
+    <SectionContainer className="bg-white text-center">
+      <Kicker>{openingQuestionKicker}</Kicker>
+      <blockquote className="text-tpg-ink mx-auto max-w-[920px] font-serif text-[clamp(28px,3.6vw,46px)] leading-[1.3]">
+        <span
+          aria-hidden="true"
+          className="text-tpg-cta mr-1.5 align-[-0.1em] text-[1.4em] leading-none"
+        >
+          “
+        </span>
+        {openingQuestionQuote}”
+      </blockquote>
+      <p className="text-tpg-muted mx-auto mt-9 max-w-[640px] text-[clamp(17px,1.8vw,21px)]">
+        {openingQuestionVerdict.pre}
+        <strong className="text-tpg-cta">{openingQuestionVerdict.emphasis}</strong>
       </p>
     </SectionContainer>
   );

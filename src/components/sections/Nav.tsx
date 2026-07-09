@@ -10,8 +10,8 @@ export function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="border-tpg-border sticky top-0 z-50 border-b bg-white/95 backdrop-blur">
-      <div className="mx-auto flex max-w-[1200px] items-center justify-between gap-8 px-6 py-4 sm:px-8 md:px-14">
+    <header className="bg-tpg-deep/[0.94] sticky top-0 z-50 border-b border-white/10 backdrop-blur-lg">
+      <div className="mx-auto flex h-[76px] max-w-[1200px] items-center justify-between gap-8 px-[clamp(24px,5vw,64px)]">
         <a href="#top" className="flex-none" aria-label="The Peterson Group home">
           <Image
             src={withBasePath("/assets/tpg-logo-header.png")}
@@ -19,31 +19,28 @@ export function Nav() {
             width={576}
             height={82}
             priority
-            className="h-[26px] w-auto"
+            className="h-[34px] w-auto"
           />
         </a>
 
-        <nav aria-label="Primary" className="hidden items-center gap-8 md:flex">
+        <nav aria-label="Primary" className="hidden items-center gap-9 md:flex">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="text-tpg-muted hover:text-tpg-navy text-sm transition-colors"
+              className="text-[15px] tracking-[0.02em] text-white/85 transition-colors hover:text-white"
             >
               {link.label}
             </a>
           ))}
-        </nav>
-
-        <div className="hidden md:block">
-          <Button href={navCta.href} variant="cta" className="px-5 py-[11px] text-[13.5px]">
+          <Button href={navCta.href} size="nav">
             {navCta.label}
           </Button>
-        </div>
+        </nav>
 
         <button
           type="button"
-          className="text-tpg-navy flex flex-none items-center justify-center rounded p-2 md:hidden"
+          className="flex flex-none items-center justify-center rounded p-2 text-white md:hidden"
           aria-expanded={mobileOpen}
           aria-controls="mobile-nav"
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
@@ -57,7 +54,7 @@ export function Nav() {
         <nav
           id="mobile-nav"
           aria-label="Mobile"
-          className="border-tpg-border border-t bg-white px-6 py-6 md:hidden"
+          className="bg-tpg-deep border-t border-white/10 px-6 py-6 md:hidden"
         >
           <ul className="flex flex-col gap-1">
             {navLinks.map((link) => (
@@ -65,7 +62,7 @@ export function Nav() {
                 <a
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="text-tpg-muted hover:bg-tpg-bg-tint hover:text-tpg-navy block rounded px-2 py-3 text-base transition-colors"
+                  className="block rounded px-2 py-3 text-base text-white/85 transition-colors hover:bg-white/10 hover:text-white"
                 >
                   {link.label}
                 </a>
@@ -74,9 +71,9 @@ export function Nav() {
           </ul>
           <Button
             href={navCta.href}
-            variant="cta"
+            size="nav"
             onClick={() => setMobileOpen(false)}
-            className="mt-4 w-full"
+            className="mt-4 w-full text-center"
           >
             {navCta.label}
           </Button>

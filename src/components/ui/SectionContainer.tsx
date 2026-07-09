@@ -5,26 +5,36 @@ type SectionContainerProps = {
   id?: string;
   children: ReactNode;
   className?: string;
-  /** Inner content max-width. Defaults to a comfortable reading/layout width. */
+  /** Extra classes on the inner max-width wrapper. */
   innerClassName?: string;
-  as?: "section" | "div";
+  /** Set false for bands with their own vertical rhythm (nav, hero, footer). */
+  paddedY?: boolean;
+  as?: "section" | "div" | "header" | "footer";
 };
 
 /**
- * Shared horizontal padding + section spacing wrapper. Mirrors the
- * reference design's `.tpg-pad` rule: 56px side padding on desktop,
- * collapsing to 24px at the 720px breakpoint.
+ * Shared section wrapper mirroring the reference design's `.wrap` rule:
+ * 1200px max width, fluid side padding `clamp(24px, 5vw, 64px)`, and
+ * fluid vertical section padding `clamp(72px, 9vw, 128px)`.
  */
 export function SectionContainer({
   id,
   children,
   className,
   innerClassName,
+  paddedY = true,
   as = "section",
 }: SectionContainerProps) {
   const Tag = as;
   return (
-    <Tag id={id} className={cn("px-6 sm:px-8 md:px-14", className)}>
+    <Tag
+      id={id}
+      className={cn(
+        "px-[clamp(24px,5vw,64px)]",
+        paddedY && "py-[clamp(72px,9vw,128px)]",
+        className,
+      )}
+    >
       <div className={cn("mx-auto max-w-[1200px]", innerClassName)}>{children}</div>
     </Tag>
   );

@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { figtree, newsreader, plexMono } from "./fonts";
+import { figtree, newsreader } from "./fonts";
 import "./globals.css";
 
 const siteUrl = "https://www.thepetersongroup.com";
 const title = "The Peterson Group | Blueprints, not decks. Installed systems, not advice.";
 const description =
-  "TPG facilitates, installs, and sustains the systems, AI architecture, and leadership operating rhythms growing companies are missing — from a single strategy session to an embedded revenue operations sprint.";
+  "We facilitate the plan your business runs on... then our own engineering team installs the AI systems that execute it.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -39,10 +39,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${figtree.variable} ${newsreader.variable} ${plexMono.variable} h-full antialiased`}
-    >
+    <html lang="en" className={`${figtree.variable} ${newsreader.variable} h-full antialiased`}>
       <body className="text-tpg-body flex min-h-full flex-col bg-white font-sans">{children}</body>
     </html>
   );
