@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { figtree, newsreader } from "./fonts";
 import "./globals.css";
 
-const siteUrl = "https://www.thepetersongroup.com";
+const siteUrl = "https://www.go4tpg.com";
 const title = "The Peterson Group | Blueprints, not decks. Installed systems, not advice.";
 const description =
   "We facilitate the plan your business runs on... then our own engineering team installs the AI systems that execute it.";

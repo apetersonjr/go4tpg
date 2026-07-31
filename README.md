@@ -11,8 +11,7 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000/go4tpg](http://localhost:3000/go4tpg) to view it
-(the site is served under the `/go4tpg` base path for GitHub Pages).
+Open [http://localhost:3000](http://localhost:3000) to view it.
 
 Other scripts:
 
@@ -47,8 +46,46 @@ scrolling handled by `html { scroll-behavior: smooth }` and a
 
 ## Deployment
 
-Pushes to `main` build and deploy to GitHub Pages via
-`.github/workflows/deploy.yml` (static export to `./out`).
+`npm run build` produces a fully static site in `./out` (`output: "export"`),
+which any web server can host. Asset URLs are root-relative (`/_next/...`,
+`/assets/...`), so the site must be served from the domain root.
+
+### VPS (nginx)
+
+Build, copy `out/` to the server, and point nginx at it:
+
+```nginx
+server {
+  listen 80;
+  server_name www.go4tpg.com go4tpg.com;
+
+  root /var/www/go4tpg;
+
+  # trailingSlash: true, so directory-style URLs resolve to index.html
+  location / {
+    try_files $uri $uri/ $uri/index.html =404;
+  }
+
+  error_page 404 /404.html;
+  location = /404.html {
+    internal;
+  }
+}
+```
+
+### Serving under a sub-path
+
+`basePath` is empty by default. To host under a sub-path (e.g.
+`https://example.com/go4tpg` rather than the domain root), set the env var
+**at build time** — it is inlined into the client bundle, so it cannot be
+changed after building:
+
+```bash
+NEXT_PUBLIC_BASE_PATH=/go4tpg npm run build
+```
+
+Leaving it unset while serving from a sub-path is what produces an unstyled
+page: the HTML loads but every `/_next/*` asset 404s.
 
 ## Notes
 
