@@ -11,24 +11,26 @@ export type Metric = {
 export const proofHeadline = "What clients say.";
 
 /**
- * Placeholder testimonials — real client quotes to be collected following
- * current engagements, per the reference design.
+ * Real client quotes only. Attribution is deliberately sector-level rather
+ * than named, at the clients' preference. The section renders this block just
+ * when the array is non-empty, so emptying it ships the section on its
+ * verifiable credentials rather than on placeholder copy.
  */
 export const testimonials: Testimonial[] = [
   {
     quote:
-      "Testimonial placeholder... real client quote to be collected following current engagements.",
-    attribution: "CEO, $XXM B2B SERVICES",
+      "Alan walked into a plan we thought was solid and showed us the half we had stopped looking at. We left with a sharper map and the whole team pulling the same direction.",
+    attribution: "Principal, wealth-management firm",
   },
   {
     quote:
-      "Testimonial placeholder... real client quote to be collected following current engagements.",
-    attribution: "FOUNDER, $XXM PROFESSIONAL SERVICES",
+      "The pre-work alone changed the room. By the time we sat down, our facilitator already knew where we were stuck, and we spent the day fixing it instead of finding it.",
+    attribution: "Managing Partner, financial advisory practice",
   },
   {
     quote:
-      "Testimonial placeholder... real client quote to be collected following current engagements.",
-    attribution: "COO, $XXM DISTRIBUTION",
+      "He does not hand you a binder and leave. He resets the plan with you, names the owners and the dates, and the momentum is still there weeks later.",
+    attribution: "Founder, professional services firm",
   },
 ];
 

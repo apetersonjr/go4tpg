@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { figtree, newsreader } from "./fonts";
+import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
-const siteUrl = "https://www.go4tpg.com";
 const title = "The Peterson Group | Blueprints, not decks. Installed systems, not advice.";
 const description =
   "We facilitate the plan your business runs on... then our own engineering team installs the AI systems that execute it.";
@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title,
   description,
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title,
     description,

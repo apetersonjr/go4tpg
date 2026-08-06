@@ -13,4 +13,9 @@ export const footerLinks: FooterLink[] = [
 
 export const footerTagline = "Blueprints, not decks. Installed systems, not advice.";
 
-export const footerLegal = "© 2026 The Peterson Group. All rights reserved. · Privacy · Terms";
+/**
+ * The year is resolved when the site is built, not when a visitor loads it —
+ * this is a static export, so the footer needs a rebuild each January to roll
+ * over. Still beats a hardcoded literal, which needs a code change.
+ */
+export const footerLegal = `© ${new Date().getFullYear()} The Peterson Group. All rights reserved. · Privacy · Terms`;

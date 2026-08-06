@@ -8,19 +8,23 @@ export function Proof() {
         {proofHeadline}
       </h2>
 
-      <div className="mb-16 grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6">
-        {testimonials.map((testimonial) => (
-          <div
-            key={testimonial.attribution}
-            className="border-tpg-border rounded-md border bg-white p-[34px]"
-          >
-            <p className="text-tpg-accent mb-5 font-serif text-[19px] italic">
-              “{testimonial.quote}”
-            </p>
-            <p className="text-tpg-muted text-sm tracking-[0.04em]">{testimonial.attribution}</p>
-          </div>
-        ))}
-      </div>
+      {testimonials.length > 0 && (
+        <div className="mb-16 grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6">
+          {testimonials.map((testimonial) => (
+            <div
+              key={testimonial.attribution}
+              className="border-tpg-border rounded-md border bg-white p-[34px]"
+            >
+              <p className="text-tpg-accent mb-5 font-serif text-[19px] italic">
+                “{testimonial.quote}”
+              </p>
+              <p className="text-tpg-muted text-sm tracking-[0.04em]">
+                — {testimonial.attribution}
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
 
       <p className="text-tpg-muted mx-auto mb-16 max-w-[760px] text-center text-base">
         <b className="text-tpg-ink">{trustLine.lead}</b>
