@@ -38,12 +38,10 @@ export function Formats() {
                 </b>
               ))}
             </p>
-            {/*
-              Interim target: the per-service detail pages do not exist yet, so
-              these point at the booking section like every other CTA. Swap for
-              the real routes (and revisit the "See the ..." labels) once built.
-            */}
-            <a href="#commit" className="text-tpg-cta hover:text-tpg-cta-hover text-base font-bold">
+            <a
+              href={card.href}
+              className="text-tpg-cta hover:text-tpg-cta-hover text-base font-bold"
+            >
               {card.linkLabel}
             </a>
           </div>

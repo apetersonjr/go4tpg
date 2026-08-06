@@ -35,7 +35,7 @@ export const testimonials: Testimonial[] = [
 ];
 
 export const trustLine = {
-  lead: "35 years. Startups to Fortune 500.",
+  lead: "35 years. Startups to Fortune 200.",
   rest: " Waste Management, Xerox Corporate, Southern California Edison, the County of Los Angeles.",
 };
 

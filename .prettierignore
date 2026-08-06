@@ -1,2 +1,8 @@
 .next
 node_modules
+
+# Flat comp pages synced from 02_Engine/Website/Creative — do not reformat
+index.html
+ServicesComp_v1.html
+SummitComp_v1.html
+AboutComp_v1.html
