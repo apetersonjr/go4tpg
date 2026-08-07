@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { navCta, navLinks } from "@/content/nav";
 import { withBasePath } from "@/lib/basePath";
@@ -12,7 +13,8 @@ export function Nav() {
   return (
     <header className="bg-tpg-deep/[0.94] sticky top-0 z-50 border-b border-white/10 backdrop-blur-lg">
       <div className="mx-auto flex h-[76px] max-w-[1200px] items-center justify-between gap-8 px-[clamp(24px,5vw,64px)]">
-        <a href="#top" className="flex-none" aria-label="The Peterson Group home">
+        {/* Root-absolute so the logo returns home from the category pages too. */}
+        <Link href="/#top" className="flex-none" aria-label="The Peterson Group home">
           <Image
             src={withBasePath("/assets/tpg-logo-white.svg")}
             alt="The Peterson Group"
@@ -21,17 +23,17 @@ export function Nav() {
             priority
             className="h-[33.6px] w-auto"
           />
-        </a>
+        </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-9 md:flex">
           {navLinks.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
               className="text-[15px] tracking-[0.02em] text-white/85 transition-colors hover:text-white"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
           <Button href={navCta.href} size="nav">
             {navCta.label}
@@ -59,13 +61,13 @@ export function Nav() {
           <ul className="flex flex-col gap-1">
             {navLinks.map((link) => (
               <li key={link.href}>
-                <a
+                <Link
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
                   className="block rounded px-2 py-3 text-base text-white/85 transition-colors hover:bg-white/10 hover:text-white"
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

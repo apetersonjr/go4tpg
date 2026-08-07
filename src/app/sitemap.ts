@@ -6,18 +6,19 @@ import { siteUrl } from "@/lib/site";
 export const dynamic = "force-static";
 
 /**
- * One entry, because the site is a single page. The trailing slash matches
- * `trailingSlash: true` in next.config.ts, so the URL here is the same one the
- * canonical tag points at. `lastModified` is stamped at build time, so each
- * deploy tells crawlers the content moved on.
+ * The homepage plus the three category pages. Trailing slashes match
+ * `trailingSlash: true` in next.config.ts, so each URL here is the same one
+ * that page's canonical tag points at. `lastModified` is stamped at build
+ * time, so each deploy tells crawlers the content moved on.
  */
+const routes = ["/", "/summits/", "/installations/", "/retreats-coaching/"];
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: `${siteUrl}/`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 1,
-    },
-  ];
+  const lastModified = new Date();
+  return routes.map((route) => ({
+    url: `${siteUrl}${route}`,
+    lastModified,
+    changeFrequency: "monthly",
+    priority: route === "/" ? 1 : 0.8,
+  }));
 }

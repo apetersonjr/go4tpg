@@ -1,5 +1,5 @@
 import { SectionContainer } from "@/components/ui/SectionContainer";
-import { metrics, proofHeadline, testimonials, trustLine } from "@/content/proof";
+import { metrics, proofHeadline, testimonials } from "@/content/proof";
 
 export function Proof() {
   return (
@@ -25,11 +25,6 @@ export function Proof() {
           ))}
         </div>
       )}
-
-      <p className="text-tpg-muted mx-auto mb-16 max-w-[760px] text-center text-base">
-        <b className="text-tpg-ink">{trustLine.lead}</b>
-        {trustLine.rest}
-      </p>
 
       <div className="border-tpg-border bg-tpg-border grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-[2px] overflow-hidden rounded-lg border">
         {metrics.map((metric) => (

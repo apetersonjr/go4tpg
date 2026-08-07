@@ -1,9 +1,11 @@
+import Link from "next/link";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
 type ButtonSize = "nav" | "default" | "big";
 
-type ButtonProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
+type ButtonProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href"> & {
+  href: string;
   children: ReactNode;
   size?: ButtonSize;
   className?: string;
@@ -16,12 +18,14 @@ const sizeClassMap: Record<ButtonSize, string> = {
 };
 
 /**
- * Orange call-to-action button. Every CTA in this design links to a
- * booking flow or an on-page anchor, so this always renders an `<a>`.
+ * Orange call-to-action button. Every CTA links to a booking section or a
+ * category page, so this renders a `Link` — the category pages point back at
+ * `/#commit` on the homepage, and that is a route change, not an in-page jump.
  */
-export function Button({ children, size = "default", className, ...rest }: ButtonProps) {
+export function Button({ href, children, size = "default", className, ...rest }: ButtonProps) {
   return (
-    <a
+    <Link
+      href={href}
       className={cn(
         "bg-tpg-cta hover:bg-tpg-cta-hover inline-block rounded font-bold text-white",
         "transition-[background-color,transform] duration-200 hover:-translate-y-0.5",
@@ -31,6 +35,6 @@ export function Button({ children, size = "default", className, ...rest }: Butto
       {...rest}
     >
       {children}
-    </a>
+    </Link>
   );
 }

@@ -3,12 +3,18 @@ export type FooterLink = {
   href: string;
 };
 
+/*
+ * Home-section links are root-absolute so the footer works identically on the
+ * homepage and on the category pages.
+ *
+ * LinkedIn was `href="#"` — a dead link that shipped on every page. Pulled
+ * rather than pointed somewhere invented; restore it with the real profile URL.
+ */
 export const footerLinks: FooterLink[] = [
-  { label: "Services", href: "#formats" },
-  { label: "About", href: "#faq" },
-  { label: "Results", href: "#proof" },
-  { label: "Contact", href: "#commit" },
-  { label: "LinkedIn", href: "#" },
+  { label: "Services", href: "/#formats" },
+  { label: "About", href: "/#faq" },
+  { label: "Results", href: "/#proof" },
+  { label: "Contact", href: "/#commit" },
 ];
 
 export const footerTagline = "Blueprints, not decks. Installed systems, not advice.";

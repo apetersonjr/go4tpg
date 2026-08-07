@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { footerLegal, footerLinks, footerTagline } from "@/content/footer";
 import { withBasePath } from "@/lib/basePath";
@@ -21,12 +22,12 @@ export function Footer() {
         <ul className="flex flex-wrap gap-8">
           {footerLinks.map((link) => (
             <li key={link.label}>
-              <a
+              <Link
                 href={link.href}
                 className="text-[15px] text-white/70 transition-colors hover:text-white"
               >
                 {link.label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

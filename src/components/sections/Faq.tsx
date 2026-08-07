@@ -1,13 +1,20 @@
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { faqHeadline, faqItems } from "@/content/faq";
+import type { FaqItem } from "@/content/faq";
 
-export function Faq() {
+type FaqProps = {
+  /** Defaults to the homepage FAQ; category pages pass their own set. */
+  items?: FaqItem[];
+  headline?: string;
+};
+
+export function Faq({ items = faqItems, headline = faqHeadline }: FaqProps = {}) {
   return (
     <SectionContainer id="faq" className="bg-white">
       <h2 className="text-tpg-muted mb-[34px] text-[15px] font-bold tracking-[0.2em] uppercase">
-        {faqHeadline}
+        {headline}
       </h2>
-      {faqItems.map((item) => (
+      {items.map((item) => (
         <details key={item.question} className="group border-tpg-border border-t last:border-b">
           <summary className="text-tpg-ink relative cursor-pointer list-none py-[26px] pr-11 pl-1 font-serif text-[21px] [&::-webkit-details-marker]:hidden">
             {item.question}

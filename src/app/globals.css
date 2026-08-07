@@ -93,3 +93,67 @@ section[id] {
     radial-gradient(900px 480px at 15% 120%, rgba(232, 101, 31, 0.25), transparent 60%),
     linear-gradient(165deg, var(--tpg-primary-dark), var(--tpg-deep));
 }
+
+/*
+ * Client logo marquee. The track holds two identical halves and slides left
+ * by exactly half its width, so the moment it resets, the copy that takes
+ * over is pixel-identical to the one that left — the seam is invisible.
+ */
+@keyframes tpg-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: tpg-marquee 40s linear infinite;
+  /* Nudges the strip onto its own layer so the transform doesn't repaint
+     the section behind it on every frame. */
+  will-change: transform;
+}
+
+/* Hovering anywhere on the strip parks it, so a mark can be read or clicked. */
+.marquee-mask:hover .marquee-track,
+.marquee-mask:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Feathers both ends so logos dissolve at the edges instead of being guillotined. */
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 6%,
+    #000 94%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(to right, transparent 0%, #000 6%, #000 94%, transparent 100%);
+}
+
+/*
+ * No motion: drop the duplicate passes entirely and centre the single real
+ * one, so the strip becomes a plain static row rather than a stalled track
+ * with five clipped copies sitting off-screen.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    width: 100%;
+    animation: none;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: clamp(32px, 5vw, 64px) clamp(40px, 6vw, 72px);
+  }
+
+  .marquee-pass:not(:first-child) {
+    display: none;
+  }
+
+  .marquee-pass {
+    padding-right: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

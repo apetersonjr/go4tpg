@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { Kicker } from "@/components/ui/Kicker";
 import { formatCards, formatsHeadline, formatsKicker } from "@/content/formats";
@@ -38,12 +39,12 @@ export function Formats() {
                 </b>
               ))}
             </p>
-            <a
+            <Link
               href={card.href}
               className="text-tpg-cta hover:text-tpg-cta-hover text-base font-bold"
             >
               {card.linkLabel}
-            </a>
+            </Link>
           </div>
         ))}
       </div>

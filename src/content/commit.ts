@@ -1,4 +1,4 @@
-export const commitKicker = "Start with the Annual Planning Summit";
+export const commitKicker = "Start with the Annual Planning Summit.";
 
 export const commitHeadline =
   "You walk away with named priorities, a written plan, and the team alignment and accountability that make the plan actually happen.";
