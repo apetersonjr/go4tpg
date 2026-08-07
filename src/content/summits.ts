@@ -12,11 +12,16 @@ export type Offering = {
   tagline: string;
   body: string[];
   /**
-   * Investment, once V19 pricing is approved. Null renders nothing — the page
-   * has no pricing block and no placeholder to tidy up, so filling this in is
-   * the only change needed to start showing a price.
+   * Headline investment figure, per the Operating Blueprint v19 (6 Aug 2026).
+   * Null for offers with no fixed price — those carry the explanation in
+   * `priceNotes` instead, and no figure is rendered.
    */
   price: string | null;
+  /**
+   * Qualifying lines under the figure: tier label, credit terms, ranges for
+   * larger engagements. Rendered muted and in order; empty renders nothing.
+   */
+  priceNotes: string[];
   ctaLabel: string;
   ctaHref: string;
 };
@@ -122,7 +127,8 @@ export const summitOfferings: Offering[] = [
     body: [
       "A facilitated one-day planning summit with your leadership and execution team. Together we lock the priorities that matter most, give each a measurable, time-bound definition of success, name the actions that drive it, and assign every priority, metric, and action to a person in the room. As the work of each function surfaces, we map where automation and AI execution will amplify output across your team.",
     ],
-    price: null,
+    price: "$4,750",
+    priceNotes: ["Credited toward a Sprint if booked within 14 days."],
     ctaLabel: "Book a Planning Summit",
     ctaHref: "/#commit",
   },
@@ -141,7 +147,8 @@ export const summitOfferings: Offering[] = [
       "Every summit includes a complimentary Opportunity Scan showing exactly where AI will amplify the work, and what to install first.",
       "Best run in early July — giving the recalibrated plan a full six months to compound before year-end.",
     ],
-    price: null,
+    price: "$4,750",
+    priceNotes: [],
     ctaLabel: "Book a Mid-Year Reset",
     ctaHref: "/#commit",
   },

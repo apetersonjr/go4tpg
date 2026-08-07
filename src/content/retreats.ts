@@ -1,14 +1,10 @@
 import type { Offering } from "@/content/summits";
 
-export type RetreatTier = {
+export type PricingTier = {
   name: string;
-  /** What the tier adds over the base retreat. Empty for the base tier. */
+  /** What this tier adds or how it is billed. Empty renders nothing. */
   detail: string;
-  /**
-   * Per-person investment, once V19 pricing is approved. The V17 comp carried
-   * figures for all three tiers; they were unverified against V19 and are not
-   * shipped. Filling these in is the only change needed to show pricing.
-   */
+  /** Investment per the Operating Blueprint v19 (6 Aug 2026). */
   price: string | null;
 };
 
@@ -27,25 +23,22 @@ export const retreatsHero = {
   ctaHref: "/#commit",
 };
 
-/**
- * Tier structure for the Strategy Blueprint at Sea. Names and inclusions are
- * V17 comp copy and unchanged; only the figures are withheld.
- */
-export const retreatTiers: RetreatTier[] = [
+/** Tier structure and pricing for the Strategy Blueprint at Sea. */
+export const retreatTiers: PricingTier[] = [
   {
     name: "Founder’s Cohort",
-    detail: "Limited to the first 2 confirmed registrations.",
-    price: null,
+    detail: "Per person. Limited to the first 2 confirmed registrations.",
+    price: "$7,250",
   },
   {
     name: "Core Retreat",
-    detail: "",
-    price: null,
+    detail: "Per person.",
+    price: "$8,500",
   },
   {
     name: "Executive Retreat",
-    detail: "Adds 8 weeks of 1:1 coaching post-retreat and priority stateroom.",
-    price: null,
+    detail: "Per person. Adds 8 weeks of 1:1 coaching post-retreat and priority stateroom.",
+    price: "$14,500",
   },
 ];
 
@@ -68,6 +61,7 @@ export const retreatOfferings: Offering[] = [
       "Format: 7 nights aboard Cyrolia in the Society Islands, French Polynesia. Mornings are 3 to 4 hours of facilitated working sessions; afternoons and evenings on the water and ashore.",
     ],
     price: null,
+    priceNotes: [],
     ctaLabel: "Reserve a Berth",
     ctaHref: "/#commit",
   },
@@ -85,10 +79,38 @@ export const retreatOfferings: Offering[] = [
       "Engagement modes: 1:1 founder/CEO coaching, leadership team facilitation, team-wide engagement, and board & advisory facilitation.",
       /* V19: the catalog phrasing here is now the Installation Menu. */
       "Operating rhythm, customized to your team: annual, semi-annual, quarterly, or monthly cadences, combinable as the company grows. Delivered in person, aboard Cyrolia, or by video. Every rhythm includes the plan and the discipline, at least one standard AI installation from the TPG AI Installation Menu each quarter as part of the retainer, and tooling you own outright — no platform lock-in.",
-      "Monthly and quarterly facilitation retainers are customized to each client, scoped after a discovery call.",
     ],
     price: null,
+    priceNotes: [],
     ctaLabel: "Book a Discovery Call",
     ctaHref: "/#commit",
   },
 ];
+
+/**
+ * Lighthouse Leadership OS retainer tiers.
+ *
+ * These replaced the line that said retainers were "customized to each client,
+ * scoped after a discovery call" — v19 sets fixed monthly rates, and the two
+ * statements could not both stand.
+ */
+export const lighthouseTiers: PricingTier[] = [
+  {
+    name: "Lighthouse Quarterly",
+    detail: "Billed $4,500 per quarter.",
+    price: "$1,500/month",
+  },
+  {
+    name: "Lighthouse Monthly",
+    detail: "",
+    price: "$3,000/month",
+  },
+  {
+    name: "Lighthouse Executive",
+    detail: "",
+    price: "$4,750/month",
+  },
+];
+
+export const lighthouseAddOn =
+  "Add-on, functional-team facilitation: $1,000 per team per month, or $750 per one-off session.";

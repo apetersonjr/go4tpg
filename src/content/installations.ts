@@ -57,7 +57,11 @@ export const installationOfferings: Offering[] = [
       "Over 10 business days, Alan works with the founder and leadership team to produce the company’s vision and Annual Plan — top priorities, success metrics, and accountability action plans — while TPG’s AI architecture and engineering team installs the standard AI solutions, selected together, that most immediately impact revenue and operations.",
       "This is not a solo facilitator promising to figure it out later. It is a working engineering function standing behind TPG’s flagship engagement.",
     ],
-    price: null,
+    price: "$25,000",
+    priceNotes: [
+      "Flagship Sprint — recommended standard.",
+      "$35,000–$50,000+ for complex organizations and multi-team installs.",
+    ],
     ctaLabel: "Schedule a Sprint Conversation",
     ctaHref: "/#commit",
   },
@@ -71,7 +75,9 @@ export const installationOfferings: Offering[] = [
       "It is the revenue-side Integrator in the original Harvard Business Review sense: aligning sales, marketing, and operations so they pull in one direction — without the cost or risk of the full-time hire.",
       "The retention model is built on empowerment, not dependency. We train your team to become the internal experts. That is why clients stay. We accept a limited number of Fractional engagements at a time.",
     ],
+    /* No fixed price for this offer — the note carries it instead of a figure. */
     price: null,
+    priceNotes: ["Monthly retainer, scoped after the Annual Planning Summit."],
     ctaLabel: "Inquire About Availability",
     ctaHref: "/#commit",
   },

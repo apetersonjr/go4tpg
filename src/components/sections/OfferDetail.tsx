@@ -12,9 +12,9 @@ type OfferDetailProps = {
  * One offering: title, tagline, prose, then whatever the page needs to slot in
  * before the call to action.
  *
- * `offering.price` is rendered only when set. Every offering currently ships
- * with it null, so approving a figure is a one-line content change and needs
- * no markup here.
+ * The price block renders when the offering has a figure, notes, or both — so
+ * an offer with no fixed price (the Fractional CRA) still gets the same
+ * treatment, carrying its scoping sentence where the figure would sit.
  */
 export function OfferDetail({ offering, children }: OfferDetailProps) {
   return (
@@ -33,7 +33,20 @@ export function OfferDetail({ offering, children }: OfferDetailProps) {
 
       {children}
 
-      {offering.price && <p className="text-tpg-ink mt-8 font-serif text-3xl">{offering.price}</p>}
+      {(offering.price || offering.priceNotes.length > 0) && (
+        <div className="border-tpg-border mt-9 border-t pt-7">
+          {offering.price && (
+            <p className="text-tpg-ink font-serif text-[clamp(30px,3.4vw,40px)] leading-none">
+              {offering.price}
+            </p>
+          )}
+          {offering.priceNotes.map((note) => (
+            <p key={note} className="text-tpg-muted mt-2.5 max-w-[620px] text-[15px]">
+              {note}
+            </p>
+          ))}
+        </div>
+      )}
 
       <p className="mt-9">
         <Button href={offering.ctaHref}>{offering.ctaLabel}</Button>
