@@ -67,11 +67,17 @@ export default function SummitsPage() {
                 <p className="text-tpg-muted mt-1.5 mb-6 text-[13.5px] tracking-[0.08em] uppercase">
                   {deliverable.note}
                 </p>
+                {deliverable.intro && (
+                  <p className="text-tpg-body mb-5 text-[16px]">{deliverable.intro}</p>
+                )}
                 <ol className="text-tpg-body list-decimal space-y-3 pl-5 text-[16px]">
                   {deliverable.items.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
                 </ol>
+                {deliverable.outro && (
+                  <p className="text-tpg-muted mt-5 text-[15px]">{deliverable.outro}</p>
+                )}
               </div>
             ))}
           </div>

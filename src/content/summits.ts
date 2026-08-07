@@ -4,10 +4,16 @@ export type Deliverable = {
   title: string;
   /** Short qualifier rendered after the title, e.g. the delivery window. */
   note: string;
+  /** Lead-in paragraph above the list. Empty renders nothing. */
+  intro?: string;
   items: string[];
+  /** Boundary or qualifier paragraph after the list. Empty renders nothing. */
+  outro?: string;
 };
 
 export type Offering = {
+  /** Small label above the title, e.g. the delivering brand. Empty renders nothing. */
+  eyebrow?: string;
   title: string;
   tagline: string;
   body: string[];
@@ -51,8 +57,16 @@ export const deliverablesHeadline = "Two written deliverables. Zero decks.";
 
 export const deliverables: Deliverable[] = [
   {
-    title: "The Strategic Blueprint",
+    /*
+     * V19: the old shared deliverable name is retired — it belonged to no
+     * current offer and collided with "The Strategy Blueprint at Sea", a
+     * different product. The two summits produce two named deliverables;
+     * generically the page says "your written plan".
+     */
+    title: "Your written plan",
     note: "delivered within 24 hours",
+    intro:
+      "The Annual Planning Summit produces the Annual Blueprint. The Mid-Year Reset Summit produces the Second-Half Plan. Both carry:",
     items: [
       "Top priorities for the period, locked and sequenced",
       "Success metrics for each — measurable and time-bound",
@@ -81,6 +95,8 @@ export const deliverables: Deliverable[] = [
       "Recommended tools and platforms for each",
       "Remaining opportunities — additional standard units worth installing, and custom opportunities worth scoping independently",
     ],
+    outro:
+      "The Opportunity Scan is complimentary and bounded to a single standard workflow that surfaced in the room. Anything spanning multiple systems is scoped through a paid Systems and Data Audit before we build.",
   },
 ];
 
@@ -90,7 +106,7 @@ export const howItWorksHeadline = "Four steps. No homework before day one.";
 export const howItWorksSteps: string[] = [
   "We schedule your one-day summit with the right people in the room — the CEO or founder plus the leadership and execution team.",
   "We facilitate. You talk, we extract. Priorities are locked, metrics defined, accountability assigned before anyone leaves.",
-  "Within 24 hours, you receive the written Strategic Blueprint — a working operating document, not notes, not a deck.",
+  "Within 24 hours, you receive your written plan — the Annual Blueprint or the Second-Half Plan — a working operating document, not notes, not a deck.",
   /*
    * V19: step four used to be two 90-minute sessions that installed the top
    * 2 to 3 standard workflows hands-on. Rewritten around delivery of the Scan.
@@ -162,12 +178,13 @@ export const summitsFaq: FaqItem[] = [
      * days" from the middle of this answer.
      */
     answer:
-      "One full working day with your leadership and execution team. The exact schedule is set with you when we scope the session, and the written Strategic Blueprint arrives within 24 hours of the summit itself.",
+      "One full working day with your leadership and execution team. The exact schedule is set with you when we scope the session, and your written plan arrives within 24 hours of the summit itself.",
   },
   {
     question: "Who should be in the room?",
+    /* V19: the typical-room-size figure was never approved and is removed. */
     answer:
-      "The CEO or founder, plus the leadership and execution team — typically 3 to 6 people. We need the people who run the business day-to-day, not just the strategy seat.",
+      "The CEO or founder, plus the leadership and execution team. We need the people who run the business day to day, not just the strategy seat.",
   },
   {
     question: "What do I receive?",
@@ -176,7 +193,17 @@ export const summitsFaq: FaqItem[] = [
      * installed hands-on with your team".
      */
     answer:
-      "Two written deliverables. The Strategic Blueprint: priorities, metrics, accountability, the 90-day plan, the scoreboard, and a clear recommendation. The Opportunity Scan: the AI opportunities we surfaced, which workflows to install first, and what each costs.",
+      "Two written deliverables. Your written plan — the Annual Blueprint from the Annual Planning Summit, or the Second-Half Plan from the Mid-Year Reset Summit — with priorities, metrics, accountability, the 90-day plan, the scoreboard, and a clear recommendation. The Opportunity Scan: the AI opportunities we surfaced, which workflows to install first, and what each costs.",
+  },
+  {
+    question: "Does the summit install anything?",
+    answer:
+      "No. The summit produces your plan and shows you exactly what to install first, priced. Installation is a separate engagement, chosen a la carte from the TPG AI Installation Menu or delivered inside a Revenue Operations Sprint.",
+  },
+  {
+    question: "What is complimentary and what is paid?",
+    answer:
+      "The Opportunity Scan is complimentary and bounded to a single standard workflow that surfaced in the room. Anything spanning multiple systems requires a paid Systems and Data Audit before custom work begins.",
   },
   {
     /*

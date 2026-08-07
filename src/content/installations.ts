@@ -10,14 +10,14 @@ export type Lane = {
 export const installationsMeta = {
   title: "AI System Installations",
   description:
-    "Standardized AI workflows and automations, installed by our own AI architecture and engineering team: lead follow-up, pipeline, proposals, reporting, and collections.",
+    "Standard AI workflows and automations, installed by our own AI architecture and engineering team: lead follow-up, pipeline, proposals, reporting, and collections.",
 };
 
 export const installationsHero = {
   kicker: "Format 02 — AI System Installations",
   /* The Services comp page hero headline, which is specifically about this format. */
   headline: "From diagnosis to installation in days... not months.",
-  lede: "Standardized AI workflows and automations, installed by our own AI architecture and engineering team: lead follow-up, pipeline, proposals, reporting, and collections.",
+  lede: "Standard AI workflows and automations, installed by our own AI architecture and engineering team: lead follow-up, pipeline, proposals, reporting, and collections.",
   ctaLabel: "Schedule a Sprint Conversation",
   ctaHref: "/#commit",
 };
@@ -28,8 +28,12 @@ export const lanesHeadline = "Two lanes govern everything we build.";
 export const lanes: Lane[] = [
   {
     title: "Lane 1 — Standard AI Installations",
+    /*
+     * V19: inclusion-by-count alone contradicted the homepage's a la carte
+     * pricing — both halves are true and both are stated.
+     */
     description:
-      "Proven workflows from the TPG AI Installation Menu: lead follow-up, pipeline, proposals, reporting, and collections. They run on the mainstream platforms your team already uses, with no custom code, and they are included in each offer by count.",
+      "Proven workflows from the TPG AI Installation Menu: lead follow-up, pipeline, proposals, reporting, and collections. They run on the mainstream platforms your team already uses with no custom code, and they are priced individually, so you can install them a la carte. They are also included by count inside the larger engagements.",
     variant: "standard",
   },
   {
@@ -47,6 +51,25 @@ export const lanes: Lane[] = [
  */
 export const lanesNote =
   "Each engagement installs the specific standard components with the greatest quantified upside, scoped in writing.";
+
+export const menuKicker = "The TPG AI Installation Menu";
+export const menuHeadline = "Pick what you need. Each unit priced on its own.";
+
+export const menuBody =
+  "Standard installations are proven workflows and automations that run on the mainstream platforms your team already uses. No custom code. No integration risk. You buy the ones that matter to your business, individually.";
+
+/**
+ * The five approved menu categories. The individual unit names and prices do
+ * not exist yet — never invent them. A staging-only placeholder marks where
+ * the unit list will go; it must not ship to production.
+ */
+export const menuCategories: string[] = [
+  "Lead follow-up",
+  "Pipeline",
+  "Proposals",
+  "Reporting",
+  "Collections",
+];
 
 export const installationOfferings: Offering[] = [
   {

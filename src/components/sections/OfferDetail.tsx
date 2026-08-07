@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/Button";
+import { Kicker } from "@/components/ui/Kicker";
 import type { Offering } from "@/content/summits";
 
 type OfferDetailProps = {
@@ -19,6 +20,7 @@ type OfferDetailProps = {
 export function OfferDetail({ offering, children }: OfferDetailProps) {
   return (
     <article className="border-tpg-border rounded-md border bg-white px-[clamp(24px,4vw,48px)] py-[clamp(32px,4vw,52px)]">
+      {offering.eyebrow && <Kicker>{offering.eyebrow}</Kicker>}
       <h3 className="text-tpg-ink font-serif text-[clamp(26px,3vw,36px)] leading-[1.15]">
         {offering.title}
       </h3>

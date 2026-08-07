@@ -3,7 +3,13 @@ export const commitKicker = "Start with the Annual Planning Summit.";
 export const commitHeadline =
   "You walk away with named priorities, a written plan, and the team alignment and accountability that make the plan actually happen.";
 
-export const commitBody = "With AI deployed so your company is not left behind.";
+/*
+ * V19: the old body promised AI deployment. That describes TPG's commitment
+ * across all three formats; under the summit-scoped kicker it read as a
+ * summit deliverable, and summits do not install AI.
+ */
+export const commitBody =
+  "Your complimentary Opportunity Scan shows exactly where AI will amplify the work, and what to install first.";
 
 export const commitSecond =
   "We do not replace your people. We give them the system they have been asking for.";
