@@ -2,13 +2,20 @@ import type { Metadata } from "next";
 import { Nav } from "@/components/sections/Nav";
 import { Footer } from "@/components/sections/Footer";
 import { OfferDetail } from "@/components/sections/OfferDetail";
-import { ClosingCta } from "@/components/sections/ClosingCta";
+import { BookingBlock } from "@/components/sections/BookingBlock";
+import { Faq } from "@/components/sections/Faq";
 import { PageHero } from "@/components/ui/PageHero";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { Kicker } from "@/components/ui/Kicker";
+import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 import {
+  auditBody,
+  auditCta,
+  auditHeadline,
+  auditKicker,
   installationOfferings,
+  installationsFaq,
   installationsHero,
   installationsMeta,
   lanes,
@@ -70,6 +77,22 @@ export default function InstallationsPage() {
             ))}
           </div>
           <p className="text-tpg-muted mt-10 max-w-[860px] text-[16.5px]">{lanesNote}</p>
+
+          {/* The gate on Lane 2 — stated here so no reader reaches a custom quote without it. */}
+          <div className="border-tpg-accent mt-14 max-w-[900px] rounded-md border-l-[5px] bg-white pl-8">
+            <Kicker>{auditKicker}</Kicker>
+            <h3 className="text-tpg-ink mb-6 font-serif text-[clamp(24px,2.8vw,32px)] leading-[1.15]">
+              {auditHeadline}
+            </h3>
+            {auditBody.map((paragraph) => (
+              <p key={paragraph} className="text-tpg-body mt-4 text-[16.5px]">
+                {paragraph}
+              </p>
+            ))}
+            <p className="mt-8">
+              <Button href={auditCta.href}>{auditCta.label}</Button>
+            </p>
+          </div>
         </SectionContainer>
 
         <SectionContainer className="bg-tpg-tint">
@@ -117,7 +140,14 @@ export default function InstallationsPage() {
           </div>
         </SectionContainer>
 
-        <ClosingCta {...servicesClosing} />
+        <Faq items={installationsFaq} />
+
+        <BookingBlock
+          kicker={servicesClosing.kicker}
+          headline={servicesClosing.headline}
+          body={[servicesClosing.body]}
+          calendlyTitle={servicesClosing.ctaLabel}
+        />
       </main>
       <Footer />
     </div>

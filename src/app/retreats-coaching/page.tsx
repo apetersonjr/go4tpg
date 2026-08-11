@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Nav } from "@/components/sections/Nav";
 import { Footer } from "@/components/sections/Footer";
 import { OfferDetail } from "@/components/sections/OfferDetail";
-import { ClosingCta } from "@/components/sections/ClosingCta";
+import { BookingBlock } from "@/components/sections/BookingBlock";
 import { PageHero } from "@/components/ui/PageHero";
 import { PricingTiers } from "@/components/ui/PricingTiers";
 import { SectionContainer } from "@/components/ui/SectionContainer";
@@ -234,7 +234,12 @@ export default function RetreatsCoachingPage() {
           </div>
         </SectionContainer>
 
-        <ClosingCta {...servicesClosing} />
+        <BookingBlock
+          kicker={servicesClosing.kicker}
+          headline={servicesClosing.headline}
+          body={[servicesClosing.body]}
+          calendlyTitle={servicesClosing.ctaLabel}
+        />
       </main>
       <Footer />
     </div>

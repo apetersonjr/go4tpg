@@ -8,5 +8,5 @@ export const servicesClosing = {
   headline: "Start with the Annual Planning Summit.",
   body: "If there is clear upside and urgency, proceed directly into the Revenue Operations Sprint.",
   ctaLabel: "Book a Planning Summit",
-  ctaHref: "/#commit",
+  ctaHref: "#commit",
 };

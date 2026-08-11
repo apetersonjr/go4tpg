@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { navCta, navLinks } from "@/content/nav";
+import type { NavLink } from "@/content/nav";
 import { withBasePath } from "@/lib/basePath";
 
 export function Nav() {
@@ -26,15 +27,19 @@ export function Nav() {
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-9 md:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-[15px] tracking-[0.02em] text-white/85 transition-colors hover:text-white"
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) =>
+            link.children ? (
+              <DesktopDropdown key={link.href} link={link} />
+            ) : (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-[15px] tracking-[0.02em] text-white/85 transition-colors hover:text-white"
+              >
+                {link.label}
+              </Link>
+            ),
+          )}
           <Button href={navCta.href} size="nav">
             {navCta.label}
           </Button>
@@ -68,6 +73,25 @@ export function Nav() {
                 >
                   {link.label}
                 </Link>
+                {/*
+                  No hover on touch, so the children are always visible here
+                  rather than hidden behind a disclosure the thumb has to find.
+                */}
+                {link.children && (
+                  <ul className="mb-1 ml-3 flex flex-col gap-1 border-l border-white/15 pl-3">
+                    {link.children.map((child) => (
+                      <li key={child.href}>
+                        <Link
+                          href={child.href}
+                          onClick={() => setMobileOpen(false)}
+                          className="block rounded px-2 py-2.5 text-[15px] text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+                        >
+                          {child.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
             ))}
           </ul>
@@ -82,6 +106,69 @@ export function Nav() {
         </nav>
       )}
     </header>
+  );
+}
+
+/**
+ * Parent nav item with its category dropdown.
+ *
+ * The panel opens on pointer hover and on keyboard focus via CSS alone, so it
+ * works with JavaScript still loading. The caret button adds an explicit
+ * toggle for touch and for keyboard users who would rather not tab through
+ * the panel to dismiss it — tapping the label itself goes to the hub page.
+ */
+function DesktopDropdown({ link }: { link: NavLink }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="group relative" onMouseLeave={() => setOpen(false)}>
+      <span className="flex items-center gap-1.5">
+        <Link
+          href={link.href}
+          className="text-[15px] tracking-[0.02em] text-white/85 transition-colors hover:text-white"
+        >
+          {link.label}
+        </Link>
+        <button
+          type="button"
+          aria-expanded={open}
+          aria-label={`${link.label} menu`}
+          onClick={() => setOpen((isOpen) => !isOpen)}
+          className="flex items-center rounded p-0.5 text-white/70 transition-colors hover:text-white"
+        >
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path
+              d="M2.5 4.5L6 8l3.5-3.5"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+      </span>
+
+      <ul
+        className={[
+          "border-tpg-border absolute top-full left-0 z-50 min-w-[260px] rounded-md border bg-white py-2 shadow-[0_18px_44px_rgba(3,42,69,0.22)]",
+          "invisible opacity-0 transition-opacity duration-150",
+          "group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100",
+          open ? "visible opacity-100" : "",
+        ].join(" ")}
+      >
+        {link.children?.map((child) => (
+          <li key={child.href}>
+            <Link
+              href={child.href}
+              onClick={() => setOpen(false)}
+              className="text-tpg-body hover:bg-tpg-tint hover:text-tpg-ink block px-5 py-3 text-[15px] transition-colors"
+            >
+              {child.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 

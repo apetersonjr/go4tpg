@@ -1,4 +1,6 @@
 import type { Offering } from "@/content/summits";
+import type { FaqItem } from "@/content/faq";
+import { faqItems } from "@/content/faq";
 
 export type Lane = {
   title: string;
@@ -19,7 +21,7 @@ export const installationsHero = {
   headline: "From diagnosis to installation in days... not months.",
   lede: "Standard AI workflows and automations, installed by our own AI architecture and engineering team: lead follow-up, pipeline, proposals, reporting, and collections.",
   ctaLabel: "Schedule a Sprint Conversation",
-  ctaHref: "/#commit",
+  ctaHref: "#commit",
 };
 
 export const lanesKicker = "What our engineering team installs";
@@ -51,6 +53,26 @@ export const lanes: Lane[] = [
  */
 export const lanesNote =
   "Each engagement installs the specific standard components with the greatest quantified upside, scoped in writing.";
+
+/**
+ * The Systems and Data Audit, which gates every custom engagement.
+ *
+ * It is deliberately unpriced: it is scoped per engagement, and quoting a
+ * figure here would contradict that. Never add one.
+ */
+export const auditKicker = "Before any custom work";
+export const auditHeadline = "Custom work starts with an audit.";
+
+export const auditBody: string[] = [
+  "Before we quote anything custom, we examine what you actually have... your systems, your data, your integrations, and the condition of what is already connected.",
+  "The Systems and Data Audit is scoped and priced per engagement. No two environments are alike, and pricing a single-system review the same as a multi-platform estate would mean overcharging one of you.",
+  "You receive a written scope and a fixed price before any custom development begins. No open-ended discovery. No surprises mid-build.",
+];
+
+export const auditCta = {
+  label: "Request a Systems and Data Audit",
+  href: "#commit",
+};
 
 export const menuKicker = "The TPG AI Installation Menu";
 export const menuHeadline = "Pick what you need. Each unit priced on its own.";
@@ -87,7 +109,7 @@ export const installationOfferings: Offering[] = [
       "$35,000–$50,000+ for complex organizations and multi-team installs.",
     ],
     ctaLabel: "Schedule a Sprint Conversation",
-    ctaHref: "/#commit",
+    ctaHref: "#commit",
   },
   {
     id: "fractional-chief-revenue-architect",
@@ -104,8 +126,22 @@ export const installationOfferings: Offering[] = [
     price: null,
     priceNotes: ["Monthly retainer, scoped after the Annual Planning Summit."],
     ctaLabel: "Inquire About Availability",
-    ctaHref: "/#commit",
+    ctaHref: "#commit",
   },
+];
+
+/**
+ * The page had no FAQ. The audit question leads, followed by the homepage set
+ * — every one of those four bears on installations, so they are reused rather
+ * than reworded into a near-duplicate.
+ */
+export const installationsFaq: FaqItem[] = [
+  {
+    question: "What does the Systems and Data Audit cost?",
+    answer:
+      "It is scoped and priced per engagement, because no two environments are alike. We look at your systems, your data, and your integrations, then give you a written scope and a fixed price before any custom development begins.",
+  },
+  ...faqItems,
 ];
 
 export const sprintOutcomesHeadline = "What you leave with";

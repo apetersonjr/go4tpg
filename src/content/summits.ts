@@ -211,7 +211,7 @@ export const summitsFaq: FaqItem[] = [
   {
     question: "What is complimentary and what is paid?",
     answer:
-      "The Opportunity Scan is complimentary and bounded to a single standard workflow that surfaced in the room. Anything spanning multiple systems requires a paid Systems and Data Audit before custom work begins.",
+      "The Opportunity Scan is complimentary and bounded to a single standard workflow that surfaced in the room. Anything spanning multiple systems requires a paid Systems and Data Audit before custom work begins. That audit is scoped and priced per engagement, and you receive a written scope and a fixed price before any work starts.",
   },
   {
     /*

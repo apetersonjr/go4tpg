@@ -20,7 +20,7 @@ export const retreatsHero = {
   headline: "For the people carrying the company, not just its systems.",
   lede: "Strategy retreats at sea and ongoing coaching for the people carrying the company, not just its systems.",
   ctaLabel: "Book a Discovery Call",
-  ctaHref: "/#commit",
+  ctaHref: "#commit",
 };
 
 /** Tier structure and pricing for the Strategy Blueprint at Sea. */
@@ -64,7 +64,7 @@ export const retreatOfferings: Offering[] = [
     price: null,
     priceNotes: [],
     ctaLabel: "Reserve a Berth",
-    ctaHref: "/#commit",
+    ctaHref: "#commit",
   },
   {
     id: "lighthouse-leadership-os",
@@ -85,7 +85,7 @@ export const retreatOfferings: Offering[] = [
     price: null,
     priceNotes: [],
     ctaLabel: "Book a Discovery Call",
-    ctaHref: "/#commit",
+    ctaHref: "#commit",
   },
 ];
 
@@ -182,7 +182,7 @@ export const jdlOffering: Offering = {
   priceNotes: [],
   /* Deliberately different from the TPG retreat's "Reserve a Berth" so the two offers do not blur. */
   ctaLabel: "Request an Invite",
-  ctaHref: "/#commit",
+  ctaHref: "#commit",
 };
 
 export const jdlSections = {

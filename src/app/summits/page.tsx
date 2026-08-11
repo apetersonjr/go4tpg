@@ -3,7 +3,7 @@ import { Nav } from "@/components/sections/Nav";
 import { Footer } from "@/components/sections/Footer";
 import { Faq } from "@/components/sections/Faq";
 import { OfferDetail } from "@/components/sections/OfferDetail";
-import { ClosingCta } from "@/components/sections/ClosingCta";
+import { BookingBlock } from "@/components/sections/BookingBlock";
 import { PageHero } from "@/components/ui/PageHero";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { Kicker } from "@/components/ui/Kicker";
@@ -134,7 +134,7 @@ export default function SummitsPage() {
 
         <Faq items={summitsFaq} />
 
-        <ClosingCta {...summitsClosing} />
+        <BookingBlock headline={summitsClosing.headline} calendlyTitle={summitsClosing.ctaLabel} />
       </main>
       <Footer />
     </div>
