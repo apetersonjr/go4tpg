@@ -15,6 +15,10 @@ import {
   lanesHeadline,
   lanesKicker,
   lanesNote,
+  menuBody,
+  menuCategories,
+  menuHeadline,
+  menuKicker,
   sprintOutcomes,
   sprintOutcomesHeadline,
 } from "@/content/installations";
@@ -69,6 +73,35 @@ export default function InstallationsPage() {
         </SectionContainer>
 
         <SectionContainer className="bg-tpg-tint">
+          <Kicker>{menuKicker}</Kicker>
+          <h2 className="text-tpg-ink mb-8 max-w-[820px] font-serif text-[clamp(30px,3.8vw,48px)] leading-[1.12]">
+            {menuHeadline}
+          </h2>
+          <p className="text-tpg-body mb-12 max-w-[860px] text-[17px]">{menuBody}</p>
+          <ul className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-[18px]">
+            {menuCategories.map((category) => (
+              <li
+                key={category}
+                className="border-tpg-border border-t-tpg-cta text-tpg-ink rounded-md border border-t-[5px] bg-white px-6 py-7 text-center font-serif text-[21px]"
+              >
+                {category}
+              </li>
+            ))}
+          </ul>
+          {/*
+            The per-unit menu (names + prices) does not exist yet and must
+            never be invented. This placeholder renders only under `npm run
+            dev` — the closest thing this repo has to staging — and is
+            excluded from the production static export by the NODE_ENV gate.
+          */}
+          {process.env.NODE_ENV === "development" && (
+            <p className="border-tpg-cta text-tpg-cta mt-10 rounded-md border-2 border-dashed px-6 py-8 text-center text-[21px] font-bold tracking-[0.1em]">
+              INSERT INSTALLATIONS MENU
+            </p>
+          )}
+        </SectionContainer>
+
+        <SectionContainer className="bg-white">
           <div className="grid gap-[26px]">
             <OfferDetail offering={installationOfferings[0]}>
               <h4 className="text-tpg-muted mt-10 mb-5 text-[13.5px] font-bold tracking-[0.14em] uppercase">
