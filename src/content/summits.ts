@@ -8,6 +8,12 @@ export type Deliverable = {
 };
 
 export type Offering = {
+  /**
+   * Anchor id for this offer's card on its category page. Deep links from the
+   * homepage format cards target it, so it must stay in sync with the hrefs in
+   * `formats.ts`.
+   */
+  id: string;
   title: string;
   tagline: string;
   body: string[];
@@ -121,6 +127,7 @@ export const offeringsHeadline =
 
 export const summitOfferings: Offering[] = [
   {
+    id: "annual-planning-summit",
     title: "Annual Planning Summit",
     tagline:
       "A facilitated planning summit that aligns your leadership team on priorities, metrics, and ownership — and concurrently maps where AI and automation will amplify the work.",
@@ -133,6 +140,7 @@ export const summitOfferings: Offering[] = [
     ctaHref: "/#commit",
   },
   {
+    id: "mid-year-reset-summit",
     title: "Mid-Year Reset Summit",
     tagline:
       "Recalibrate the second half before momentum sets your year — the seasonal entry point into the Reset Series.",

@@ -50,6 +50,7 @@ export const lanesNote =
 
 export const installationOfferings: Offering[] = [
   {
+    id: "revenue-operations-sprint",
     title: "Revenue Operations Sprint",
     tagline:
       "TPG’s single largest engagement, and the fastest path from diagnosis to a fully installed operating system — backed by a real engineering team, not facilitation alone.",
@@ -66,6 +67,7 @@ export const installationOfferings: Offering[] = [
     ctaHref: "/#commit",
   },
   {
+    id: "fractional-chief-revenue-architect",
     title: "Fractional Chief Revenue Architect",
     tagline:
       "A named role, not a vague retainer — for clients who want continued traction after the Sprint.",

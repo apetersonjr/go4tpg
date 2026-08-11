@@ -47,6 +47,7 @@ export const retreatTiersNote =
 
 export const retreatOfferings: Offering[] = [
   {
+    id: "strategy-blueprint-at-sea",
     title: "The Strategy Blueprint at Sea",
     tagline:
       "A working strategic planning retreat for founders, CEOs, and executives. Aboard Cyrolia — Alan Peterson’s bluewater cruising sailboat — in French Polynesia. 7 nights, limited to 5 guests.",
@@ -66,6 +67,7 @@ export const retreatOfferings: Offering[] = [
     ctaHref: "/#commit",
   },
   {
+    id: "lighthouse-leadership-os",
     title: "The Lighthouse Leadership OS",
     tagline:
       "For entrepreneurs to Fortune 200 leadership teams. Coaching and facilitation from an operator who has built and led, not just studied.",

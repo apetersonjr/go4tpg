@@ -32,13 +32,18 @@ export function Formats() {
               {card.title}
             </h3>
             <p className="text-tpg-body grow text-[16.5px]">{card.description}</p>
-            <p className="border-tpg-border text-tpg-muted my-[26px] mb-[26px] border-t pt-[22px] text-[15px] leading-8">
+            <ul className="border-tpg-border my-[26px] border-t pt-[22px] text-[15px] leading-8">
               {card.offers.map((offer) => (
-                <b key={offer} className="text-tpg-primary block font-bold">
-                  {offer}
-                </b>
+                <li key={offer.href}>
+                  <Link
+                    href={offer.href}
+                    className="text-tpg-primary hover:text-tpg-primary-dark block w-fit font-bold hover:underline"
+                  >
+                    {offer.label}
+                  </Link>
+                </li>
               ))}
-            </p>
+            </ul>
             <Link
               href={card.href}
               className="text-tpg-cta hover:text-tpg-cta-hover text-base font-bold"

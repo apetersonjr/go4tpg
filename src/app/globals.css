@@ -67,8 +67,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Scroll offset so anchored sections aren't hidden under the sticky nav. */
-section[id] {
+/* Scroll offset so anchored sections and offer cards aren't hidden under the
+   sticky nav. */
+section[id],
+article[id] {
   scroll-margin-top: 84px;
 }
 
