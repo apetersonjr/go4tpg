@@ -12,7 +12,13 @@
  */
 export const HONEYPOT_FIELD = "website";
 
-export const BERTH_ENDPOINT = "/api/berth";
+/**
+ * Trailing slash is deliberate. `trailingSlash: true` applies to route handlers
+ * too, so `/api/berth` answers with a 308 to `/api/berth/`. A 308 preserves the
+ * method and body so posting to either works, but the canonical path skips a
+ * pointless round trip on every submission.
+ */
+export const BERTH_ENDPOINT = "/api/berth/";
 
 export type BerthPayload = {
   voyage: string;

@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
 import { siteUrl } from "@/lib/site";
 
-// Metadata routes are Route Handlers, and `output: "export"` refuses to build
-// one that has not explicitly opted into static rendering.
+// Metadata routes are Route Handlers. This was required under
+// `output: "export"`; it is kept now that the app runs as a Node server so the
+// sitemap is still generated once at build time rather than on every request.
 export const dynamic = "force-static";
 
 /**
