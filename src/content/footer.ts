@@ -33,7 +33,8 @@ export const footerGroups: FooterGroup[] = [
     links: [
       { label: "About", href: "/#faq" },
       { label: "Results", href: "/#proof" },
-      { label: "Contact", href: "/#commit" },
+      /* Local: every page carries its own booking block. */
+      { label: "Contact", href: "#commit" },
     ],
   },
 ];

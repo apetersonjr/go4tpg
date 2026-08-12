@@ -64,7 +64,10 @@ export const retreatOfferings: Offering[] = [
     price: null,
     priceNotes: [],
     ctaLabel: "Reserve a Berth",
-    ctaHref: "#commit",
+    /* Reserving a berth is a written application, not a calendar slot. */
+    ctaHref: "/retreats-coaching/reserve",
+    detailHref: "/retreats-coaching/at-sea",
+    detailLabel: "See the full Strategy Blueprint at Sea",
   },
   {
     id: "lighthouse-leadership-os",

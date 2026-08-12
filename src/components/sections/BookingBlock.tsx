@@ -1,4 +1,5 @@
 import { SectionContainer } from "@/components/ui/SectionContainer";
+import { Button } from "@/components/ui/Button";
 import { Kicker } from "@/components/ui/Kicker";
 import { CalendlyInline } from "@/components/ui/CalendlyInline";
 import { commitCalendlyUrl, commitEmail } from "@/content/commit";
@@ -12,6 +13,13 @@ type BookingBlockProps = {
   body?: string[];
   /** Closing line, set in italic serif. */
   note?: string;
+  /**
+   * A primary action that is not "book a call" — the retreat pages close on
+   * "Reserve a Berth", which is a written application, not a 20-minute slot.
+   * The scheduler stays either way, so a reader who would rather talk first
+   * still has somewhere to go.
+   */
+  cta?: { label: string; href: string };
   /** Accessible name for the scheduler region. */
   calendlyTitle?: string;
 };
@@ -30,6 +38,7 @@ export function BookingBlock({
   headline,
   body = [],
   note,
+  cta,
   calendlyTitle = "Book a Planning Summit",
 }: BookingBlockProps) {
   return (
@@ -51,6 +60,13 @@ export function BookingBlock({
           {note && (
             <p className="mt-[18px] font-serif text-[clamp(16px,1.7vw,19px)] text-white italic">
               {note}
+            </p>
+          )}
+          {cta && (
+            <p className="mt-9">
+              <Button href={cta.href} size="big">
+                {cta.label}
+              </Button>
             </p>
           )}
           <p className="mt-10 border-t border-white/[0.12] pt-8 text-[15px] text-white/70">

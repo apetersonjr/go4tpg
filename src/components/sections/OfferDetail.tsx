@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Kicker } from "@/components/ui/Kicker";
 import type { Offering } from "@/content/summits";
@@ -53,8 +54,16 @@ export function OfferDetail({ offering, children }: OfferDetailProps) {
         </div>
       )}
 
-      <p className="mt-9">
+      <p className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
         <Button href={offering.ctaHref}>{offering.ctaLabel}</Button>
+        {offering.detailHref && offering.detailLabel && (
+          <Link
+            href={offering.detailHref}
+            className="text-tpg-primary hover:text-tpg-primary-dark text-[16px] font-bold underline decoration-2 underline-offset-4 transition-colors"
+          >
+            {offering.detailLabel} →
+          </Link>
+        )}
       </p>
     </article>
   );

@@ -36,6 +36,13 @@ export type Offering = {
   priceNotes: string[];
   ctaLabel: string;
   ctaHref: string;
+  /**
+   * Secondary link to this offer's own page, where it has one. The primary CTA
+   * stays on the local booking block, so reading more and booking are two
+   * different actions rather than one competing pair.
+   */
+  detailHref?: string;
+  detailLabel?: string;
 };
 
 export const summitsMeta = {
@@ -55,7 +62,7 @@ export const summitsHero = {
    */
   lede: "A facilitated planning summit with your leadership and execution team. You leave with named priorities, a written plan, and a team accountable to deliver it. Every summit includes a complimentary Opportunity Scan showing exactly where AI will amplify the work, and what to install first.",
   ctaLabel: "Book a Planning Summit",
-  ctaHref: "/#commit",
+  ctaHref: "#commit",
 };
 
 export const deliverablesKicker = "What you leave with";
@@ -153,7 +160,9 @@ export const summitOfferings: Offering[] = [
     price: "$4,750",
     priceNotes: ["Credited toward a Sprint if booked within 14 days."],
     ctaLabel: "Book a Planning Summit",
-    ctaHref: "/#commit",
+    ctaHref: "#commit",
+    detailHref: "/summits/annual",
+    detailLabel: "See the full Annual Planning Summit",
   },
   {
     id: "mid-year-reset-summit",
@@ -174,7 +183,9 @@ export const summitOfferings: Offering[] = [
     price: "$4,750",
     priceNotes: [],
     ctaLabel: "Book a Mid-Year Reset",
-    ctaHref: "/#commit",
+    ctaHref: "#commit",
+    detailHref: "/summits/mid-year",
+    detailLabel: "See the full Mid-Year Reset Summit",
   },
 ];
 
@@ -236,5 +247,5 @@ export const summitsFaq: FaqItem[] = [
 export const summitsClosing = {
   headline: "Walk in with a business full of open questions. Walk out with the plan.",
   ctaLabel: "Book a Planning Summit",
-  ctaHref: "/#commit",
+  ctaHref: "#commit",
 };

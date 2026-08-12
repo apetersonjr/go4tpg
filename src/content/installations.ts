@@ -110,6 +110,8 @@ export const installationOfferings: Offering[] = [
     ],
     ctaLabel: "Schedule a Sprint Conversation",
     ctaHref: "#commit",
+    detailHref: "/installations/sprint",
+    detailLabel: "See the full Revenue Operations Sprint",
   },
   {
     id: "fractional-chief-revenue-architect",
