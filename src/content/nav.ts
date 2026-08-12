@@ -25,7 +25,8 @@ export const navLinks: NavLink[] = [
   },
   { label: "Results", href: "/#proof" },
   { label: "About", href: "/#faq" },
-  { label: "Contact", href: "/#commit" },
+  /* Local: every page carries its own booking block. */
+  { label: "Contact", href: "#commit" },
 ];
 
 /*
