@@ -9,7 +9,20 @@ import type { NextConfig } from "next";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 const nextConfig: NextConfig = {
-  output: "export",
+  /*
+   * No `output: "export"` — it disables route handlers at build time, and the
+   * berth reservation form needs `/api/berth`. The app now runs as a Node
+   * server (`next start`) inside the same container behind the same Traefik
+   * route; every marketing page is still prerendered at build time, so nothing
+   * about how they are served changed.
+   */
+
+  /*
+   * Still unoptimized. It was required under static export; with a Node server
+   * the optimizer is available, but turning it on is a separate change with its
+   * own risk (sharp in the image, CPU on the box, cache growth) and no benefit
+   * to a site whose only raster assets are small logos.
+   */
   images: { unoptimized: true },
   basePath,
   trailingSlash: true,

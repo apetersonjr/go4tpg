@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { siteUrl } from "@/lib/site";
 
-// See the note in sitemap.ts — required under `output: "export"`.
+// See the note in sitemap.ts — kept so this stays a build-time artifact.
 export const dynamic = "force-static";
 
 export default function robots(): MetadataRoute.Robots {
