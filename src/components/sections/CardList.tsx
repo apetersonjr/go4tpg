@@ -2,6 +2,8 @@ import { SectionContainer } from "@/components/ui/SectionContainer";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import type { Band } from "@/lib/band";
 import { bandClass } from "@/lib/band";
+import { cn } from "@/lib/cn";
+import { cardHover } from "@/lib/motion";
 
 type CardListProps = {
   kicker?: string;
@@ -30,7 +32,10 @@ export function CardList({ kicker, headline, body = [], items, band = "tint" }: 
         {items.map((item) => (
           <li
             key={item}
-            className="border-tpg-border text-tpg-body rounded-md border bg-white px-8 py-[30px] text-[17px]"
+            className={cn(
+              "border-tpg-border text-tpg-body rounded-md border bg-white px-8 py-[30px] text-[17px]",
+              cardHover,
+            )}
           >
             {item}
           </li>

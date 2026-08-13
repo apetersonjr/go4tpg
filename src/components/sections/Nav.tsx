@@ -151,9 +151,23 @@ function DesktopDropdown({ link }: { link: NavLink }) {
       <ul
         className={[
           "border-tpg-border absolute top-full left-0 z-50 min-w-[260px] rounded-md border bg-white py-2 shadow-[0_18px_44px_rgba(3,42,69,0.22)]",
-          "invisible opacity-0 transition-opacity duration-150",
-          "group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100",
-          open ? "visible opacity-100" : "",
+          /*
+           * `visibility` is in the transition list on purpose: it is what
+           * takes the panel out of the tab order when closed, and without it
+           * the panel would blink out at the start of the close instead of
+           * holding while it fades.
+           */
+          "origin-top transition-[opacity,transform,visibility] duration-200 ease-out",
+          "group-hover:visible group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100",
+          "group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:scale-100 group-focus-within:opacity-100",
+          /*
+           * Open and closed are written as two complete states rather than as
+           * a set of overrides, so which one wins never depends on the order
+           * Tailwind happens to emit conflicting utilities in.
+           */
+          open
+            ? "visible translate-y-0 scale-100 opacity-100"
+            : "invisible -translate-y-1 scale-[0.98] opacity-0",
         ].join(" ")}
       >
         {link.children?.map((child) => (

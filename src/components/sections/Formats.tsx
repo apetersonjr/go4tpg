@@ -4,6 +4,7 @@ import { Kicker } from "@/components/ui/Kicker";
 import { formatCards, formatsHeadline, formatsKicker } from "@/content/formats";
 import type { FormatCard } from "@/content/formats";
 import { cn } from "@/lib/cn";
+import { cardHover } from "@/lib/motion";
 
 const accentClassMap: Record<FormatCard["accent"], string> = {
   primary: "border-t-tpg-primary",
@@ -24,7 +25,7 @@ export function Formats() {
             key={card.title}
             className={cn(
               "border-tpg-border flex flex-col rounded-md border border-t-[6px] bg-white px-[34px] py-10",
-              "transition-[box-shadow,transform] duration-200 hover:-translate-y-1 hover:shadow-[0_18px_44px_rgba(3,62,99,0.14)]",
+              cardHover,
               accentClassMap[card.accent],
             )}
           >

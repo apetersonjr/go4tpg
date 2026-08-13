@@ -5,6 +5,7 @@ import { Footer } from "@/components/sections/Footer";
 import { BookingBlock } from "@/components/sections/BookingBlock";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { cn } from "@/lib/cn";
+import { cardHover } from "@/lib/motion";
 import {
   comparisonColumns,
   comparisonHeadline,
@@ -69,7 +70,7 @@ export default function ServicesPage() {
                 key={card.title}
                 className={cn(
                   "border-tpg-border flex flex-col rounded-md border border-t-[6px] bg-white px-[34px] py-10",
-                  "transition-[box-shadow,transform] duration-200 hover:-translate-y-1 hover:shadow-[0_18px_44px_rgba(3,62,99,0.14)]",
+                  cardHover,
                   accentClassMap[card.accent],
                 )}
               >

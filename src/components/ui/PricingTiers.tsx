@@ -1,4 +1,6 @@
 import type { PricingTier } from "@/content/retreats";
+import { cn } from "@/lib/cn";
+import { cellHover } from "@/lib/motion";
 
 type PricingTiersProps = {
   tiers: PricingTier[];
@@ -16,7 +18,7 @@ export function PricingTiers({ tiers, note }: PricingTiersProps) {
       <div className="border-tpg-border mt-9 overflow-hidden rounded-md border">
         <ul className="bg-tpg-border grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-px">
           {tiers.map((tier) => (
-            <li key={tier.name} className="flex flex-col bg-white px-6 py-7">
+            <li key={tier.name} className={cn("flex flex-col bg-white px-6 py-7", cellHover)}>
               <span className="text-tpg-primary block font-serif text-[21px] leading-[1.2]">
                 {tier.name}
               </span>

@@ -27,8 +27,16 @@ export function Button({ href, children, size = "default", className, ...rest }:
     <Link
       href={href}
       className={cn(
-        "bg-tpg-cta hover:bg-tpg-cta-hover inline-block rounded font-bold text-white",
-        "transition-[background-color,transform] duration-200 hover:-translate-y-0.5",
+        "bg-tpg-cta inline-block rounded font-bold text-white",
+        /*
+         * Focus gets the same treatment as hover so a keyboard reader is
+         * shown the same affordance a mouse reader is. The browser's own
+         * focus ring is left alone on top of it — nothing here suppresses
+         * the outline.
+         */
+        "hover:bg-tpg-cta-hover focus-visible:bg-tpg-cta-hover",
+        "transition-[background-color,transform] duration-200 ease-out",
+        "hover:-translate-y-0.5 focus-visible:-translate-y-0.5",
         sizeClassMap[size],
         className,
       )}

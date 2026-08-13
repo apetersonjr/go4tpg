@@ -35,7 +35,17 @@ export function SectionContainer({
         className,
       )}
     >
-      <div className={cn("mx-auto max-w-[1200px]", innerClassName)}>{children}</div>
+      {/*
+        `SectionReveal` fades this up on arrival. It is deliberately the inner
+        wrapper rather than the section itself: the section carries the id an
+        anchor lands on, and `scroll-margin-top` is measured against its own
+        box, so putting a 12px transform on it would land every `#commit`-style
+        jump 12px high and then slide the content out from under the reader.
+        The band stays put; what moves is what is written on it.
+      */}
+      <div data-reveal="" className={cn("mx-auto max-w-[1200px]", innerClassName)}>
+        {children}
+      </div>
     </Tag>
   );
 }

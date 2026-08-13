@@ -8,6 +8,8 @@ import { DeliverableCards } from "@/components/sections/DeliverableCards";
 import { PageHero } from "@/components/ui/PageHero";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { Kicker } from "@/components/ui/Kicker";
+import { cn } from "@/lib/cn";
+import { cardHover } from "@/lib/motion";
 import {
   audienceHeadline,
   audienceItems,
@@ -67,7 +69,10 @@ export default function SummitsPage() {
             {howItWorksSteps.map((step, index) => (
               <div
                 key={step}
-                className="border-tpg-border rounded-md border bg-white px-8 py-[34px]"
+                className={cn(
+                  "border-tpg-border rounded-md border bg-white px-8 py-[34px]",
+                  cardHover,
+                )}
               >
                 <span className="text-tpg-accent block font-serif text-[44px] leading-none">
                   {index + 1}
@@ -99,7 +104,10 @@ export default function SummitsPage() {
             {audienceItems.map((item) => (
               <li
                 key={item}
-                className="border-tpg-border text-tpg-body rounded-md border bg-white px-8 py-[30px] text-[17px]"
+                className={cn(
+                  "border-tpg-border text-tpg-body rounded-md border bg-white px-8 py-[30px] text-[17px]",
+                  cardHover,
+                )}
               >
                 {item}
               </li>

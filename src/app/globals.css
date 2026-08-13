@@ -59,6 +59,28 @@ html {
   scroll-behavior: smooth;
 }
 
+/*
+ * One switch for everyone who has asked their OS for less movement: every
+ * transition and keyframe on the site collapses to effectively instant, and
+ * in-page jumps stop sliding. Rules further down still special-case the two
+ * places where "instant" is not enough on its own — the marquee, which would
+ * otherwise freeze mid-track, and the section reveal, which has to be sure it
+ * never leaves anything at opacity 0.
+ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -97,6 +119,43 @@ article[id] {
 }
 
 /*
+ * Section reveal — sections fade up as they arrive.
+ *
+ * Nothing here is the default state. Every section ships visible and stays
+ * that way until `SectionReveal` marks it pending, which it only does to
+ * sections still below the fold. That ordering is what keeps the first
+ * viewport instant, keeps a JavaScript-less reader on a complete page, and
+ * keeps a client-side navigation from flashing blank while the effect that
+ * would hide things waits its turn.
+ */
+[data-reveal].reveal-pending {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+[data-reveal].reveal-pending.is-revealed {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 400ms ease-out,
+    transform 400ms ease-out;
+}
+
+/*
+ * Reduced motion never gets as far as the pending class — `SectionReveal`
+ * returns before applying it — so this is purely the case where the setting
+ * is switched on with the page already open. Content stays put and visible
+ * rather than being stranded at opacity 0.
+ */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal].reveal-pending,
+  [data-reveal].reveal-pending.is-revealed {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/*
  * Client logo marquee. The track holds two identical halves and slides left
  * by exactly half its width, so the moment it resets, the copy that takes
  * over is pixel-identical to the one that left — the seam is invisible.
@@ -110,8 +169,53 @@ article[id] {
   }
 }
 
+/*
+ * Row height for the strip. Every mark is sized in multiples of this, in
+ * `LogoMarquee`, so the whole strip scales from one number and the section
+ * around it never changes height.
+ */
+.marquee-mask {
+  --marquee-row: 56px;
+
+  /*
+   * The band colour the strip is sitting on — see `.marquee-cell--plate`.
+   * Declared here so moving the strip to another band is one line.
+   */
+  --marquee-plate: var(--tpg-tint);
+}
+
+@media (width >= 48rem) {
+  .marquee-mask {
+    --marquee-row: 64px;
+  }
+}
+
+.marquee-cell {
+  height: var(--marquee-row);
+}
+
+/*
+ * One mark in the set ships on an opaque white background rather than a
+ * transparent one, and would otherwise sit on the band as a pale card.
+ * `LogoMarquee` multiplies that mark against this, which drops its white to
+ * the band colour and leaves the mark itself.
+ *
+ * It has to be painted this far in. The track is promoted to its own layer
+ * for the animation, which makes it an isolated group for blending, so a
+ * background any further out is invisible to the mark and the knockout
+ * quietly does nothing.
+ */
+.marquee-cell--plate {
+  background: var(--marquee-plate);
+}
+
 .marquee-track {
-  animation: tpg-marquee 40s linear infinite;
+  /*
+   * 78s across a ~5154px half-track is ~66px/s, the speed the strip ran at
+   * before the set grew from three marks to eight — the duration follows the
+   * track width so the pace stays put.
+   */
+  animation: tpg-marquee 78s linear infinite;
   /* Nudges the strip onto its own layer so the transform doesn't repaint
      the section behind it on every frame. */
   will-change: transform;
@@ -137,8 +241,9 @@ article[id] {
 
 /*
  * No motion: drop the duplicate passes entirely and centre the single real
- * one, so the strip becomes a plain static row rather than a stalled track
- * with five clipped copies sitting off-screen.
+ * one, so the strip becomes a plain static row — wrapping onto as many lines
+ * as the eight marks need — rather than a stalled track with the other five
+ * copies sitting clipped off-screen.
  */
 @media (prefers-reduced-motion: reduce) {
   .marquee-track {
@@ -154,8 +259,17 @@ article[id] {
   }
 
   .marquee-pass {
+    /*
+     * The pass is `shrink-0` so that the moving track can be wider than the
+     * viewport. Standing still it has to do the opposite and give way to the
+     * container, or `flex-wrap` never has a narrower width to wrap against
+     * and the eight marks run off the side of the section instead.
+     */
+    width: 100%;
+    flex-shrink: 1;
     padding-right: 0;
     flex-wrap: wrap;
     justify-content: center;
+    gap: clamp(24px, 4vw, 40px) clamp(40px, 6vw, 72px);
   }
 }

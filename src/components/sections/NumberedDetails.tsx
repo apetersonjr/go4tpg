@@ -2,6 +2,8 @@ import { SectionContainer } from "@/components/ui/SectionContainer";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import type { Band } from "@/lib/band";
 import { bandClass } from "@/lib/band";
+import { cn } from "@/lib/cn";
+import { cardHover } from "@/lib/motion";
 
 export type NumberedDetail = {
   title: string;
@@ -29,7 +31,10 @@ export function NumberedDetails({ kicker, headline, items, band = "white" }: Num
         {items.map((item, index) => (
           <li
             key={item.title}
-            className="border-tpg-border border-t-tpg-cta rounded-md border border-t-[6px] bg-white px-[34px] py-10"
+            className={cn(
+              "border-tpg-border border-t-tpg-cta rounded-md border border-t-[6px] bg-white px-[34px] py-10",
+              cardHover,
+            )}
           >
             <span
               aria-hidden="true"

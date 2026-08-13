@@ -9,6 +9,7 @@ import { SectionContainer } from "@/components/ui/SectionContainer";
 import { Kicker } from "@/components/ui/Kicker";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
+import { cardHover } from "@/lib/motion";
 import {
   auditBody,
   auditCta,
@@ -66,6 +67,7 @@ export default function InstallationsPage() {
                 key={lane.title}
                 className={cn(
                   "border-tpg-border rounded-md border border-t-[6px] bg-white px-[34px] py-10",
+                  cardHover,
                   lane.variant === "standard" ? "border-t-tpg-cta" : "border-t-tpg-accent",
                 )}
               >
@@ -105,7 +107,10 @@ export default function InstallationsPage() {
             {menuCategories.map((category) => (
               <li
                 key={category}
-                className="border-tpg-border border-t-tpg-cta text-tpg-ink rounded-md border border-t-[5px] bg-white px-6 py-7 text-center font-serif text-[21px]"
+                className={cn(
+                  "border-tpg-border border-t-tpg-cta text-tpg-ink rounded-md border border-t-[5px] bg-white px-6 py-7 text-center font-serif text-[21px]",
+                  cardHover,
+                )}
               >
                 {category}
               </li>

@@ -2,6 +2,8 @@ import { SectionContainer } from "@/components/ui/SectionContainer";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import type { Band } from "@/lib/band";
 import { bandClass } from "@/lib/band";
+import { cn } from "@/lib/cn";
+import { cardHover } from "@/lib/motion";
 
 type NumberedStepsProps = {
   kicker?: string;
@@ -21,7 +23,10 @@ export function NumberedSteps({ kicker, headline, steps, band = "tint" }: Number
       <SectionHeading kicker={kicker} headline={headline} />
       <ol className="grid list-none grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-[22px]">
         {steps.map((step, index) => (
-          <li key={step} className="border-tpg-border rounded-md border bg-white px-8 py-[34px]">
+          <li
+            key={step}
+            className={cn("border-tpg-border rounded-md border bg-white px-8 py-[34px]", cardHover)}
+          >
             <span
               aria-hidden="true"
               className="text-tpg-accent block font-serif text-[44px] leading-none"

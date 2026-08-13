@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { figtree, newsreader } from "./fonts";
+import { SectionReveal } from "@/components/ui/SectionReveal";
 import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
@@ -43,7 +44,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${figtree.variable} ${newsreader.variable} h-full antialiased`}>
-      <body className="text-tpg-body flex min-h-full flex-col bg-white font-sans">{children}</body>
+      <body className="text-tpg-body flex min-h-full flex-col bg-white font-sans">
+        {children}
+        <SectionReveal />
+      </body>
     </html>
   );
 }
