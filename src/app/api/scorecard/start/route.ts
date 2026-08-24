@@ -8,8 +8,8 @@ import { enrichDomain } from "@/lib/scorecardEnrichment";
 import { buildWebhookPayload, sendScorecardEvent } from "@/lib/scorecardWebhook";
 import { validateContact, validateSessionId, validateSourcePage } from "@/lib/validation/scorecard";
 
-// The Anthropic SDK and nodemailer siblings need Node APIs, and the whole
-// scorecard surface stays on one runtime so nothing behaves differently by route.
+// The OpenAI SDK needs Node APIs, and the whole scorecard surface stays on
+// one runtime so nothing behaves differently by route.
 export const runtime = "nodejs";
 
 /**

@@ -6,7 +6,9 @@ import { createTask } from "@/lib/clickup";
 import { sendNotification } from "@/lib/mailer";
 import { validateBerth } from "@/lib/validation/berth";
 
-// nodemailer needs Node APIs, so this cannot run on the edge runtime.
+// Pinned to Node rather than edge: the outbound credentials are server-only
+// env vars, and the in-memory rate limiter below assumes a long-lived
+// process rather than a per-request isolate.
 export const runtime = "nodejs";
 
 /**
@@ -134,7 +136,7 @@ export async function POST(request: Request) {
   // Loud, and without echoing the payload — the record itself is in the channels
   // that succeeded, and a log is the wrong place for an enquirer's details.
   if (!email) {
-    console.error(`[berth] SMTP delivery FAILED for ${label}:`, emailOutcome.reason);
+    console.error(`[berth] email delivery FAILED for ${label}:`, emailOutcome.reason);
   }
   if (!clickup) {
     console.error(`[berth] ClickUp task creation FAILED for ${label}:`, clickupOutcome.reason);

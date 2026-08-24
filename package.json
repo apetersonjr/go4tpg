@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "next": "16.2.10",
-    "nodemailer": "^9.0.5",
     "openai": "^7.5.0",
     "react": "19.2.4",
     "react-dom": "19.2.4"
@@ -24,7 +23,6 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^22",
-    "@types/nodemailer": "^8.0.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
