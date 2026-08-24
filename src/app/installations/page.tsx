@@ -15,6 +15,8 @@ import {
   auditCta,
   auditHeadline,
   auditKicker,
+  brochureLeadIn,
+  brochures,
   installationOfferings,
   installationsFaq,
   installationsHero,
@@ -103,12 +105,20 @@ export default function InstallationsPage() {
             {menuHeadline}
           </h2>
           <p className="text-tpg-body mb-12 max-w-[860px] text-[17px]">{menuBody}</p>
-          <ul className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-[18px]">
+          <ul className="grid grid-cols-1 gap-[18px] sm:grid-cols-2 lg:grid-cols-3">
             {menuCategories.map((category) => (
               <li
                 key={category}
                 className={cn(
                   "border-tpg-border border-t-tpg-cta text-tpg-ink rounded-md border border-t-[5px] bg-white px-6 py-7 text-center font-serif text-[21px]",
+                  /*
+                    "Operations & Administration" is nearly three times the
+                    length of "People". Centring every label in a common
+                    minimum height keeps the six reading as one set instead of
+                    a ragged grid, and leaves room for the two-line labels the
+                    narrower breakpoints produce.
+                  */
+                  "flex min-h-[104px] items-center justify-center",
                   cardHover,
                 )}
               >
@@ -117,16 +127,67 @@ export default function InstallationsPage() {
             ))}
           </ul>
           {/*
-            The per-unit menu (names + prices) does not exist yet and must
-            never be invented. This placeholder renders only under `npm run
-            dev` — the closest thing this repo has to staging — and is
-            excluded from the production static export by the NODE_ENV gate.
+            The slot the per-unit list (names + prices) will eventually fill.
+            Those names and prices still do not exist and must never be
+            invented — until they do, the brochures stand in for them, which
+            is why this is the one place on the page they appear.
+
+            The two anchors are deliberately asymmetric. The overview opens
+            inline in a new tab and carries no `download`, because a
+            same-origin `download` wins over `target` and would save the file
+            instead of showing it. The complete menu carries `download` with
+            an explicit filename and no `target`, so it saves to disk rather
+            than opening in the browser viewer. Both point straight at files
+            under `public/` — never routed, never proxied.
           */}
-          {process.env.NODE_ENV === "development" && (
-            <p className="border-tpg-cta text-tpg-cta mt-10 rounded-md border-2 border-dashed px-6 py-8 text-center text-[21px] font-bold tracking-[0.1em]">
-              INSERT INSTALLATIONS MENU
+          <div className="mt-10 text-center">
+            <p className="text-tpg-muted mx-auto mb-7 max-w-[620px] text-[16.5px]">
+              {brochureLeadIn}
             </p>
-          )}
+            <div className="mx-auto flex max-w-[760px] flex-col items-stretch gap-4 sm:flex-row sm:items-stretch sm:justify-center sm:gap-5">
+              {brochures.map((brochure) => (
+                <Button
+                  key={brochure.href}
+                  external
+                  variant="secondary"
+                  href={brochure.href}
+                  aria-label={brochure.ariaLabel}
+                  /*
+                    Narrower side padding until `sm`: at 375px the default
+                    `px-10` pushes "View the Installation Menu" onto a second
+                    line and strands the PDF token beside the wrapped word.
+
+                    From `sm` up both buttons share a minimum width, so the
+                    shorter label does not produce a visibly smaller button
+                    From `sm` up the two share the row as equal halves —
+                    `basis-0` with `grow` sizes both to the same width rather
+                    than letting each shrink to its own label, which is what
+                    made the pair look ragged. The padding tightens one step
+                    at `sm` so the longer label still clears 768px on one row,
+                    and opens back up at `lg`.
+                  */
+                  className="px-5 text-center whitespace-nowrap sm:grow sm:basis-0 sm:px-6 lg:px-10"
+                  {...(brochure.downloadAs
+                    ? { download: brochure.downloadAs }
+                    : { target: "_blank", rel: "noopener noreferrer" })}
+                >
+                  {brochure.label}
+                  {/*
+                    The format, inside the button rather than beside it, so it
+                    travels with the control instead of reading as stray page
+                    text. The aria-label already says "PDF", so this is hidden
+                    from assistive technology rather than announced twice.
+                  */}
+                  <span
+                    aria-hidden="true"
+                    className="ml-2.5 text-[12.5px] font-bold tracking-[0.14em] uppercase opacity-65"
+                  >
+                    PDF
+                  </span>
+                </Button>
+              ))}
+            </div>
+          </div>
         </SectionContainer>
 
         <SectionContainer className="bg-white">

@@ -74,6 +74,44 @@ export const auditCta = {
   href: "#commit",
 };
 
+/**
+ * The two brochures, served straight off `public/assets/brochures/`.
+ *
+ * The paths are fixed and must not be renamed — they are what the PDFs are
+ * published at. The overview opens inline in a new tab; the complete menu is
+ * a download, and `downloadAs` is the filename it lands on disk as.
+ *
+ * These sit inside the Installation Menu section, in the slot the per-unit
+ * list will eventually occupy — they are the closest thing to that list that
+ * exists today, so the menu section answers "what is on the menu?" itself
+ * rather than handing the question to a second section further up the page.
+ */
+export const brochureLeadIn =
+  "The overview walks through the categories at a glance. The complete menu lists every installation, line by line.";
+
+export type Brochure = {
+  label: string;
+  href: string;
+  /** Present on the download; absent on the one that opens inline. */
+  downloadAs?: string;
+  /** Read out in place of the visible label, which omits the format. */
+  ariaLabel: string;
+};
+
+export const brochures: Brochure[] = [
+  {
+    label: "View the Installation Menu",
+    href: "/assets/brochures/tpg-ai-installation-menu-overview.pdf",
+    ariaLabel: "View the TPG AI Installation Menu overview (PDF, opens in a new tab)",
+  },
+  {
+    label: "Download the Complete Menu",
+    href: "/assets/brochures/tpg-ai-installation-menu-complete.pdf",
+    downloadAs: "TPG-AI-Installation-Menu.pdf",
+    ariaLabel: "Download the complete TPG AI Installation Menu (PDF, downloads to your device)",
+  },
+];
+
 export const menuKicker = "The TPG AI Installation Menu";
 export const menuHeadline = "Pick what you need. Each unit priced on its own.";
 
@@ -81,16 +119,23 @@ export const menuBody =
   "Standard installations are proven workflows and automations that run on the mainstream platforms your team already uses. No custom code. No integration risk. You buy the ones that matter to your business, individually.";
 
 /**
- * The five approved menu categories. The individual unit names and prices do
- * not exist yet — never invent them. A staging-only placeholder marks where
- * the unit list will go; it must not ship to production.
+ * The six approved menu categories, in the order they are presented.
+ *
+ * These are the menu's actual categories. They replaced an earlier list —
+ * lead follow-up, pipeline, proposals, reporting, collections — which were
+ * example workflows rather than categories, and read as the menu itself.
+ *
+ * The individual unit names and prices under each category do not exist yet
+ * and must never be invented. Until they do, the brochures below stand in
+ * for that list.
  */
 export const menuCategories: string[] = [
-  "Lead follow-up",
-  "Pipeline",
-  "Proposals",
-  "Reporting",
-  "Collections",
+  "Meetings & Follow-Through",
+  "Revenue",
+  "Customers",
+  "Operations & Administration",
+  "Money & Reporting",
+  "People",
 ];
 
 export const installationOfferings: Offering[] = [
