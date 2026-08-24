@@ -76,7 +76,7 @@ export const sprintInstalled: NumberedDetail[] = [
   },
   {
     title: "Installed System Assets and Live Scoreboard",
-    body: "Templates, scripts, one-page standard operating checklists for every workflow we install, and 5 to 8 standard installations from the TPG AI Installation Menu, live: follow-up, proposals, reporting, tasking. Plus the CEO’s KPI scoreboard, with defined data feeds your team owns. Your central nervous system.",
+    body: "Templates, scripts, one-page standard operating checklists for every workflow we install, and 5 to 8 standard installations from the TPG AI Installation Menu, live. Plus the CEO’s KPI scoreboard, with defined data feeds your team owns. Your central nervous system.",
   },
   {
     title: "AI Fluency Accelerator",

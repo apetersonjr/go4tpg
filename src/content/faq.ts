@@ -24,6 +24,6 @@ export const faqItems: FaqItem[] = [
   {
     question: "What is standard and what is custom?",
     answer:
-      "Standard installations come from the TPG AI Installation Menu... lead follow-up, pipeline, proposals, reporting, collections. They run on mainstream platforms with no custom code and are priced individually, so you can install them a la carte. They are also included by count inside the larger engagements. Custom development and integrations are always scoped independently, in writing, after a paid Systems and Data Audit.",
+      "Standard installations come from the TPG AI Installation Menu... nineteen workflows across eight sections of the business, from the Company AI Brain through revenue, customers, operations, and reporting. They run on mainstream platforms with no custom code and are priced individually, so you can install them a la carte. They are also included by count inside the larger engagements. Custom development and integrations are always scoped independently, in writing, after a paid Systems and Data Audit.",
   },
 ];

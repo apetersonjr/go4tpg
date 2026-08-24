@@ -12,14 +12,14 @@ export type Lane = {
 export const installationsMeta = {
   title: "AI System Installations",
   description:
-    "Standard AI workflows and automations, installed by our own AI architecture and engineering team: lead follow-up, pipeline, proposals, reporting, and collections.",
+    "Standard AI workflows and automations, installed by our own AI architecture and engineering team: nineteen workflows across eight sections of the business, from the Company AI Brain through revenue, customers, operations, and reporting.",
 };
 
 export const installationsHero = {
   kicker: "Format 02 — AI System Installations",
   /* The Services comp page hero headline, which is specifically about this format. */
   headline: "From diagnosis to installation in days... not months.",
-  lede: "Standard AI workflows and automations, installed by our own AI architecture and engineering team: lead follow-up, pipeline, proposals, reporting, and collections.",
+  lede: "Standard AI workflows and automations, installed by our own AI architecture and engineering team: nineteen workflows across eight sections of the business, from the Company AI Brain through revenue, customers, operations, and reporting.",
   ctaLabel: "Schedule a Sprint Conversation",
   ctaHref: "#commit",
 };
@@ -35,7 +35,7 @@ export const lanes: Lane[] = [
      * pricing — both halves are true and both are stated.
      */
     description:
-      "Proven workflows from the TPG AI Installation Menu: lead follow-up, pipeline, proposals, reporting, and collections. They run on the mainstream platforms your team already uses with no custom code, and they are priced individually, so you can install them a la carte. They are also included by count inside the larger engagements.",
+      "Proven workflows from the TPG AI Installation Menu: nineteen workflows across eight sections of the business. They run on the mainstream platforms your team already uses with no custom code, and they are priced individually, so you can install them a la carte. They are also included by count inside the larger engagements.",
     variant: "standard",
   },
   {
@@ -118,25 +118,14 @@ export const menuHeadline = "Pick what you need. Each unit priced on its own.";
 export const menuBody =
   "Standard installations are proven workflows and automations that run on the mainstream platforms your team already uses. No custom code. No integration risk. You buy the ones that matter to your business, individually.";
 
-/**
- * The six approved menu categories, in the order they are presented.
+/*
+ * The menu's sections and installations are NOT defined here.
  *
- * These are the menu's actual categories. They replaced an earlier list —
- * lead follow-up, pipeline, proposals, reporting, collections — which were
- * example workflows rather than categories, and read as the menu itself.
- *
- * The individual unit names and prices under each category do not exist yet
- * and must never be invented. Until they do, the brochures below stand in
- * for that list.
+ * They live in `src/data/installation-menu.ts`, transcribed from the brochure,
+ * and every surface that names one reads from there. This file used to carry a
+ * competing list — first five example workflows, then six categories — and
+ * both disagreed with the brochure. Do not reintroduce one.
  */
-export const menuCategories: string[] = [
-  "Meetings & Follow-Through",
-  "Revenue",
-  "Customers",
-  "Operations & Administration",
-  "Money & Reporting",
-  "People",
-];
 
 export const installationOfferings: Offering[] = [
   {

@@ -26,12 +26,12 @@ import {
   lanesKicker,
   lanesNote,
   menuBody,
-  menuCategories,
   menuHeadline,
   menuKicker,
   sprintOutcomes,
   sprintOutcomesHeadline,
 } from "@/content/installations";
+import { sections as menuSections } from "@/data/installation-menu";
 import { servicesClosing } from "@/content/servicesClosing";
 
 export const metadata: Metadata = {
@@ -105,32 +105,46 @@ export default function InstallationsPage() {
             {menuHeadline}
           </h2>
           <p className="text-tpg-body mb-12 max-w-[860px] text-[17px]">{menuBody}</p>
-          <ul className="grid grid-cols-1 gap-[18px] sm:grid-cols-2 lg:grid-cols-3">
-            {menuCategories.map((category) => (
+          {/*
+            The eight sections of the menu, straight off the catalog in its own
+            order. That order carries information — the brochure is explicit
+            that most companies begin with the Foundation — so the roman
+            numeral is rendered rather than left implicit in the sequence, and
+            it survives the grid rewrapping at every breakpoint.
+
+            1 / 2 / 4 across. Eight divides evenly by all three, so no
+            breakpoint ever strands a tile alone on the last row.
+          */}
+          <ul className="grid grid-cols-1 gap-[18px] sm:grid-cols-2 lg:grid-cols-4">
+            {menuSections.map((section) => (
               <li
-                key={category}
+                key={section.id}
                 className={cn(
-                  "border-tpg-border border-t-tpg-cta text-tpg-ink rounded-md border border-t-[5px] bg-white px-6 py-7 text-center font-serif text-[21px]",
+                  "border-tpg-border border-t-tpg-cta text-tpg-ink rounded-md border border-t-[5px] bg-white px-6 py-7 text-center",
                   /*
-                    "Operations & Administration" is nearly three times the
-                    length of "People". Centring every label in a common
-                    minimum height keeps the six reading as one set instead of
-                    a ragged grid, and leaves room for the two-line labels the
-                    narrower breakpoints produce.
+                    "Operations and Administration" is four times the length of
+                    "People", and at four across the tiles are narrower than
+                    they were at three. A common minimum height keeps the eight
+                    reading as one set instead of a ragged grid, with room for
+                    the two- and three-line labels the narrow columns produce.
                   */
-                  "flex min-h-[104px] items-center justify-center",
+                  "flex min-h-[132px] flex-col items-center justify-center gap-2",
                   cardHover,
                 )}
               >
-                {category}
+                <span className="text-tpg-muted font-serif text-[13px] tracking-[0.18em]">
+                  {section.id}
+                </span>
+                <span className="font-serif text-[19px] leading-[1.2]">{section.name}</span>
               </li>
             ))}
           </ul>
           {/*
-            The slot the per-unit list (names + prices) will eventually fill.
-            Those names and prices still do not exist and must never be
-            invented — until they do, the brochures stand in for them, which
-            is why this is the one place on the page they appear.
+            The slot the per-unit list will eventually fill. The nineteen
+            names now live in `src/data/installation-menu.ts`; their per-unit
+            prices still do not exist and must never be invented. Until the
+            list is rendered inline, the brochures stand in for it, which is
+            why this is the one place on the page they appear.
 
             The two anchors are deliberately asymmetric. The overview opens
             inline in a new tab and carries no `download`, because a

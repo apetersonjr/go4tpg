@@ -37,7 +37,7 @@ export const formatCards: FormatCard[] = [
   {
     title: "AI System Installations",
     description:
-      "Proven AI workflows and automations from the TPG AI Installation Menu... lead follow-up, pipeline, proposals, reporting, and collections... priced individually and installed by our own AI architecture and engineering team. Custom development is scoped independently.",
+      "Proven AI workflows and automations from the TPG AI Installation Menu... nineteen workflows across eight sections of the business... priced individually and installed by our own AI architecture and engineering team. Custom development is scoped independently.",
     offers: [
       { label: "Revenue Operations Sprint", href: "/installations#revenue-operations-sprint" },
       {
