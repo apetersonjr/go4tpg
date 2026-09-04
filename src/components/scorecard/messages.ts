@@ -1,118 +1,126 @@
 /**
- * The transcript's data model.
+ * The transcript's data model: an append-only log.
  *
- * The message list is *derived* from the answers rather than accumulated
- * alongside them. `answers` already grows one entry per question and each entry
- * carries the question text, not just its id, so the bot's side of the
- * conversation can be rebuilt from it exactly. Keeping a second `messages`
- * array in state would mean two sources of truth that have to be kept in step
- * through every path, including the ones that fail.
+ * THIS USED TO BE DERIVED, and that was the bug. Messages were rebuilt every
+ * render from `turns`, `replies` and the single `question` currently on screen,
+ * which meant the displayed conversation was a projection of per-turn state
+ * rather than a record of what had happened. Three symptoms fell out of that
+ * one cause:
  *
- * The one thing the answers cannot reconstruct is the acknowledgement, because
- * it is written by the model rather than typed by the person. That is why the
- * widget holds an `acks` map — see `ScorecardWidget`.
+ *   - The question vanished the instant it was answered, because the answer
+ *     was not committed until the server replied, so for the duration of the
+ *     request neither the question (no longer current) nor the answer (not yet
+ *     a turn) was in the projection.
+ *   - The acknowledgement rendered against a turn was the PREVIOUS turn's,
+ *     because `replies` was keyed by intent and read one render out of step
+ *     with the turn it belonged to.
+ *   - With nothing committed and no current question, the projection collapsed
+ *     to a lone typing indicator in an empty panel.
  *
- * Pure: no JSX, no hooks, no imports from anything that touches the network.
+ * The fix is not to patch the projection. It is to stop projecting. This log is
+ * now the SOLE source of truth for what is displayed. Messages are appended and
+ * never touched again — no removal, no mutation, no reordering — with exactly
+ * one exception, the transient typing indicator, which is removed when the
+ * message it was standing in for arrives.
+ *
+ * `turns` and `question` still exist on the widget, because the stateless
+ * server needs the session posted back on every request. They are PROTOCOL
+ * state. Nothing in this file reads them and nothing rendered comes from them.
+ * `replies` is gone outright: there is no acknowledgement to file against a
+ * turn any more, so there is no map to key into, no prior state to reach for,
+ * and structurally nothing to be off by one.
+ *
+ * Pure: no JSX, no hooks, no imports that touch the network.
  */
 
-import type { ScorecardQuestion } from "@/content/scorecard";
-import type { ScorecardAnswer } from "@/lib/scorecard";
+export type MessageRole = "bot" | "user";
 
-export type ScorecardMessage =
-  | { kind: "bot-question"; id: string; text: string }
-  | { kind: "user-answer"; id: string; text: string }
-  | { kind: "bot-ack"; id: string; text: string }
-  | { kind: "bot-typing"; id: string }
-  | { kind: "bot-analysing"; id: string }
-  | { kind: "results"; id: string };
+export type MessageKind =
+  /** A question as it was actually put to the visitor. */
+  | "question"
+  /** What the visitor sent — typed, or the label of a chip they chose. */
+  | "answer"
+  /** The framing line, then the gate form, both inside the thread. */
+  | "gate"
+  /** The transient one. The only message that is ever removed. */
+  | "typing"
+  /** The report being written, and then the report itself. */
+  | "analyzing"
+  | "results";
 
-/** Stages that render as the chat. Intro and gate have their own layouts. */
-export type ChatStageName = "questions" | "analysing" | "results";
-
-type BuildInput = {
-  answers: ScorecardAnswer[];
-  /** Acknowledgement text keyed by the question id it reacted to. */
-  acks: Record<string, string>;
-  /** Questions answered by enrichment rather than by the person. */
-  prefilledIds: Set<string>;
-  stage: ChatStageName;
-  /** The question currently being asked, absent once the questions run out. */
-  question?: ScorecardQuestion;
-  pending: boolean;
+export type Message = {
+  /** Stable uuid, generated once at creation and never recomputed. */
+  id: string;
+  role: MessageRole;
+  kind: MessageKind;
+  text: string;
+  /** Which exchange this belongs to. 0 is the opener. */
+  turnIndex: number;
+  /**
+   * When this message was created, as epoch milliseconds.
+   *
+   * Stamped once at append time and never recomputed, for the same reason the
+   * id is: a timestamp derived at render would tick, and a message would
+   * silently change its stated send time every time React re-rendered the log.
+   *
+   * Stored as a number rather than a formatted string so the formatting stays a
+   * rendering decision — the same message reads "9:24 AM" or "09:24" depending
+   * on the viewer's locale, and neither is baked into state.
+   */
+  sentAt: number;
 };
 
-/*
- * Ids are stable across renders and derived from the question id, never from
- * the array position. The question bubble in particular has to keep the same
- * id before and after it is answered — it moves from "the current question" to
- * "a question in the history" and must not remount, or it would replay its
- * entrance animation at the exact moment the person answers it.
+/** Stages that render as the chat. Intro and gate have their own layouts. */
+export type ChatStageName = "questions" | "analyzing" | "results";
+
+/**
+ * Mints a message.
+ *
+ * The id is a uuid rather than anything derived from content or position. A
+ * derived id collides the moment two turns produce the same text — two "Yes"
+ * answers, or the same acknowledgement twice — and React then reuses one
+ * bubble for both, which is precisely the class of bug this rewrite exists to
+ * remove. `crypto.randomUUID` is called once, here, at append time; the value
+ * is then carried in state and never regenerated on re-render.
  */
-const questionId = (id: string) => `q:${id}`;
-const answerId = (id: string) => `a:${id}`;
-const ackId = (id: string) => `k:${id}`;
+export function createMessage(
+  role: MessageRole,
+  kind: MessageKind,
+  text: string,
+  turnIndex: number,
+): Message {
+  return { id: crypto.randomUUID(), role, kind, text, turnIndex, sentAt: Date.now() };
+}
 
-export function buildMessages({
-  answers,
-  acks,
-  prefilledIds,
-  stage,
-  question,
-  pending,
-}: BuildInput): ScorecardMessage[] {
-  const messages: ScorecardMessage[] = [];
+/**
+ * The send time, as the viewer's own clock would write it.
+ *
+ * Locale-aware rather than a hand-rolled `h:mm`, so a 24-hour locale gets
+ * "09:24" and a 12-hour one "9:24 AM" without this having to know which is
+ * which. Formatting happens at render because the stored value is a timestamp;
+ * see `sentAt`.
+ */
+export function formatSentAt(sentAt: number): string {
+  return new Date(sentAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+}
 
-  for (const answer of answers) {
-    /*
-     * Enrichment answers are invisible. Apollo told us the headcount, so the
-     * question was never put to the person — rendering it as though we had
-     * asked, and them as though they had replied, would be a fabricated
-     * exchange. They are still sent to n8n; they just are not shown as chat.
-     */
-    if (prefilledIds.has(answer.questionId)) continue;
+/** The id every typing indicator is appended and removed by kind, not by id. */
+export function withoutTyping(messages: Message[]): Message[] {
+  return messages.filter((message) => message.kind !== "typing");
+}
 
-    messages.push({
-      kind: "bot-question",
-      id: questionId(answer.questionId),
-      text: answer.question,
-    });
+/** True when a typing indicator is currently in the log. */
+export function hasTyping(messages: Message[]): boolean {
+  return messages.some((message) => message.kind === "typing");
+}
 
-    // A skipped free-text question is a real answer of "". There is nothing to
-    // show as a sent message, so the bubble is omitted rather than left blank.
-    if (answer.answer) {
-      messages.push({
-        kind: "user-answer",
-        id: answerId(answer.questionId),
-        text: answer.answer,
-      });
-    }
-
-    const ack = acks[answer.questionId];
-    if (ack) {
-      messages.push({ kind: "bot-ack", id: ackId(answer.questionId), text: ack });
-    }
-  }
-
-  if (stage === "questions") {
-    /*
-     * While a turn is in flight the next question does not exist yet, so the
-     * tail of the transcript is the typing bubble. Once it resolves, the
-     * question takes its place. Both are the last message, so the scroll
-     * position does not jump between the two.
-     */
-    if (pending) {
-      messages.push({ kind: "bot-typing", id: "typing" });
-    } else if (question) {
-      messages.push({
-        kind: "bot-question",
-        id: questionId(question.id),
-        text: question.text,
-      });
-    }
-  }
-
-  if (stage === "analysing") messages.push({ kind: "bot-analysing", id: "analysing" });
-  if (stage === "results") messages.push({ kind: "results", id: "results" });
-
-  return messages;
+/**
+ * Whether two adjacent messages come from the same speaker.
+ *
+ * Drives the tighter spacing within a run from one speaker than across a
+ * change of speaker — see `Transcript`. Kept here because it is a fact about
+ * the log, not about how the log is drawn.
+ */
+export function isFromVisitor(message: Message): boolean {
+  return message.role === "user";
 }

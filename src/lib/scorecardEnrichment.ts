@@ -30,16 +30,22 @@ function asText(value: unknown): string {
 }
 
 /**
- * Apollo reports a headcount as a number; the scorecard thinks in the bands Q2
- * offers. Mapping here rather than at the call site keeps the band definition
- * in one place, next to the question it stands in for.
+ * Apollo reports a headcount as a number; the scorecard thinks in the bands the
+ * headcount intent offers. Mapping here rather than at the call site keeps the
+ * band definition in one place, next to the question it stands in for.
+ *
+ * The strings returned are the chip labels from `scorecard-intents.ts` exactly.
+ * They have to match, because the start route looks the returned band up in a
+ * table keyed by those same labels — a drift between the two is a headcount
+ * that silently stops being seeded.
  */
 function toBand(employees: unknown): string {
   if (typeof employees !== "number" || !Number.isFinite(employees) || employees < 1) return "";
-  if (employees === 1) return "Just me";
-  if (employees <= 10) return "2-10";
-  if (employees <= 50) return "11-50";
-  return "50+";
+  if (employees < 10) return "Fewer than 10";
+  if (employees <= 25) return "10 to 25";
+  if (employees <= 50) return "26 to 50";
+  if (employees <= 100) return "51 to 100";
+  return "More than 100";
 }
 
 export async function enrichDomain(domain: string): Promise<ScorecardEnrichment> {

@@ -27,6 +27,22 @@
   --tpg-muted: #5a6b7c;
   --tpg-border: #dfe8ef;
 
+  /*
+   * CHAT SURFACE. The scorecard thread reads as a messenger, which needs three
+   * values the marketing site never had: a recessed ground for the conversation
+   * to sit in, the dot of its texture, and the fill of a visitor's own bubble.
+   *
+   * The bot's bubble is plain white and the panel chrome reuses `--tpg-ink`, so
+   * they are not repeated here. Every other color in the thread — the CTA
+   * orange, the primary blue on a chip, the border — is the site's existing
+   * token, because the widget is the site speaking and should not drift into
+   * its own palette.
+   */
+  --tpg-chat-ground: #f2f6fa;
+  --tpg-chat-dot: #dde7ef;
+  --tpg-chat-mine: #dcebf7;
+  --tpg-chat-time: #9baab6;
+
   --font-sans: var(--font-figtree);
   --font-serif: var(--font-newsreader);
 }
@@ -50,6 +66,11 @@
   --color-tpg-body: var(--tpg-body);
   --color-tpg-muted: var(--tpg-muted);
   --color-tpg-border: var(--tpg-border);
+
+  --color-tpg-chat-ground: var(--tpg-chat-ground);
+  --color-tpg-chat-dot: var(--tpg-chat-dot);
+  --color-tpg-chat-mine: var(--tpg-chat-mine);
+  --color-tpg-chat-time: var(--tpg-chat-time);
 
   --font-sans: var(--font-sans);
   --font-serif: var(--font-serif);
@@ -368,8 +389,19 @@ article[id] {
   }
 }
 
+/*
+ * The entrance every message makes: a short fade with a small rise under it.
+ *
+ * 120ms and 6px, deliberately at the bottom of the perceptible range. A message
+ * arriving is the most frequent motion in the panel — six questions, six
+ * answers and six acknowledgements in three minutes — so anything with a curve
+ * you can actually watch becomes restless by the third turn. This registers
+ * that something new landed and then is over.
+ *
+ * `ease-out` and no overshoot: a bounce on a text bubble reads as a toy.
+ */
 .sc-step-in {
-  animation: tpg-sc-step-in 240ms ease-out;
+  animation: tpg-sc-step-in 120ms ease-out;
 }
 
 .sc-dot {
@@ -405,5 +437,79 @@ article[id] {
     animation: none !important;
     opacity: 1;
     transform: none;
+  }
+}
+
+/*
+ * Collapsible recommendation cards on the scorecard results screen.
+ *
+ * WHY THIS IS CSS AND NOT TAILWIND. The panel animates its height with
+ * `grid-template-rows: 0fr -> 1fr`, which is the only way to transition to a
+ * content-derived height without measuring anything. The alternative —
+ * `max-height` with a guessed pixel ceiling — is what makes collapsibles feel
+ * broken: guess too low and the content clips, guess too high and the
+ * transition spends most of its duration animating empty space, which reads as
+ * a snap followed by a delayed tail. A grid row of `1fr` resolves to exactly
+ * the content's height, so the motion is honest at any length, and the same
+ * rule holds at 375px where the copy wraps to twice as many lines.
+ *
+ * The `0fr` keyframe only clips if the row's child establishes its own
+ * scroll boundary, hence `overflow: hidden` AND `min-height: 0` on the inner
+ * wrapper — a grid item's default `min-height: auto` refuses to shrink below
+ * its content and the row silently never collapses.
+ */
+.sc-card-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 240ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sc-card-panel[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+
+.sc-card-panel > .sc-card-panel-inner {
+  overflow: hidden;
+  min-height: 0;
+  opacity: 0;
+  /*
+   * Offset by 60ms so the copy fades in as the space opens rather than sitting
+   * fully painted inside a box that is still growing. On the way out it leads
+   * instead of trails: the shorter duration and zero delay mean the text is
+   * gone before the row finishes closing, which avoids text visibly sliding
+   * under the card edge.
+   */
+  transition: opacity 180ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sc-card-panel[data-open="true"] > .sc-card-panel-inner {
+  opacity: 1;
+  transition: opacity 240ms cubic-bezier(0.4, 0, 0.2, 1) 60ms;
+}
+
+/* Rotates in sync with the panel, same duration and easing. */
+.sc-card-chevron {
+  transition: transform 240ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sc-card-chevron[data-open="true"] {
+  transform: rotate(180deg);
+}
+
+/*
+ * Instant, not fast. The global reduce rule collapses `transition-duration`,
+ * but a 0.01ms transition on `grid-template-rows` still schedules a frame and
+ * can flash the intermediate row height; setting the end state outright is the
+ * only version that is genuinely motionless.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .sc-card-panel,
+  .sc-card-panel > .sc-card-panel-inner,
+  .sc-card-chevron {
+    transition: none !important;
+  }
+
+  .sc-card-panel[data-open="true"] > .sc-card-panel-inner {
+    opacity: 1;
   }
 }

@@ -1,17 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { gateFraming, gateSubmitLabel, gateSubmitPendingLabel } from "@/content/scorecard";
+import { gatePrivacyLine, gateSubmitLabel, gateSubmitPendingLabel } from "@/content/scorecard";
 import { cn } from "@/lib/cn";
 import { HONEYPOT_FIELD } from "@/lib/scorecard";
 import type { ScorecardContact } from "@/lib/scorecard";
 
 const fieldClass =
-  "border-tpg-border text-tpg-ink w-full rounded-md border bg-white px-3.5 py-3 text-[14px] " +
+  "border-tpg-border text-tpg-ink w-full rounded-lg border bg-white px-3.5 py-2.5 text-[13.5px] " +
   "transition-colors outline-none focus:border-tpg-primary focus:ring-2 focus:ring-tpg-primary/25 " +
   "aria-invalid:border-tpg-cta aria-invalid:ring-2 aria-invalid:ring-tpg-cta/20";
 
-const labelClass = "text-tpg-muted block text-[11px] font-semibold tracking-[0.1em] uppercase";
+const labelClass = "block text-[10.5px] font-bold tracking-[0.12em] text-[#7a8d9b] uppercase";
 
 type GateFormProps = {
   pending: boolean;
@@ -26,8 +26,11 @@ const empty = { firstName: "", email: "", website: "" };
  * every additional field is a reason to close the panel, and the two things
  * that matter (who they are, where to reply) are here.
  *
- * The framing line sits above the fields rather than reading as a form header,
- * because this is a conversation that happens to need an address, not a form.
+ * It renders as a CARD INSIDE THE THREAD, attached to the bot message that
+ * asked for the address. So it carries no framing copy of its own — the bubble
+ * above it says why it is being asked — and no outer padding, because the card
+ * that holds it supplies that. This is a conversation that happens to need an
+ * address, not a form the conversation was interrupted for.
  */
 export function GateForm({ pending, errors, onSubmit }: GateFormProps) {
   const [fields, setFields] = useState(empty);
@@ -69,13 +72,7 @@ export function GateForm({ pending, errors, onSubmit }: GateFormProps) {
   const shown = { ...touched, ...errors };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      noValidate
-      className="sc-step-in flex flex-col gap-3.5 px-5 pt-5 pb-6"
-    >
-      <p className="text-tpg-muted text-[13px] leading-relaxed">{gateFraming}</p>
-
+    <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-3">
       <div className="flex flex-col gap-2.5">
         <div>
           <label htmlFor="tpg-sc-first-name" className={labelClass}>
@@ -169,7 +166,7 @@ export function GateForm({ pending, errors, onSubmit }: GateFormProps) {
         type="submit"
         disabled={pending}
         className={cn(
-          "bg-tpg-cta hover:bg-tpg-cta-hover focus-visible:bg-tpg-cta-hover w-full rounded px-5 py-3.5",
+          "bg-tpg-cta hover:bg-tpg-cta-hover focus-visible:bg-tpg-cta-hover w-full rounded-full px-5 py-3",
           "text-[13.5px] font-bold text-white",
           "transition-[background-color,transform] duration-200 ease-out",
           "hover:-translate-y-0.5 focus-visible:-translate-y-0.5",
@@ -180,6 +177,10 @@ export function GateForm({ pending, errors, onSubmit }: GateFormProps) {
       >
         {pending ? gateSubmitPendingLabel : gateSubmitLabel}
       </button>
+
+      {/* The promise, kept small and last: it answers the objection the email
+          field raises rather than announcing itself. */}
+      <p className="text-center text-[11px] leading-relaxed text-[#9baab6]">{gatePrivacyLine}</p>
     </form>
   );
 }

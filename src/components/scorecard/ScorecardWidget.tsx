@@ -1,36 +1,34 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ChatStage } from "@/components/scorecard/ChatStage";
-import { GateForm } from "@/components/scorecard/GateForm";
 import { WidgetTabs } from "@/components/scorecard/WidgetTabs";
 import type { WidgetTab } from "@/components/scorecard/WidgetTabs";
-import { buildMessages } from "@/components/scorecard/messages";
-import type { ChatStageName } from "@/components/scorecard/messages";
+import { createMessage, withoutTyping } from "@/components/scorecard/messages";
+import type { ChatStageName, Message } from "@/components/scorecard/messages";
 import {
+  analyzingLine,
   chatTabBadge,
   chatTabLabel,
   closeLabel,
-  introBody,
-  introEyebrow,
-  introHeadline,
   openLabel,
-  questions,
   widgetLabel,
 } from "@/content/scorecard";
 import { cn } from "@/lib/cn";
 import {
   HONEYPOT_FIELD,
-  SCORECARD_RESULT_ENDPOINT,
+  SCORECARD_ANALYZE_ENDPOINT,
   SCORECARD_START_ENDPOINT,
   SCORECARD_TURN_ENDPOINT,
 } from "@/lib/scorecard";
 import type {
-  ScorecardAnswer,
+  ScorecardAnalyzeResponse,
   ScorecardContact,
+  ScorecardExtraction,
+  ScorecardQuestion,
   ScorecardRecommendation,
-  ScorecardResultResponse,
   ScorecardStartResponse,
+  ScorecardTurn,
   ScorecardTurnResponse,
 } from "@/lib/scorecard";
 
@@ -43,16 +41,41 @@ import type {
  * written to storage, so there is no stale session to reconcile and no consent
  * question to answer.
  *
+ * WHAT THE CLIENT HOLDS AND WHY. The server is stateless, so the whole session
+ * is here and posted back on every turn: the completed turns, the satisfied
+ * intent ids, and the current question — which the SERVER wrote, not this
+ * component. There is no local question list any more. The client renders what
+ * it is handed and sends back what was typed; deciding what to ask is the turn
+ * engine's job, and the reason the questions can adapt at all.
+ *
+ * TWO KINDS OF STATE, AND THE LINE BETWEEN THEM. `turns`, `satisfied` and
+ * `question` are PROTOCOL state: they exist because the server is stateless and
+ * needs the session posted back. `messages` is DISPLAY state: an append-only
+ * log that is the sole source of truth for what is on screen. The transcript
+ * reads `messages` and nothing else.
+ *
+ * That separation is the fix for the rendering bugs, not a tidiness exercise.
+ * When the transcript was projected from protocol state it showed whatever the
+ * protocol happened to hold at that instant — which mid-request is a question
+ * that is no longer current and an answer that is not yet a turn, i.e. nothing.
+ * Appending decouples the two: what was said stays said regardless of what the
+ * protocol is doing, and the quote a question carries is copied from the same
+ * response that produced that question, so it can never belong to a different
+ * turn than the one it is drawn against.
+ *
  * The panel is a floating card on desktop and a bottom sheet on mobile — one
  * component, one set of state, the difference is entirely in the classes.
  */
 
-type Stage = "intro" | "gate" | ChatStageName;
-
-/** The three stages that render as the conversation rather than as their own screen. */
-function isChatStage(stage: Stage): stage is ChatStageName {
-  return stage === "questions" || stage === "analysing" || stage === "results";
-}
+/**
+ * The session's phase.
+ *
+ * There is no "intro" and no "gate" any more. Every phase is the same thread —
+ * the gate is a card inside the conversation, and the results are its last
+ * message — so this only says what the panel is DOING, never which screen is
+ * mounted. `ChatStage` renders in all four.
+ */
+type Stage = "gate" | ChatStageName;
 
 const SCORECARD_TAB = "scorecard";
 
@@ -67,11 +90,45 @@ const tabs: WidgetTab[] = [
 ];
 
 /**
- * Wrapper for the two stages that are not the chat — intro and gate. They are
- * short, so they centre in the fixed panel; they scroll only if a small
- * viewport makes even that too tall.
+ * How long the typing indicator must remain visible once shown.
+ *
+ * A floor, not a delay. The dots exist to say "something is happening", and
+ * something that appears and vanishes inside two frames reads as a glitch
+ * rather than as a signal. 400ms is long enough to register as a beat and short
+ * enough that nobody waits on it — and crucially it is only ever a floor: a
+ * response slower than this waits zero extra milliseconds. Latency is never
+ * faked, only smoothed.
  */
-const STATIC_STAGE_CLASS = "flex min-h-0 flex-1 flex-col justify-center overflow-y-auto";
+const TYPING_FLOOR_MS = 400;
+
+/** Resolves once the indicator has had its floor, immediately if it already has. */
+function holdTyping(shownAt: number): Promise<void> {
+  const remaining = TYPING_FLOOR_MS - (Date.now() - shownAt);
+  if (remaining <= 0) return Promise.resolve();
+  return new Promise((resolve) => setTimeout(resolve, remaining));
+}
+
+/**
+ * The thread's first entry: the gate card, and nothing before it.
+ *
+ * Its text is empty because the card carries no message of its own — the
+ * labeled fields and the button are the ask. `Transcript` renders this kind as
+ * the form alone.
+ *
+ * A lazy initializer rather than an effect. The gate is not synchronized from
+ * anything external — it is simply what the log contains before anyone has said
+ * anything — so seeding it in an effect would mean rendering an empty panel and
+ * then immediately re-rendering it, which is the cascading render the
+ * `set-state-in-effect` rule exists to catch.
+ *
+ * It is a function, not a constant, because `createMessage` mints a uuid and
+ * stamps a send time: a module-level constant would hand every visitor the same
+ * id and freeze the timestamp at the moment the bundle was evaluated, and a
+ * restart would reuse both.
+ */
+function openingLog(): Message[] {
+  return [createMessage("bot", "gate", "", 0)];
+}
 
 /** Focusable descendants, for the focus trap. */
 const FOCUSABLE =
@@ -79,36 +136,93 @@ const FOCUSABLE =
 
 export function ScorecardWidget() {
   const [open, setOpen] = useState(false);
-  const [stage, setStage] = useState<Stage>("intro");
+  const [stage, setStage] = useState<Stage>("gate");
   const [activeTab, setActiveTab] = useState(SCORECARD_TAB);
 
   const [contact, setContact] = useState<ScorecardContact | null>(null);
-  const [answers, setAnswers] = useState<ScorecardAnswer[]>([]);
-  const [index, setIndex] = useState(0);
+
   /**
-   * Acknowledgements keyed by the question they reacted to. This used to be a
-   * single string overwritten every turn, which was fine when only the newest
-   * one was ever on screen — in a transcript that keeps the whole conversation,
-   * every one of them has to survive.
+   * WHAT IS ON SCREEN. Append-only, and the only thing the transcript reads.
+   *
+   * Nothing here is ever removed, mutated or reordered except the transient
+   * typing indicator, which is dropped in the same update that appends the
+   * message it was standing in for. Every other entry is permanent from the
+   * moment it lands.
    */
-  const [acks, setAcks] = useState<Record<string, string>>({});
+  const [messages, setMessages] = useState<Message[]>(openingLog);
   /**
-   * Questions answered by enrichment rather than by the person. They are held
-   * so the transcript can leave them out: we never asked, so showing the
-   * exchange would be inventing one.
+   * Which exchange the next append belongs to. Advances once per completed
+   * turn, so a question and the answer to it carry the same index and the log
+   * can be read back as discrete exchanges.
+   *
+   * It is also the second half of the answer control's key — see `ChatStage` —
+   * so it has to be state and not a ref: a ref change does not re-render, and
+   * the remount that resets the chips after a turn would never happen. The ref
+   * beside it is the value the async handler reads, because a handler that
+   * awaited a response is holding a stale closure over the state.
    */
-  const [prefilledIds, setPrefilledIds] = useState<Set<string>>(() => new Set());
+  const [turnIndex, setTurnIndex] = useState(0);
+  const turnIndexRef = useRef(0);
+
+  /** Advances both halves together. The only place either one moves. */
+  const advanceTurn = useCallback((next: number) => {
+    turnIndexRef.current = next;
+    setTurnIndex(next);
+  }, []);
+
+  /** Completed turns, oldest first. Protocol state: the audit trail we post back. */
+  const [turns, setTurns] = useState<ScorecardTurn[]>([]);
+  /**
+   * Extractions, accumulated separately from the turns they came from.
+   *
+   * They could be derived — every turn carries its own — but they are held
+   * apart because enrichment can seed one with no turn behind it, and because
+   * this list is what gets posted to the analysis. Keeping it as its own thing
+   * makes "what the report is written from" a variable you can point at.
+   */
+  const [extractions, setExtractions] = useState<ScorecardExtraction[]>([]);
+  /** Intent ids the server has marked satisfied, however they were satisfied. */
+  const [satisfied, setSatisfied] = useState<string[]>([]);
+
+  /*
+   * `replies` and `unaskedIntents` are GONE, and their absence is the fix.
+   *
+   * `replies` was a map of acknowledgements keyed by intent, read back during
+   * render to decide which line to draw against which turn — the off-by-one.
+   * That line is gone from the product entirely; what remains of the same idea,
+   * the quote on a question, is copied in at append time, so there is no map to
+   * consult and no way to consult the wrong entry.
+   *
+   * `unaskedIntents` existed to keep the projection from inventing exchanges
+   * for intents enrichment had answered. An append-only log cannot invent one:
+   * a question that was never asked was never appended.
+   */
+
+  /** The question on screen. Written by the server, never by this component. */
+  const [question, setQuestion] = useState<ScorecardQuestion | null>(null);
+  /** How many questions have actually been ASKED, for the progress row. */
+  const [asked, setAsked] = useState(0);
+
   const [pending, setPending] = useState(false);
   const [gateErrors, setGateErrors] = useState<Record<string, string>>({});
 
   const [summary, setSummary] = useState("");
   const [recommendations, setRecommendations] = useState<ScorecardRecommendation[]>([]);
-  const [readingFailed, setReadingFailed] = useState(false);
+  /** Whether the emailed report actually went out. Decides the confirmation line. */
+  const [emailed, setEmailed] = useState(false);
 
   const panelRef = useRef<HTMLDivElement>(null);
   const bubbleRef = useRef<HTMLButtonElement>(null);
   /** Stable for the whole session, and reused by the chat tab in V2. */
   const sessionIdRef = useRef<string | null>(null);
+  /**
+   * Whether a turn is posting right now.
+   *
+   * A ref and not state, because it has to be readable synchronously — see the
+   * guard in `answerQuestion`. `pending` still exists alongside it to drive the
+   * disabled styling, which is a render concern and can afford to lag a frame.
+   */
+  const inFlightRef = useRef(false);
 
   /*
    * Minted on first use rather than during render. Generating it in the render
@@ -197,84 +311,137 @@ export function ScorecardWidget() {
     first?.focus({ preventScroll: true });
   }, [open, stage]);
 
-  const startSession = useCallback(async (entered: ScorecardContact, honeypot: string) => {
-    setPending(true);
-    setGateErrors({});
-
-    try {
-      const response = await fetch(SCORECARD_START_ENDPOINT, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          ...entered,
-          sessionId: sessionId(),
-          sourcePage: window.location.pathname,
-          [HONEYPOT_FIELD]: honeypot,
-        }),
-      });
-
-      const body = (await response.json()) as ScorecardStartResponse;
-
-      if (!body.ok) {
-        setGateErrors(body.errors ?? {});
-        return;
-      }
-
-      setContact(entered);
-
-      /*
-       * Enrichment may have answered a question for us. Those answers are
-       * seeded here and their questions skipped, so nobody is asked something
-       * the lookup already told us.
-       */
-      const prefilled = body.prefilled ?? [];
-      setAnswers(prefilled);
-      const skipped = new Set(prefilled.map((answer) => answer.questionId));
-      // The same set drives both the question walk below and the transcript's
-      // decision to render nothing for these.
-      setPrefilledIds(skipped);
-      let next = 0;
-      while (next < questions.length && skipped.has(questions[next].id)) next += 1;
-      setIndex(next);
-
-      setStage(next < questions.length ? "questions" : "analysing");
-    } catch {
-      // The lead may or may not have landed; what is certain is that this
-      // person is looking at a form that did nothing. Say so, do not pretend.
-      setGateErrors({ email: "That did not go through. Please try again." });
-    } finally {
-      setPending(false);
-    }
-  }, []);
-
-  const requestReading = useCallback(
-    async (finalAnswers: ScorecardAnswer[], person: ScorecardContact) => {
-      setStage("analysing");
+  const startSession = useCallback(
+    async (entered: ScorecardContact, honeypot: string) => {
+      setPending(true);
+      setGateErrors({});
 
       try {
-        const response = await fetch(SCORECARD_RESULT_ENDPOINT, {
+        const response = await fetch(SCORECARD_START_ENDPOINT, {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            ...entered,
+            sessionId: sessionId(),
+            sourcePage: window.location.pathname,
+            [HONEYPOT_FIELD]: honeypot,
+          }),
+        });
+
+        const body = (await response.json()) as ScorecardStartResponse;
+
+        if (!body.ok || !body.question) {
+          setGateErrors(body.errors ?? {});
+          return;
+        }
+
+        setContact(entered);
+
+        /*
+         * Enrichment may have satisfied an intent for us. Those are seeded here
+         * as extractions with no turn behind them, and recorded as unasked so
+         * the transcript does not render an exchange that never happened.
+         */
+        const seeded = body.satisfiedIntents ?? [];
+        setExtractions(body.extractions ?? []);
+        setSatisfied(seeded);
+
+        /*
+         * The opening question is APPENDED after the gate card, never written
+         * over it. Handing over an address is the first thing that happens in
+         * this conversation, so it stays in the log and stays scrollable to —
+         * replacing the log here would be the append-only rule broken on the
+         * very first turn.
+         *
+         * The visitor's "message" is their email, because that is the answer
+         * they actually gave to "where should Alan send the results?".
+         *
+         * Intents enrichment already satisfied are simply never appended — we
+         * did not ask them, so they are not part of the conversation, and there
+         * is no "unasked" set to maintain because a log only contains what
+         * actually happened.
+         */
+        advanceTurn(0);
+        // Captured outside the updater: the narrowing from the `!body.question`
+        // guard above does not survive into the closure.
+        const opening = body.question;
+        setMessages((log) => [
+          ...log,
+          createMessage("user", "answer", entered.email, 0),
+          createMessage("bot", "question", opening.text, 0),
+        ]);
+
+        setQuestion(body.question);
+        setAsked(1);
+        setStage("questions");
+      } catch {
+        // The lead may or may not have landed; what is certain is that this
+        // person is looking at a form that did nothing. Say so, do not pretend.
+        setGateErrors({ email: "That did not go through. Please try again." });
+      } finally {
+        setPending(false);
+      }
+    },
+    [advanceTurn],
+  );
+
+  /**
+   * The final call. Posts the extractions — and, separately, the turns for the
+   * audit trail — and shows what comes back.
+   *
+   * The server never fails this outright: a degraded report is still a report,
+   * so there is no failure branch here beyond the network itself. What DOES
+   * vary is `emailed`, which decides whether the confirmation line may promise
+   * an email or has to state what actually happened.
+   */
+  const requestReport = useCallback(
+    async (
+      finalExtractions: ScorecardExtraction[],
+      finalTurns: ScorecardTurn[],
+      person: ScorecardContact,
+    ) => {
+      setStage("analyzing");
+      // The report being written is a message like any other, so scrolling up
+      // from it reaches everything that was said.
+      const analyzingIndex = turnIndexRef.current;
+      setMessages((log) => [
+        ...withoutTyping(log),
+        createMessage("bot", "analyzing", analyzingLine, analyzingIndex),
+      ]);
+
+      try {
+        const response = await fetch(SCORECARD_ANALYZE_ENDPOINT, {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify({
             sessionId: sessionId(),
             contact: person,
-            answers: finalAnswers,
+            extractions: finalExtractions,
+            turns: finalTurns,
             sourcePage: window.location.pathname,
           }),
         });
 
-        const body = (await response.json()) as ScorecardResultResponse;
+        const body = (await response.json()) as ScorecardAnalyzeResponse;
 
-        if (body.ok) {
-          setSummary(body.summary);
-          setRecommendations(body.recommendations);
-          setReadingFailed(false);
-        } else {
-          setReadingFailed(true);
-        }
+        setSummary(body.summary);
+        setRecommendations(body.recommendations ?? []);
+        setEmailed(Boolean(body.ok && body.emailed));
       } catch {
-        setReadingFailed(true);
+        // Nothing came back at all, so nothing was sent either. The results
+        // screen renders with an empty shortlist and the honest line.
+        setEmailed(false);
       } finally {
+        /*
+         * The results replace the analyzing indicator, which is the same
+         * substitution the typing indicator gets: a placeholder standing in for
+         * a message that had not arrived, removed by the append that fulfills
+         * it. Every real message above it is untouched.
+         */
+        setMessages((log) => [
+          ...log.filter((message) => message.kind !== "analyzing"),
+          createMessage("bot", "results", "", analyzingIndex),
+        ]);
         setStage("results");
       }
     },
@@ -283,29 +450,43 @@ export function ScorecardWidget() {
 
   const answerQuestion = useCallback(
     async (answer: string) => {
-      const question = questions[index];
-      if (!question || !contact) return;
+      const current = question;
+      if (!current || !contact) return;
+      /*
+       * The double-submit guard, and it is a ref rather than the `pending`
+       * state on purpose. Two clicks inside the same frame both read the old
+       * value of a state variable — `pending` has not re-rendered yet — so a
+       * state check lets the second through and posts the turn twice. A ref
+       * mutates synchronously, so the second click sees the flag the first one
+       * just set and returns. This is what makes rapid double-clicking a chip
+       * submit exactly once.
+       */
+      if (inFlightRef.current) return;
+      inFlightRef.current = true;
 
-      const updated = [...answers, { questionId: question.id, question: question.text, answer }];
-      setAnswers(updated);
-
-      // Find the next question that enrichment has not already answered.
-      let next = index + 1;
-      const answered = new Set(updated.map((entry) => entry.questionId));
-      while (next < questions.length && answered.has(questions[next].id)) next += 1;
-
-      if (next >= questions.length) {
-        await requestReading(updated, contact);
-        return;
-      }
+      // Read from the ref, not the state: this handler awaits a response and
+      // then keeps using this value, so a stale closure would file the next
+      // question under the previous exchange.
+      const exchange = turnIndexRef.current;
+      setPending(true);
 
       /*
-       * The acknowledgement is fetched between questions, and the typing
-       * indicator is only shown while it is genuinely in flight — no faked
-       * latency. If it fails or comes back empty, the next question simply
-       * appears without a line above it.
+       * THE OPTIMISTIC APPEND. Their answer goes into the log before the
+       * request leaves, and the question above it is not touched — it stays
+       * exactly where it is, because nothing in this component can remove a
+       * message that has been appended.
+       *
+       * Then the typing indicator, so the wait has a visible owner in the
+       * bot's position rather than an empty panel.
        */
-      setPending(true);
+      setMessages((log) => [
+        ...withoutTyping(log),
+        createMessage("user", "answer", answer, exchange),
+        createMessage("bot", "typing", "", exchange),
+      ]);
+
+      // Stamped before the request so the floor covers the whole round trip.
+      const typingShownAt = Date.now();
 
       try {
         const response = await fetch(SCORECARD_TURN_ENDPOINT, {
@@ -314,42 +495,134 @@ export function ScorecardWidget() {
           body: JSON.stringify({
             sessionId: sessionId(),
             contact,
-            answers: updated,
+            turns,
+            satisfiedIntents: satisfied,
+            intentId: current.intentId,
+            question: current.text,
+            answer,
           }),
         });
+
         const body = (await response.json()) as ScorecardTurnResponse;
+
         /*
-         * Keyed by the question just answered, not the one coming next — the
-         * line is a reaction to what they said, and in the transcript it sits
-         * directly under their message.
+         * A rejected turn leaves the protocol exactly as it was — the question
+         * is still current and still answerable. The LOG is not rewound: they
+         * did send that message, and deleting it to tidy up would both break
+         * the append-only rule and lose what they wrote. The typing indicator
+         * goes, since nothing is in flight any more.
          */
-        const line = body.acknowledgement ?? "";
-        if (line) setAcks((current) => ({ ...current, [question.id]: line }));
+        if (!body.ok) {
+          setMessages(withoutTyping);
+          return;
+        }
+
+        /*
+         * The indicator has a floor but no padding beyond it. A response that
+         * takes 900ms waits zero extra; one that returns in 40ms is held to
+         * 400ms so the dots register as a beat rather than a flicker.
+         */
+        await holdTyping(typingShownAt);
+
+        const turn: ScorecardTurn = {
+          intentId: current.intentId,
+          question: current.text,
+          rawAnswer: answer,
+          extraction: body.extraction,
+        };
+
+        const nextTurns = [...turns, turn];
+        const nextExtractions = [...extractions, body.extraction];
+
+        setTurns(nextTurns);
+        setExtractions(nextExtractions);
+        setSatisfied(body.satisfiedIntents);
+
+        /*
+         * THE APPEND THAT USED TO BE OFF BY ONE.
+         *
+         * The answer and `body.nextQuestion` are combined into ONE message
+         * here, both from the same response, in one update. There is no lookup
+         * by intent id and no prior state consulted, so the quote structurally
+         * cannot belong to a different turn than the question carrying it —
+         * they are fields of the same object.
+         *
+         * The quote is what makes the next question read as a reply. It carries
+         * a copy of what the visitor just said, so the bubble can show what it
+         * is answering the way a WhatsApp reply does, instead of relying on the
+         * bubble above it to supply that context.
+         *
+         * The whole exchange lands atomically, which is also why the typing
+         * indicator is replaced by real content in a single commit rather than
+         * flashing through an intermediate state.
+         */
+        const nextQuestion = body.complete ? null : body.nextQuestion;
+        setMessages((log) => {
+          const appended = withoutTyping(log);
+          if (nextQuestion) {
+            appended.push(createMessage("bot", "question", nextQuestion.text, exchange + 1));
+          }
+          return appended;
+        });
+
+        advanceTurn(exchange + 1);
+
+        if (!nextQuestion) {
+          setQuestion(null);
+          await requestReport(nextExtractions, nextTurns, contact);
+          return;
+        }
+
+        setQuestion(nextQuestion);
+        setAsked((count) => count + 1);
       } catch {
-        // Nothing written. An absent key renders no bubble, which is the same
-        // outcome as before: the next question simply arrives without a line.
+        // The turn did not land. The question is still on screen and still
+        // answerable, which is the right place to leave someone. Their message
+        // stays in the log; only the indicator goes.
+        setMessages(withoutTyping);
       } finally {
+        inFlightRef.current = false;
         setPending(false);
-        setIndex(next);
       }
     },
-    [answers, contact, index, requestReading],
+    [advanceTurn, contact, extractions, question, requestReport, satisfied, turns],
   );
 
-  const question = questions[index];
-
-  /*
-   * Derived, not accumulated. Everything the transcript shows already lives in
-   * `answers` and `acks`, so there is no second list to keep in step. Six
-   * answers is nothing to recompute.
+  /**
+   * Start over.
+   *
+   * Clears everything the session accumulated and returns to the GATE, not to
+   * the first question — a restart is a new session, gets a new `session_id`,
+   * and the gate is where a session begins. Nothing already sent is retracted:
+   * if the report was emailed, it was emailed, and this control does not
+   * pretend otherwise.
    */
-  const messages = useMemo(
-    () =>
-      isChatStage(stage)
-        ? buildMessages({ answers, acks, prefilledIds, stage, question, pending })
-        : [],
-    [answers, acks, prefilledIds, stage, question, pending],
-  );
+  const restart = useCallback(() => {
+    sessionIdRef.current = null;
+
+    setContact(null);
+    /*
+     * The log is emptied and re-seeded with a fresh gate card. This is the one
+     * moment the append-only rule does not apply, because it is not an edit to
+     * a conversation — it is the end of one and the start of another. The new
+     * session mints a new id and draws its own opener.
+     */
+    setMessages(openingLog());
+    advanceTurn(0);
+    inFlightRef.current = false;
+    setTurns([]);
+    setExtractions([]);
+    setSatisfied([]);
+    setQuestion(null);
+    setAsked(0);
+    setPending(false);
+    setGateErrors({});
+    setSummary("");
+    setRecommendations([]);
+    setEmailed(false);
+
+    setStage("gate");
+  }, [advanceTurn]);
 
   return (
     <>
@@ -470,51 +743,29 @@ export function ScorecardWidget() {
             className="flex min-h-0 flex-1 flex-col"
           >
             {/*
-             * Intro and gate keep their own markup untouched. The wrapper is
-             * what makes them fill the now-fixed panel, and `justify-center`
-             * settles their short copy in the middle rather than stranding it
-             * against the tab bar with empty space below.
+             * ONE component for every phase. The gate is a card in the thread
+             * and the results are its last message, so there is no screen to
+             * switch between — which is what lets the conversation stay
+             * scrollable from the first message to the last at any point.
              */}
-            {stage === "intro" && (
-              <div className={STATIC_STAGE_CLASS}>
-                <div className="sc-step-in flex flex-col gap-3 px-5 pt-6 pb-6">
-                  <span className="text-tpg-accent text-[11px] font-bold tracking-[0.16em] uppercase">
-                    {introEyebrow}
-                  </span>
-                  <p className="text-tpg-ink font-serif text-[24px] leading-snug">
-                    {introHeadline}
-                  </p>
-                  <p className="text-tpg-muted text-[13.5px] leading-relaxed">{introBody}</p>
-                  <button
-                    type="button"
-                    onClick={() => setStage("gate")}
-                    className="bg-tpg-cta hover:bg-tpg-cta-hover focus-visible:bg-tpg-cta-hover mt-1 cursor-pointer px-5 py-3.5 text-[13.5px] font-bold text-white transition-[background-color,transform] duration-200 ease-out hover:-translate-y-0.5 focus-visible:-translate-y-0.5"
-                  >
-                    Start
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {stage === "gate" && (
-              <div className={STATIC_STAGE_CLASS}>
-                <GateForm pending={pending} errors={gateErrors} onSubmit={startSession} />
-              </div>
-            )}
-
-            {isChatStage(stage) && (
-              <ChatStage
-                messages={messages}
-                question={stage === "questions" ? question : undefined}
-                position={index + 1}
-                pending={pending}
-                stage={stage}
-                summary={summary}
-                recommendations={recommendations}
-                readingFailed={readingFailed}
-                onAnswer={answerQuestion}
-              />
-            )}
+            <ChatStage
+              messages={messages}
+              turnIndex={turnIndex}
+              question={stage === "questions" ? (question ?? undefined) : undefined}
+              position={asked}
+              showProgress={asked > 0}
+              pending={pending}
+              summary={summary}
+              recommendations={recommendations}
+              emailed={emailed}
+              onAnswer={answerQuestion}
+              onRestart={restart}
+              gatePending={pending}
+              gateErrors={gateErrors}
+              onGateSubmit={startSession}
+              // The gate is answered exactly when we have a contact.
+              gateDone={contact !== null}
+            />
           </div>
         </div>
       )}

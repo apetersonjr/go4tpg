@@ -2,13 +2,24 @@
  * Server-side validation for the scorecard payloads.
  *
  * The widget validates too, but that is a courtesy to the person filling the
- * gate form, not a control. Everything here re-checks from scratch, and the
- * answer checks read the question list the widget renders from, so a reworded
- * question cannot pass one side and fail the other.
+ * gate form, not a control. Everything here re-checks from scratch.
+ *
+ * The session is held client-side and posted back on every turn, which means
+ * everything in it is attacker-controlled — including the extractions, which
+ * are the ONLY thing the final report is written from. So the extraction
+ * checks below are not shape-checking for its own sake: they are what stops
+ * someone hand-crafting a request that puts arbitrary text into the report and
+ * into the PDF that gets emailed. Signals are filtered against the closed
+ * vocabulary, evidence is length-capped, and intent ids must be real.
  */
 
-import { questions } from "@/content/scorecard";
-import type { ScorecardAnswer, ScorecardContact } from "@/lib/scorecard";
+import { findIntent, validSignals } from "@/data/scorecard-intents";
+import type {
+  ExtractionConfidence,
+  ScorecardContact,
+  ScorecardExtraction,
+  ScorecardTurn,
+} from "@/lib/scorecard";
 
 export type ValidationResult<T> =
   { ok: true; data: T } | { ok: false; errors: Record<string, string> };
@@ -28,7 +39,7 @@ function asString(value: unknown): string {
  * `www.` is dropped because it is never the distinguishing part of a domain,
  * and the result is lowercased so two spellings cannot become two leads.
  */
-export function normaliseDomain(input: string): string {
+export function normalizeDomain(input: string): string {
   let value = input.trim().toLowerCase();
   if (!value) return "";
 
@@ -78,7 +89,7 @@ export function validateContact(input: unknown): ValidationResult<ValidatedConta
   }
 
   const website = asString(body.website);
-  const domain = normaliseDomain(website);
+  const domain = normalizeDomain(website);
   if (!website) errors.website = REQUIRED_MESSAGE;
   else if (website.length > MAX.website) {
     errors.website = `Please keep this under ${MAX.website} characters.`;
@@ -92,46 +103,109 @@ export function validateContact(input: unknown): ValidationResult<ValidatedConta
 
 /** Longest answer we will carry. Generous for a sentence, bounded for a payload. */
 const MAX_ANSWER = 2000;
+/** Evidence is one sentence written by the model. This is several times that. */
+const MAX_EVIDENCE = 600;
+/** A rephrased question. Longer than any of the defaults, bounded all the same. */
+const MAX_QUESTION = 500;
 
-const questionsById = new Map(questions.map((question) => [question.id, question]));
+function asConfidence(value: unknown): ExtractionConfidence {
+  return value === "high" || value === "medium" || value === "low" ? value : "low";
+}
 
 /**
- * Answers are validated as a list rather than a fixed shape because the widget
- * posts however many it has so far, and because a skipped free-text question
- * legitimately arrives as an empty string.
+ * One extraction, re-checked.
  *
- * Unknown question ids are dropped rather than rejected. The alternative —
- * a 400 — would lose a live lead's whole session over one stale id if the
- * question list were ever edited while someone was mid-scorecard.
+ * Returns null on an unknown intent id rather than coercing it to something
+ * real: an extraction attributed to the wrong intent is worse than a missing
+ * one, because the report reads the intent to know what the evidence is about.
  */
-export function validateAnswers(input: unknown): ScorecardAnswer[] {
+export function validateExtraction(input: unknown): ScorecardExtraction | null {
+  const record = (input ?? {}) as Record<string, unknown>;
+
+  const intentId = asString(record.intentId);
+  if (!findIntent(intentId)) return null;
+
+  return {
+    intentId,
+    // The closed vocabulary is enforced here as well as at the model boundary.
+    // This is the copy that matters: it is the one running on data the client
+    // sent back.
+    signals: validSignals(record.signals),
+    evidence: asString(record.evidence).slice(0, MAX_EVIDENCE),
+    confidence: asConfidence(record.confidence),
+  };
+}
+
+/**
+ * The session's completed turns.
+ *
+ * Unknown intent ids are dropped rather than rejected. The alternative — a 400
+ * — would lose a live session over one stale id if the intent list were edited
+ * while someone was mid-scorecard.
+ */
+export function validateTurns(input: unknown): ScorecardTurn[] {
   if (!Array.isArray(input)) return [];
 
   const seen = new Set<string>();
-  const answers: ScorecardAnswer[] = [];
+  const turns: ScorecardTurn[] = [];
 
   for (const entry of input) {
     const record = (entry ?? {}) as Record<string, unknown>;
-    const questionId = asString(record.questionId);
-    const question = questionsById.get(questionId);
-    if (!question || seen.has(questionId)) continue;
+    const extraction = validateExtraction(record.extraction);
+    if (!extraction || seen.has(extraction.intentId)) continue;
 
-    seen.add(questionId);
-    answers.push({
-      questionId,
-      // The canonical text, not whatever the client sent: the client's copy is
-      // untrusted and the two must not be able to disagree.
-      question: question.text,
-      answer: asString(record.answer).slice(0, MAX_ANSWER),
+    const intentId = asString(record.intentId);
+    // An entry whose two ids disagree is malformed, not merely stale.
+    if (intentId !== extraction.intentId) continue;
+
+    seen.add(intentId);
+    turns.push({
+      intentId,
+      question: asString(record.question).slice(0, MAX_QUESTION),
+      rawAnswer: asString(record.answer || record.rawAnswer).slice(0, MAX_ANSWER),
+      extraction,
     });
   }
 
-  // Catalog order, so the model and Alan always read them in the asked order.
-  return answers.sort(
-    (a, b) =>
-      questions.findIndex((q) => q.id === a.questionId) -
-      questions.findIndex((q) => q.id === b.questionId),
-  );
+  return turns;
+}
+
+/** Extractions posted to the analyze route, filtered to real intents. */
+export function validateExtractions(input: unknown): ScorecardExtraction[] {
+  if (!Array.isArray(input)) return [];
+
+  const seen = new Set<string>();
+  const extractions: ScorecardExtraction[] = [];
+
+  for (const entry of input) {
+    const extraction = validateExtraction(entry);
+    if (!extraction || seen.has(extraction.intentId)) continue;
+    seen.add(extraction.intentId);
+    extractions.push(extraction);
+  }
+
+  return extractions;
+}
+
+/** Intent ids the client claims are satisfied. Unknown ones are dropped. */
+export function validateSatisfiedIntents(input: unknown): string[] {
+  if (!Array.isArray(input)) return [];
+  const seen = new Set<string>();
+  for (const entry of input) {
+    const id = asString(entry);
+    if (findIntent(id)) seen.add(id);
+  }
+  return [...seen];
+}
+
+/** The answer to the turn being submitted. */
+export function validateAnswer(input: unknown): string {
+  return asString(input).slice(0, MAX_ANSWER);
+}
+
+/** The question as the client says it was asked. Bounded, never trusted for content. */
+export function validateQuestion(input: unknown): string {
+  return asString(input).slice(0, MAX_QUESTION);
 }
 
 /** Session ids are generated client-side, so the server checks the shape. */
