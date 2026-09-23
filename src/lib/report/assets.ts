@@ -121,9 +121,7 @@ export async function verifyAssets(): Promise<string[]> {
   for (const result of settled) {
     if (result.status === "rejected") {
       const reason: unknown = result.reason;
-      missing.push(
-        reason instanceof MissingAssetError ? reason.assetPath : String(reason),
-      );
+      missing.push(reason instanceof MissingAssetError ? reason.assetPath : String(reason));
     }
   }
 

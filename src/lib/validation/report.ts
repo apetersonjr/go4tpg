@@ -94,12 +94,12 @@ export function validateReportRequest(input: unknown): ValidationResult<ReportRe
    */
   const firstName = clean(asString(raw.first_name)).slice(0, LIMITS.firstName);
   if (/^(undefined|null|nan)$/i.test(firstName)) {
-    errors.first_name = "Received the literal string \"" + firstName + "\".";
+    errors.first_name = 'Received the literal string "' + firstName + '".';
   }
 
   const companyName = clean(asString(raw.company_name)).slice(0, LIMITS.companyName);
   if (/^(undefined|null|nan)$/i.test(companyName)) {
-    errors.company_name = "Received the literal string \"" + companyName + "\".";
+    errors.company_name = 'Received the literal string "' + companyName + '".';
   }
 
   const summary = clean(asString(raw.summary)).slice(0, LIMITS.summary);

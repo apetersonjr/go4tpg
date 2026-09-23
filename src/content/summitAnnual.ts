@@ -1,5 +1,5 @@
 import type { FaqItem } from "@/content/faq";
-import type { Deliverable } from "@/content/summits";
+import type { Deliverable, Step } from "@/content/summits";
 
 /**
  * The dedicated sales landing page for the flagship summit. Paid traffic and
@@ -57,13 +57,37 @@ export const annualDeliverables: Deliverable[] = [
 ];
 
 export const annualHowItWorksKicker = "How it works";
-export const annualHowItWorksHeadline = "Four steps. No homework before day one.";
 
-export const annualHowItWorksSteps: string[] = [
-  "We schedule your one-day summit with the right people in the room: the CEO or founder, plus the leadership and execution team.",
-  "We facilitate. You talk, we extract. Priorities are locked, metrics defined, and accountability assigned before anyone leaves.",
-  "Concurrently, as each function’s work surfaces, we capture where automation and AI would amplify it.",
-  "Within 24 hours you receive both documents: the written Annual Blueprint, and your Opportunity Scan.",
+/*
+ * Blueprint V20, 23 Sep 2026: every summit includes a Pre-Summit
+ * Diagnostic, so the previous four-step version — which claimed no pre-work —
+ * was false. Copy per AnnualSummitPageCopy_080626.md Section 3.
+ */
+export const annualHowItWorksHeadline =
+  "Five steps. We arrive already knowing where you are stuck.";
+
+export const annualHowItWorksSteps: Step[] = [
+  {
+    lead: "The Pre-Summit Diagnostic.",
+    body: " Before we meet, every attendee completes an online diagnostic. It surfaces where each function is strained and where the team disagrees... and it is good work in its own right: each person names what is working, what is not, and what they would fix first.",
+  },
+  {
+    lead: "We build the session around your answers.",
+    body: " Your responses shape the agenda. We arrive with the constraints already mapped.",
+  },
+  {
+    /* The differentiator — kept at full length deliberately. */
+    lead: "We facilitate, and your own answers are in the room.",
+    body: " The diagnostic comes back to your team as a working view of what they collectively said. Seeing it together is usually where the real conversation starts. Priorities are locked, metrics defined, and accountability assigned before anyone leaves.",
+  },
+  {
+    lead: "Concurrently, we map the AI layer.",
+    body: " As each function’s work surfaces, we capture where automation and AI would amplify it.",
+  },
+  {
+    lead: "Within 24 hours, both documents.",
+    body: " The written Annual Blueprint, and your Opportunity Scan.",
+  },
 ];
 
 export const annualAudienceKicker = "Who this is for";
@@ -84,6 +108,12 @@ export const annualPricing = {
 };
 
 export const annualFaq: FaqItem[] = [
+  {
+    /* Leads the accordion: the Diagnostic is the first thing a reader must know. */
+    question: "Is there anything to prepare?",
+    answer:
+      "Yes, and it is work worth doing. Every attendee completes the Pre-Summit Diagnostic online before we meet. It shapes the agenda, it surfaces where your team quietly disagrees, and your team’s own collective answers open the session. The day depends on it... clients consistently tell us the pre-work changed the room before we arrived.",
+  },
   {
     question: "How long is the summit?",
     answer:

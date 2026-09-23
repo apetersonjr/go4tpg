@@ -113,13 +113,9 @@ export async function POST(request: Request): Promise<Response> {
       });
     }
 
-    console.error(
-      `[report] assembly failed for session ${validated.data.sessionId}:`,
-      error,
-    );
+    console.error(`[report] assembly failed for session ${validated.data.sessionId}:`, error);
     return jsonError("Report assembly failed.", 500, {
       detail: error instanceof Error ? error.message : String(error),
     });
   }
 }
-

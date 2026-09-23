@@ -1,5 +1,16 @@
 import type { FaqItem } from "@/content/faq";
 
+/**
+ * One step in a "how it works" band. The lead is set in bold and carries the
+ * step's claim; the body explains it. Split rather than stored as one string
+ * so the Pre-Summit Diagnostic steps read as statements, not bullets.
+ */
+export type Step = {
+  lead: string;
+  /** Continues the sentence after the lead — begins with its own spacing. */
+  body: string;
+};
+
 export type Deliverable = {
   title: string;
   /** Short qualifier rendered after the title, e.g. the delivery window. */
@@ -114,20 +125,36 @@ export const deliverables: Deliverable[] = [
 ];
 
 export const howItWorksKicker = "How it works";
-export const howItWorksHeadline = "Four steps. No homework before day one.";
 
-export const howItWorksSteps: string[] = [
-  "We schedule your one-day summit with the right people in the room — the CEO or founder plus the leadership and execution team.",
-  "We facilitate. You talk, we extract. Priorities are locked, metrics defined, accountability assigned before anyone leaves.",
-  "Within 24 hours, you receive your written plan — the Annual Blueprint or the Second-Half Plan — a working operating document, not notes, not a deck.",
-  /*
-   * V19: step four used to be two 90-minute sessions that installed the top
-   * 2 to 3 standard workflows hands-on. Rewritten around delivery of the Scan.
-   * No delivery window is stated because none is approved anywhere in the
-   * content layer — the old ten-day window belonged to the installation
-   * sessions, which no longer exist.
-   */
-  "You receive the complimentary Opportunity Scan — where AI will amplify the work, which workflows to install first, and what each costs.",
+/*
+ * Blueprint V20 (23 Sep 2026): every summit opens with the Pre-Summit
+ * Diagnostic, and the previous four-step version denied any pre-work. The
+ * pre-work is framed as TPG preparation, which is what it actually is.
+ */
+export const howItWorksHeadline = "Five steps. We arrive already knowing where you are stuck.";
+
+export const howItWorksSteps: Step[] = [
+  {
+    lead: "The Pre-Summit Diagnostic.",
+    body: " Before we meet, every attendee completes an online diagnostic. It surfaces where each function is strained and where the team disagrees... and it is good work in its own right: each person names what is working, what is not, and what they would fix first.",
+  },
+  {
+    lead: "We build the session around your answers.",
+    body: " Your responses shape the agenda. We arrive with the constraints already mapped.",
+  },
+  {
+    /* The differentiator — kept at full length deliberately. */
+    lead: "We facilitate, and your own answers are in the room.",
+    body: " The diagnostic comes back to your team as a working view of what they collectively said. Seeing it together is usually where the real conversation starts. Priorities are locked, metrics defined, and accountability assigned before anyone leaves.",
+  },
+  {
+    lead: "Concurrently, we map the AI layer.",
+    body: " As each function’s work surfaces, we capture where automation and AI would amplify it.",
+  },
+  {
+    lead: "Within 24 hours, both documents.",
+    body: " Your written plan... the Annual Blueprint, the Second-Half Plan, or the Finish Strong Plan, depending on the summit... and your complimentary Opportunity Scan.",
+  },
 ];
 
 export const audienceKicker = "Who this is for";
@@ -145,8 +172,7 @@ export const offeringsKicker = "Planning Summits";
  * The `#summits` group description, minus its closing sentence — an in-summit
  * AI installation promise that V19 retracts.
  */
-export const offeringsHeadline =
-  "Facilitated one-day sessions that produce the plan your business runs on: priorities, success metrics, accountability, and the discipline to deliver it.";
+export const offeringsHeadline = "Set the year. Reset it. Or finish it.";
 
 export const summitOfferings: Offering[] = [
   {
@@ -181,15 +207,37 @@ export const summitOfferings: Offering[] = [
       "Best run in early July — giving the recalibrated plan a full six months to compound before year-end.",
     ],
     price: "$4,750",
-    priceNotes: [],
+    /* V20 (23 Sep 2026): the Mid-Year Reset Summit now credits toward a Sprint. */
+    priceNotes: ["Credited in full toward a Revenue Operations Sprint booked within 14 days."],
     ctaLabel: "Book a Mid-Year Reset",
     ctaHref: "#commit",
     detailHref: "/summits/mid-year",
     detailLabel: "See the full Mid-Year Reset Summit",
   },
+  {
+    id: "finish-strong-reset",
+    title: "Finish Strong Reset",
+    tagline: "Half a day. One priority. A written 90-day plan to finish the year.",
+    body: [
+      "A four-hour facilitated session, described as half a day, with the founder and leadership team. We assess where the year actually stands, lock the one priority that still moves the number, assign ownership in the room, and deliver a written 90-day plan through year-end. You leave with the Finish Strong Plan and your Opportunity Scan. For teams who want the full annual plan, this is the on-ramp to the Annual Planning Summit. Marketed September through December; available year-round for companies whose fiscal year ends elsewhere.",
+    ],
+    price: "$2,750",
+    priceNotes: [
+      "Credited in full toward a Revenue Operations Sprint or a full Annual Planning Summit.",
+    ],
+    ctaLabel: "Book a Finish Strong Reset",
+    /* The CTA is the offer's own page, per V20; it carries the booking block. */
+    ctaHref: "/summits/finish-strong",
+  },
 ];
 
 export const summitsFaq: FaqItem[] = [
+  {
+    /* Leads the accordion: the Diagnostic is the first thing a reader must know. */
+    question: "Is there anything to prepare?",
+    answer:
+      "Yes, and it is work worth doing. Every attendee completes the Pre-Summit Diagnostic online before we meet. It shapes the agenda, it surfaces where your team quietly disagrees, and your team’s own collective answers open the session. The day depends on it... clients consistently tell us the pre-work changed the room before we arrived.",
+  },
   {
     question: "How long is the summit?",
     /*

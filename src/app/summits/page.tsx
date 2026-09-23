@@ -5,6 +5,7 @@ import { Faq } from "@/components/sections/Faq";
 import { OfferDetail } from "@/components/sections/OfferDetail";
 import { BookingBlock } from "@/components/sections/BookingBlock";
 import { DeliverableCards } from "@/components/sections/DeliverableCards";
+import { NumberedSteps } from "@/components/sections/NumberedSteps";
 import { PageHero } from "@/components/ui/PageHero";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { Kicker } from "@/components/ui/Kicker";
@@ -60,28 +61,12 @@ export default function SummitsPage() {
           band="white"
         />
 
-        <SectionContainer className="bg-tpg-tint">
-          <Kicker>{howItWorksKicker}</Kicker>
-          <h2 className="text-tpg-ink mb-14 max-w-[820px] font-serif text-[clamp(30px,3.8vw,48px)] leading-[1.12]">
-            {howItWorksHeadline}
-          </h2>
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-[22px]">
-            {howItWorksSteps.map((step, index) => (
-              <div
-                key={step}
-                className={cn(
-                  "border-tpg-border rounded-md border bg-white px-8 py-[34px]",
-                  cardHover,
-                )}
-              >
-                <span className="text-tpg-accent block font-serif text-[44px] leading-none">
-                  {index + 1}
-                </span>
-                <p className="text-tpg-body mt-4 text-[16.5px]">{step}</p>
-              </div>
-            ))}
-          </div>
-        </SectionContainer>
+        <NumberedSteps
+          kicker={howItWorksKicker}
+          headline={howItWorksHeadline}
+          steps={howItWorksSteps}
+          band="tint"
+        />
 
         <SectionContainer className="bg-white">
           <Kicker>{offeringsKicker}</Kicker>

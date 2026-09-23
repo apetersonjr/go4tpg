@@ -96,13 +96,7 @@ export function measureBlock(lineCount: number, style: TextStyle): number {
  * at a time. Only eyebrows use it, and they are a handful of characters, so the
  * cost is irrelevant — but it is why this is not simply `page.drawText`.
  */
-function drawLine(
-  page: PDFPage,
-  text: string,
-  x: number,
-  y: number,
-  style: TextStyle,
-): void {
+function drawLine(page: PDFPage, text: string, x: number, y: number, style: TextStyle): void {
   const color = rgb(style.color.r, style.color.g, style.color.b);
 
   if (!style.letterSpacing) {
@@ -188,7 +182,10 @@ export function fillRect(
  * Used for right-aligning footers, where being a few points out is visible
  * against the margin the static pages already establish.
  */
-export function textWidth(text: string, style: Pick<TextStyle, "font" | "size" | "letterSpacing">): number {
+export function textWidth(
+  text: string,
+  style: Pick<TextStyle, "font" | "size" | "letterSpacing">,
+): number {
   return (
     style.font.widthOfTextAtSize(text, style.size) +
     (style.letterSpacing ?? 0) * Math.max(0, text.length - 1)

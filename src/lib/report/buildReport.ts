@@ -164,12 +164,7 @@ function drawInteriorChrome(page: PDFPage, fonts: Fonts, footerRight: string): v
  * the full-width orange rule under the running head that they set above their
  * content frame. Returns the y below the heading.
  */
-function drawPageOpening(
-  page: PDFPage,
-  fonts: Fonts,
-  eyebrow: string,
-  heading: string,
-): number {
+function drawPageOpening(page: PDFPage, fonts: Fonts, eyebrow: string, heading: string): number {
   let y = PAGE.height - MARGIN.top;
 
   y = drawLineAt(page, eyebrow.toUpperCase(), {
@@ -420,10 +415,7 @@ function drawSituation(page: PDFPage, fonts: Fonts, data: ReportRequest): void {
   };
   const padding = 18;
   const innerWidth = COLUMN - padding * 2 - 4;
-  const lineCount = Math.max(
-    1,
-    Math.ceil(textWidth(calloutText, calloutStyle) / innerWidth),
-  );
+  const lineCount = Math.max(1, Math.ceil(textWidth(calloutText, calloutStyle) / innerWidth));
   const boxHeight = lineCount * calloutStyle.size * 1.35 + padding * 2;
 
   const boxTop = y - 30;

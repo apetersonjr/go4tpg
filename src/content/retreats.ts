@@ -320,6 +320,8 @@ export const coachInstaller = {
     "The coach facilitates and listens but has rarely built, scaled, or sold a company. The systems-only implementer installs a framework but does not carry the leadership and personal development depth to make it stick with the humans running it.",
     "TPG occupies the harder middle: thirty-five years of enterprise and founder operating experience, from startups to Fortune 200 companies, paired with real coaching depth in leadership, soft skills, and personal development, and the AI installation capability that turns a good conversation into a working system by Monday morning.",
     "That is not three claims. It is one practice. Install the system, and install the judgment in the people who have to run it.",
+    /* Credential line, numbers confirmed by Alan 23 Sep 2026 (V20). */
+    "More than 100 strategy and planning summits since 2014 — startups to $200M companies to Fortune 200 leadership teams.",
   ],
   economics: {
     subhead: "The economics",

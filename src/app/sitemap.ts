@@ -7,7 +7,7 @@ import { siteUrl } from "@/lib/site";
 export const dynamic = "force-static";
 
 /**
- * The homepage, the services hub, the three category pages, and the five child
+ * The homepage, the services hub, the three category pages, and the six child
  * offer pages. Trailing slashes match `trailingSlash: true` in next.config.ts,
  * so each URL here is the same one that page's canonical tag points at.
  * `lastModified` is stamped at build time, so each deploy tells crawlers the
@@ -23,6 +23,7 @@ const categoryRoutes = ["/services/", "/summits/", "/installations/", "/retreats
 const offerRoutes = [
   "/summits/annual/",
   "/summits/mid-year/",
+  "/summits/finish-strong/",
   "/installations/sprint/",
   "/retreats-coaching/at-sea/",
   "/retreats-coaching/reserve/",

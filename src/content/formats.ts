@@ -29,6 +29,7 @@ export const formatCards: FormatCard[] = [
     offers: [
       { label: "Annual Planning Summit", href: "/summits#annual-planning-summit" },
       { label: "Mid-Year Reset Summit", href: "/summits#mid-year-reset-summit" },
+      { label: "Finish Strong Reset", href: "/summits#finish-strong-reset" },
     ],
     linkLabel: "See the Summits →",
     href: "/summits",

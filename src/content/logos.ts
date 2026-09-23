@@ -46,6 +46,13 @@ export type ClientLogo = {
 export const logosCaption = "35 years. Startups to Fortune 200.";
 
 /**
+ * Credential line under the caption. Numbers confirmed by Alan, 23 Sep 2026
+ * (Operating Blueprint V20). Additive — the caption above stays as is.
+ */
+export const logosCredential =
+  "More than 100 strategy and planning summits since 2014 — startups to $200M companies to Fortune 200 leadership teams.";
+
+/**
  * Client marks for the trust strip, replacing the sentence that used to run
  * under the trust line.
  *

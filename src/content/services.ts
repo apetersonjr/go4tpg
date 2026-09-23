@@ -12,7 +12,7 @@ export type ServiceCard = {
   accent: "primary" | "cta" | "accent";
 };
 
-/** One row of the six-offer comparison table. */
+/** One row of the seven-offer comparison table. */
 export type ComparisonRow = {
   offer: string;
   category: string;
@@ -39,7 +39,7 @@ export const serviceCards: ServiceCard[] = [
     whatYouBuy: "What you buy: a written plan.",
     description:
       "Facilitated one-day summits that produce the plan your business runs on: priorities, success metrics, accountability, and the discipline to deliver. Every summit includes a complimentary Opportunity Scan showing where AI will amplify the work.",
-    offers: ["Annual Planning Summit", "Mid-Year Reset Summit"],
+    offers: ["Annual Planning Summit", "Mid-Year Reset Summit", "Finish Strong Reset"],
     linkLabel: "See the Summits →",
     href: "/summits",
     accent: "primary",
@@ -66,13 +66,13 @@ export const serviceCards: ServiceCard[] = [
   },
 ];
 
-export const comparisonHeadline = "All six, side by side.";
+export const comparisonHeadline = "All seven, side by side.";
 
 export const comparisonColumns = ["Offer", "Category", "Duration", "Investment", "You leave with"];
 
 /**
  * The only pricing on this page, deliberately — the category pages carry the
- * tier detail. Figures mirror the Operating Blueprint v19; do not restate them
+ * tier detail. Figures mirror the Operating Blueprint V20; do not restate them
  * anywhere else on the hub.
  */
 export const comparisonRows: ComparisonRow[] = [
@@ -89,6 +89,13 @@ export const comparisonRows: ComparisonRow[] = [
     duration: "One day",
     investment: "$4,750",
     outcome: "The Second-Half Plan and your Opportunity Scan",
+  },
+  {
+    offer: "Finish Strong Reset",
+    category: "Planning Summits",
+    duration: "Half a day",
+    investment: "$2,750",
+    outcome: "The Finish Strong Plan and your Opportunity Scan",
   },
   {
     offer: "Revenue Operations Sprint",
@@ -121,7 +128,7 @@ export const comparisonRows: ComparisonRow[] = [
 ];
 
 export const comparisonNote =
-  "Your Annual Planning Summit investment is credited in full toward a Revenue Operations Sprint booked within 14 days. Standard menu units are also available a la carte, priced individually.";
+  "Every summit investment credits forward. The Annual Planning Summit and the Mid-Year Reset Summit are each credited in full toward a Revenue Operations Sprint booked within 14 days. The Finish Strong Reset is credited in full toward a Revenue Operations Sprint or a full Annual Planning Summit.";
 
 export const headcountReframe = {
   headline: "What role are you trying to hire? We install the system that role would build.",

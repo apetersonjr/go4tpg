@@ -1,5 +1,5 @@
 import type { FaqItem } from "@/content/faq";
-import type { Deliverable } from "@/content/summits";
+import type { Deliverable, Step } from "@/content/summits";
 
 /**
  * The Mid-Year Reset Summit landing page.
@@ -8,8 +8,8 @@ import type { Deliverable } from "@/content/summits";
  * page stays published year-round rather than being taken down and rebuilt,
  * so inbound links and search placement survive the off-season.
  *
- * Note the deliberate omission: no Sprint credit is stated anywhere here. The
- * credit is canonical for the Annual Planning Summit only.
+ * V20 (23 Sep 2026): the Mid-Year Reset Summit now credits in full toward a
+ * Revenue Operations Sprint booked within 14 days, stated in the pricing block.
  */
 export const midYearMeta = {
   title: "Mid-Year Reset Summit",
@@ -65,27 +65,55 @@ export const midYearDeliverables: Deliverable[] = [
 ];
 
 export const midYearHowItWorksKicker = "How it works";
-export const midYearHowItWorksHeadline = "Four steps. No homework before day one.";
 
-export const midYearHowItWorksSteps: string[] = [
-  "We schedule your one-day summit with the right people in the room: the CEO or founder, plus the leadership and execution team.",
-  "We facilitate. We start with an honest assessment of where each function actually stands against what was promised in January.",
-  "Priorities are re-locked for the second half, metrics defined, and accountability assigned before anyone leaves.",
-  "Within 24 hours you receive both documents: the written Second-Half Plan, and your Opportunity Scan.",
+/*
+ * Blueprint V20, 23 Sep 2026: every summit includes a Pre-Summit
+ * Diagnostic, so the previous four-step version — which claimed no pre-work —
+ * was false. Copy per MidYearSummitPageCopy_080626.md Section 4.
+ */
+export const midYearHowItWorksHeadline =
+  "Five steps. We arrive already knowing where the year drifted.";
+
+export const midYearHowItWorksSteps: Step[] = [
+  {
+    lead: "The Pre-Summit Diagnostic.",
+    body: " Before we meet, everyone attending completes an online diagnostic. It surfaces where each function actually stands against what was promised in January, and where your team quietly disagrees about why... and it is good work in its own right: each person names what they would fix first, before the room can talk them out of it.",
+  },
+  {
+    lead: "We build the session around your answers.",
+    body: " Your responses shape the agenda. We arrive with the constraints already mapped.",
+  },
+  {
+    /* The differentiator — kept at full length deliberately. */
+    lead: "We facilitate, and your own answers are in the room.",
+    body: " The diagnostic comes back to your team as a working view of what they collectively said. Seeing it together is usually where the real conversation starts.",
+  },
+  {
+    lead: "Priorities are re-locked for the second half,",
+    body: " metrics defined, and accountability assigned before anyone leaves.",
+  },
+  {
+    lead: "Within 24 hours, both documents.",
+    body: " The written Second-Half Plan, and your Opportunity Scan.",
+  },
 ];
 
-/**
- * The page's single pricing block. No Sprint credit here — see the file
- * comment above.
- */
+/** The page's single pricing block. No figure appears anywhere else. */
 export const midYearPricing = {
   price: "$4,750",
   notes: [
+    "Credited in full toward a Revenue Operations Sprint booked within 14 days.",
     "Includes the written Second-Half Plan within 24 hours and the complimentary Opportunity Scan.",
   ],
 };
 
 export const midYearFaq: FaqItem[] = [
+  {
+    /* Leads the accordion: the Diagnostic is the first thing a reader must know. */
+    question: "Is there anything to prepare?",
+    answer:
+      "Yes, and it is work worth doing. Every attendee completes the Pre-Summit Diagnostic online before we meet. It shapes the agenda, it surfaces where your team quietly disagrees about why the year drifted, and your team’s own collective answers open the session. The day depends on it... clients consistently tell us the pre-work changed the room before we arrived.",
+  },
   {
     question: "How is this different from the Annual Planning Summit?",
     answer:

@@ -24,7 +24,7 @@ than mailing a prospect a plan with a page missing.
 this site and n8n. Anyone who knows the path can post a payload and receive an
 assembled PDF, bounded only by the body-size cap and the validation below.
 
-What that does *not* expose is worth being precise about: a caller controls the
+What that does _not_ expose is worth being precise about: a caller controls the
 cover name, the summary paragraph and which one-pagers are bound in, but every
 installation name, number and section is read from the catalog rather than the
 payload, so the output is always a genuine TPG document. The realistic abuse is
@@ -39,12 +39,12 @@ the scorecard endpoints too — it is not specific to this route.
 
 ### Fields
 
-| Field | Notes |
-| --- | --- |
-| `session_id` | UUID. Rejected if malformed. |
-| `first_name` | Optional. The cover degrades gracefully when absent. |
-| `company_name` | Optional. Falls back to the name, then to a neutral line. |
-| `summary` | Required. One paragraph, already written. |
+| Field               | Notes                                                                         |
+| ------------------- | ----------------------------------------------------------------------------- |
+| `session_id`        | UUID. Rejected if malformed.                                                  |
+| `first_name`        | Optional. The cover degrades gracefully when absent.                          |
+| `company_name`      | Optional. Falls back to the name, then to a neutral line.                     |
+| `summary`           | Required. One paragraph, already written.                                     |
 | `recommendations[]` | 1–19 entries, each with `installation_id`, `problem`, `installs`, `produces`. |
 
 `number`, `name` and `section` are accepted in the payload and then **discarded**.
@@ -58,13 +58,13 @@ arrive in, so the plan page and the one-pagers that follow always agree.
 
 ## Document structure
 
-| Pages | Source |
-| --- | --- |
-| Cover | generated |
-| Your situation | generated |
-| What we would install | generated |
+| Pages                       | Source                                 |
+| --------------------------- | -------------------------------------- |
+| Cover                       | generated                              |
+| Your situation              | generated                              |
+| What we would install       | generated                              |
 | One page per recommendation | copied from `public/assets/workflows/` |
-| Closing | generated |
+| Closing                     | generated                              |
 
 Four generated pages plus one per recommendation: a three-recommendation
 request produces 7 pages, four produces 8, five produces 9.
@@ -115,22 +115,22 @@ Two consequences:
    search, so grep and every text extractor return nothing. It was done instead
    by rasterizing all nineteen pages and reading them.
 
-   The generated pages *are* checked programmatically, and are clean.
+   The generated pages _are_ checked programmatically, and are clean.
 
 ### Audit results — British spellings in the one-pagers
 
 All nineteen were rendered and read. **Six defects across four pages**, none
 fixable from this repo — each needs a re-export from the design source:
 
-| Page | Where | Reads | Should read |
-| --- | --- | --- | --- |
-| 01 Company AI Brain | step 02 detail | vectori**s**ed | vectori**z**ed |
-| 02 AI Inbox Manager | routing table | Summari**s**ed | Summari**z**ed |
-| 02 AI Inbox Manager | routing table | acknowledge**me**nt | acknowledgment |
-| 08 Stale Task Detector | step 06 heading | Summari**s**e weekly | Summari**z**e weekly |
-| 13 AI Voice-of-the-Customer | step 02 heading | Normali**s**e the sources | Normali**z**e the sources |
-| 17 AI Financial Close | intro + step 03 | categori**s**ing / Categori**s**e | categori**z**ing / Categori**z**e |
-| 17 AI Financial Close | step 05 detail | unrecogni**s**ed | unrecogni**z**ed |
+| Page                        | Where           | Reads                             | Should read                       |
+| --------------------------- | --------------- | --------------------------------- | --------------------------------- |
+| 01 Company AI Brain         | step 02 detail  | vectori**s**ed                    | vectori**z**ed                    |
+| 02 AI Inbox Manager         | routing table   | Summari**s**ed                    | Summari**z**ed                    |
+| 02 AI Inbox Manager         | routing table   | acknowledge**me**nt               | acknowledgment                    |
+| 08 Stale Task Detector      | step 06 heading | Summari**s**e weekly              | Summari**z**e weekly              |
+| 13 AI Voice-of-the-Customer | step 02 heading | Normali**s**e the sources         | Normali**z**e the sources         |
+| 17 AI Financial Close       | intro + step 03 | categori**s**ing / Categori**s**e | categori**z**ing / Categori**z**e |
+| 17 AI Financial Close       | step 05 detail  | unrecogni**s**ed                  | unrecogni**z**ed                  |
 
 Three of these are step **headings**, set large — 08, 13 and 17 are the most
 visible. Pages 03–07, 09–12, 14–16, 18 and 19 are clean.
@@ -162,12 +162,12 @@ own content streams, **not** the web tokens from `globals.css`. The generated
 pages sit directly beside the designed ones, and the web palette is visibly
 different:
 
-| Role | Print (used here) | Web (`globals.css`) |
-| --- | --- | --- |
-| Navy | `#103a54` | `#032a45` |
-| Accent | `#e5701b` | `#e8651f` |
-| Body | `#54697a` | `#3a4e5f` |
-| Rule | `#dce5ec` | `#dfe8ef` |
+| Role   | Print (used here) | Web (`globals.css`) |
+| ------ | ----------------- | ------------------- |
+| Navy   | `#103a54`         | `#032a45`           |
+| Accent | `#e5701b`         | `#e8651f`           |
+| Body   | `#54697a`         | `#3a4e5f`           |
+| Rule   | `#dce5ec`         | `#dfe8ef`           |
 
 The accent is **orange**, not blue. The blue on installation 01 belongs to its
 workflow diagram, not to the page furniture — sampling that page alone gives the
