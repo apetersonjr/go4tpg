@@ -17,9 +17,14 @@ export const finishStrongMeta = {
   description: "Half a day. One priority. A written plan to finish the year strong.",
 };
 
+/** Name-led hero with a working breadcrumb (Alan, 24 Sep 2026). */
 export const finishStrongHero = {
-  kicker: "Finish Strong Reset",
-  headline: "Half a day. One priority. A written plan to finish the year.",
+  crumb: "Finish Strong",
+  name: "The Finish Strong Reset.",
+  field: "finish" as const,
+  badge: "Now ... Sept-Dec",
+  /* The former H1, now the italic tagline under the name. */
+  tagline: "Half a day. One priority. A written plan to finish the year.",
   lede: "A facilitated session with the founder and leadership team. We assess where the year actually stands, lock the one priority that still moves the number, and deliver a written 90-day plan through year-end.",
   ctaLabel: "Book a Finish Strong Reset",
   ctaHref: "#commit",

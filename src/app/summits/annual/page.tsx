@@ -7,7 +7,7 @@ import { CardList } from "@/components/sections/CardList";
 import { DeliverableCards } from "@/components/sections/DeliverableCards";
 import { NumberedSteps } from "@/components/sections/NumberedSteps";
 import { PricingBlock } from "@/components/sections/PricingBlock";
-import { PageHero } from "@/components/ui/PageHero";
+import { SummitHero } from "@/components/ui/SummitHero";
 import {
   annualAudienceHeadline,
   annualAudienceItems,
@@ -47,7 +47,7 @@ export default function AnnualPlanningSummitPage() {
     <div className="flex flex-1 flex-col">
       <Nav />
       <main className="flex-1">
-        <PageHero {...annualHero} />
+        <SummitHero {...annualHero} />
 
         <DeliverableCards
           kicker={annualDeliverablesKicker}

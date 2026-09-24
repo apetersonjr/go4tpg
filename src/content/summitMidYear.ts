@@ -17,9 +17,13 @@ export const midYearMeta = {
     "Half the year is gone. The plan can still change the outcome. A facilitated one-day summit that recalibrates the second half.",
 };
 
+/** Name-led hero with a working breadcrumb (Alan, 24 Sep 2026). */
 export const midYearHero = {
-  kicker: "Mid-Year Reset Summit",
-  headline: "Half the year is gone. The plan can still change the outcome.",
+  crumb: "Mid-Year",
+  name: "The Mid-Year Reset Summit.",
+  field: "midyear" as const,
+  /* The former H1, now the italic tagline under the name. */
+  tagline: "Half the year is gone. The plan can still change the outcome.",
   lede: "A facilitated one-day summit that assesses exactly where your business stands at mid-year, function by function, and sharpens priorities, metrics, and accountability for the second half.",
   ctaLabel: "Book a Planning Summit",
   ctaHref: "#commit",

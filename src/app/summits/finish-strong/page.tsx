@@ -9,7 +9,7 @@ import { DeliverableCards } from "@/components/sections/DeliverableCards";
 import { NumberedSteps } from "@/components/sections/NumberedSteps";
 import { PricingBlock } from "@/components/sections/PricingBlock";
 import { ProseSection } from "@/components/sections/ProseSection";
-import { PageHero } from "@/components/ui/PageHero";
+import { SummitHero } from "@/components/ui/SummitHero";
 import {
   finishStrongClosing,
   finishStrongDeliverables,
@@ -48,7 +48,7 @@ export default function FinishStrongResetPage() {
     <div className="flex flex-1 flex-col">
       <Nav />
       <main className="flex-1">
-        <PageHero {...finishStrongHero} />
+        <SummitHero {...finishStrongHero} />
 
         <ProseSection
           kicker={finishStrongWhy.kicker}

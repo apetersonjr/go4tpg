@@ -16,9 +16,13 @@ export const annualMeta = {
     "One day. The plan your business runs on. A facilitated planning summit with your leadership and execution team.",
 };
 
+/** Name-led hero with a working breadcrumb (Alan, 24 Sep 2026). */
 export const annualHero = {
-  kicker: "Annual Planning Summit",
-  headline: "One day. The plan your business runs on.",
+  crumb: "Annual",
+  name: "The Annual Planning Summit.",
+  field: "standard" as const,
+  /* The former H1, now the italic tagline under the name. */
+  tagline: "One day. The plan your business runs on.",
   lede: "A facilitated planning summit with your leadership and execution team. You leave with named priorities, a written plan, and a team accountable to deliver it.",
   ctaLabel: "Book a Planning Summit",
   ctaHref: "#commit",
