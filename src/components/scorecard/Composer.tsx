@@ -44,6 +44,9 @@ type ChipGroupProps = {
  */
 const ADVANCE_DELAY_MS = 150;
 
+/** How long the "3 max" hint stays up after a refused tap. */
+const CAP_HINT_MS = 1400;
+
 /**
  * A quick reply.
  *
@@ -87,12 +90,20 @@ export function ChipGroup({ question, pending, onAnswer }: ChipGroupProps) {
    */
   const [advancing, setAdvancing] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  /**
+   * Set for a beat when a tap would exceed the cap. The tap is refused and the
+   * hint says why — a fourth pick used to silently replace the oldest, which
+   * honored the last tap but hid that a choice had been discarded.
+   */
+  const [capHint, setCapHint] = useState(false);
+  const hintTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // A pending timer whose component has gone would fire into nothing; clearing
   // it also covers the remount that happens when the question changes.
   useEffect(
     () => () => {
       if (timerRef.current) clearTimeout(timerRef.current);
+      if (hintTimerRef.current) clearTimeout(hintTimerRef.current);
     },
     [],
   );
@@ -132,13 +143,18 @@ export function ChipGroup({ question, pending, onAnswer }: ChipGroupProps) {
       return;
     }
 
-    setSelected((current) => {
-      if (current.includes(option)) return current.filter((entry) => entry !== option);
-      // A capped multi-select drops the oldest so the last tap is always honored.
-      const max = question.maxSelections;
-      if (max !== null && current.length >= max) return [...current.slice(1), option];
-      return [...current, option];
-    });
+    const max = question.maxSelections;
+    if (max !== null && !selected.includes(option) && selected.length >= max) {
+      // At the cap: refuse the tap and show the "3 max" hint for a beat.
+      setCapHint(true);
+      if (hintTimerRef.current) clearTimeout(hintTimerRef.current);
+      hintTimerRef.current = setTimeout(() => setCapHint(false), CAP_HINT_MS);
+      return;
+    }
+    setCapHint(false);
+    setSelected((current) =>
+      current.includes(option) ? current.filter((entry) => entry !== option) : [...current, option],
+    );
   }
 
   const answer = composed(selected);
@@ -164,6 +180,11 @@ export function ChipGroup({ question, pending, onAnswer }: ChipGroupProps) {
       className="sc-step-in mt-1 flex flex-wrap justify-end gap-[7px]"
       aria-busy={pending || undefined}
     >
+      {question.instruction && (
+        <p className="text-tpg-muted mb-0.5 w-full text-right text-[12.5px]">
+          {question.instruction}
+        </p>
+      )}
       {question.options.map((option) => (
         <button
           key={option}
@@ -210,10 +231,22 @@ export function ChipGroup({ question, pending, onAnswer }: ChipGroupProps) {
       )}
 
       {needsConfirm && (
+        <span
+          role="status"
+          aria-live="polite"
+          className={cn(
+            "self-center text-[12.5px] font-bold transition-opacity duration-200",
+            capHint ? "text-tpg-cta opacity-100" : "opacity-0",
+          )}
+        >
+          {question.maxSelections !== null ? `${question.maxSelections} max` : ""}
+        </span>
+      )}
+      {needsConfirm && (
         <button
           type="button"
           onClick={send}
-          // Enabled by one selection, not by the cap: "up to 2" means one is a
+          // Enabled by one selection, not by the cap: "up to three" means one is a
           // complete answer, and a button that stayed dead until a second pick
           // would be demanding a choice that was never required.
           disabled={locked || !answer}

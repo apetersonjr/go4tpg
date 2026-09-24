@@ -245,6 +245,7 @@ function toQuestion(intent: ScorecardIntent, text?: string): ScorecardQuestion {
     format: intent.format,
     options: intent.options,
     maxSelections: intent.maxSelections,
+    instruction: intent.instruction,
     allowOther: intent.allowOther,
     topic: intent.topic,
     placeholder: intent.placeholder,

@@ -93,6 +93,8 @@ export type ScorecardQuestion = {
   format: IntentFormat;
   options: string[];
   maxSelections: number | null;
+  /** Coaching line for a capped multi-select; empty otherwise. */
+  instruction: string;
   allowOther: boolean;
   /** Short label for the progress row. Comes from the intent, not the model. */
   topic: string;

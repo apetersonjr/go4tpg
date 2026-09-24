@@ -18,7 +18,7 @@
  * intent list or the signal list.
  */
 
-export const INTENTS_VERSION = 1;
+export const INTENTS_VERSION = 2;
 
 /**
  * The signal vocabulary. Extraction may only emit strings from this list.
@@ -108,8 +108,20 @@ export type ScorecardIntent = {
   format: IntentFormat;
   /** Chip labels. Empty for a text intent. */
   options: string[];
-  /** Cap on chip selections. `null` means no cap; ignored for text intents. */
+  /**
+   * Cap on chip selections. `null` means no cap; ignored for text intents.
+   *
+   * Multi-answer screens are capped at three, never unlimited (Alan, 23 Sep
+   * 2026): select-all flattens every respondent to the same answer, and the
+   * forced prioritization is the instrument's diagnostic power.
+   */
   maxSelections: number | null;
+  /**
+   * Coaching line shown under the question on a capped multi-select, in the
+   * pattern "Select up to three... the ones that consume most of your week."
+   * Empty on every other screen. Fixed text, never model-worded.
+   */
+  instruction: string;
   /** Whether a free-text box sits under the chips. */
   allowOther: boolean;
   /** Short label for the progress row, naming what is being asked about. */
@@ -139,6 +151,7 @@ export const intents: ScorecardIntent[] = [
     format: "text",
     options: [],
     maxSelections: null,
+    instruction: "",
     allowOther: false,
     topic: "The business",
     placeholder: "A sentence is enough",
@@ -151,6 +164,7 @@ export const intents: ScorecardIntent[] = [
     format: "chips",
     options: ["Fewer than 10", "10 to 25", "26 to 50", "51 to 100", "More than 100"],
     maxSelections: 1,
+    instruction: "",
     allowOther: false,
     topic: "Headcount",
     placeholder: "",
@@ -172,7 +186,8 @@ export const intents: ScorecardIntent[] = [
       "Resolving operational problems as they arise",
       "Managing vendors, contracts and finances",
     ],
-    maxSelections: 2,
+    maxSelections: 3,
+    instruction: "Select up to three... the ones that consume most of your week.",
     allowOther: true,
     topic: "Founder time",
     placeholder: "",
@@ -187,6 +202,7 @@ export const intents: ScorecardIntent[] = [
     format: "text",
     options: [],
     maxSelections: null,
+    instruction: "",
     allowOther: false,
     topic: "Leakage",
     placeholder: "A sentence is enough",
@@ -206,6 +222,7 @@ export const intents: ScorecardIntent[] = [
       "Honestly, not as rigorously as I would like",
     ],
     maxSelections: 1,
+    instruction: "",
     allowOther: true,
     topic: "Reporting",
     placeholder: "",
@@ -220,6 +237,7 @@ export const intents: ScorecardIntent[] = [
     format: "text",
     options: [],
     maxSelections: null,
+    instruction: "",
     allowOther: false,
     topic: "The one thing",
     placeholder: "A sentence is enough",
