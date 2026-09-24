@@ -44,7 +44,7 @@ export const annualDeliverables: Deliverable[] = [
     ],
   },
   {
-    title: "The Opportunity Scan",
+    title: "The AI Opportunity Scan",
     note: "delivered with your Blueprint, at no cost",
     items: [
       "The AI and automation opportunities that surfaced during your summit",
@@ -64,7 +64,7 @@ export const annualHowItWorksKicker = "How it works";
  * was false. Copy per AnnualSummitPageCopy_080626.md Section 3.
  */
 export const annualHowItWorksHeadline =
-  "Five steps. We arrive already knowing where you are stuck.";
+  "Five steps. The pre-work sharpens the day. The room builds the plan.";
 
 export const annualHowItWorksSteps: Step[] = [
   {
@@ -73,7 +73,7 @@ export const annualHowItWorksSteps: Step[] = [
   },
   {
     lead: "We build the session around your answers.",
-    body: " Your responses shape the agenda. We arrive with the constraints already mapped.",
+    body: " Your responses shape the agenda, and we arrive prepared.",
   },
   {
     /* The differentiator — kept at full length deliberately. */
@@ -86,7 +86,7 @@ export const annualHowItWorksSteps: Step[] = [
   },
   {
     lead: "Within 24 hours, both documents.",
-    body: " The written Annual Blueprint, and your Opportunity Scan.",
+    body: " The written Annual Blueprint, and your AI Opportunity Scan.",
   },
 ];
 
@@ -117,7 +117,7 @@ export const annualFaq: FaqItem[] = [
   {
     question: "How long is the summit?",
     answer:
-      "One full working day with your leadership and execution team. The exact schedule is set with you when we scope the session. Your Annual Blueprint and Opportunity Scan arrive within 24 hours.",
+      "One full working day with your leadership and execution team. The exact schedule is set with you when we scope the session. Your Annual Blueprint and AI Opportunity Scan arrive within 24 hours.",
   },
   {
     question: "Who should be in the room?",
@@ -127,7 +127,7 @@ export const annualFaq: FaqItem[] = [
   {
     question: "What do I receive?",
     answer:
-      "Two written documents. The Annual Blueprint: priorities, metrics, accountability, the 90-day plan, the scoreboard, and a clear recommendation. The Opportunity Scan: where AI and automation will amplify the work, matched to specific menu units and priced.",
+      "Two written documents. The Annual Blueprint: priorities, metrics, accountability, the 90-day plan, the scoreboard, and a clear recommendation. The AI Opportunity Scan: where AI and automation will amplify the work, matched to specific menu units and priced.",
   },
   {
     question: "Does the summit install anything?",
@@ -137,7 +137,7 @@ export const annualFaq: FaqItem[] = [
   {
     question: "What is complimentary and what is paid?",
     answer:
-      "The Opportunity Scan is complimentary and bounded to a single standard workflow that surfaced in the room. Anything spanning multiple systems requires a paid Systems and Data Audit before custom work begins. That audit is scoped and priced per engagement, and you receive a written scope and a fixed price before any work starts.",
+      "The AI Opportunity Scan is complimentary and bounded to a single standard workflow that surfaced in the room. Anything spanning multiple systems requires a paid Systems and Data Audit before custom work begins. That audit is scoped and priced per engagement, and you receive a written scope and a fixed price before any work starts.",
   },
   {
     question: "What if we want to move to a Sprint?",

@@ -25,7 +25,7 @@ export const formatCards: FormatCard[] = [
   {
     title: "Planning Summits",
     description:
-      "Facilitated planning summits that produce the plan your business runs on: priorities, success metrics, accountability, and the discipline to deliver. Every summit includes a complimentary Opportunity Scan showing exactly where AI will amplify the work, and what to install first.",
+      "Facilitated planning summits that produce the plan your business runs on: priorities, success metrics, accountability, and the discipline to deliver. Every summit includes a complimentary AI Opportunity Scan showing exactly where AI will amplify the work, and what to install first.",
     offers: [
       { label: "Annual Planning Summit", href: "/summits#annual-planning-summit" },
       { label: "Mid-Year Reset Summit", href: "/summits#mid-year-reset-summit" },

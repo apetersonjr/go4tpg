@@ -52,7 +52,7 @@ export const midYearDeliverables: Deliverable[] = [
     ],
   },
   {
-    title: "The Opportunity Scan",
+    title: "The AI Opportunity Scan",
     note: "delivered with your plan, at no cost",
     items: [
       "The AI and automation opportunities that surfaced during your summit",
@@ -72,7 +72,7 @@ export const midYearHowItWorksKicker = "How it works";
  * was false. Copy per MidYearSummitPageCopy_080626.md Section 4.
  */
 export const midYearHowItWorksHeadline =
-  "Five steps. We arrive already knowing where the year drifted.";
+  "Five steps. The pre-work sharpens the day. The room builds the plan.";
 
 export const midYearHowItWorksSteps: Step[] = [
   {
@@ -81,7 +81,7 @@ export const midYearHowItWorksSteps: Step[] = [
   },
   {
     lead: "We build the session around your answers.",
-    body: " Your responses shape the agenda. We arrive with the constraints already mapped.",
+    body: " Your responses shape the agenda, and we arrive prepared.",
   },
   {
     /* The differentiator — kept at full length deliberately. */
@@ -94,7 +94,7 @@ export const midYearHowItWorksSteps: Step[] = [
   },
   {
     lead: "Within 24 hours, both documents.",
-    body: " The written Second-Half Plan, and your Opportunity Scan.",
+    body: " The written Second-Half Plan, and your AI Opportunity Scan.",
   },
 ];
 
@@ -103,7 +103,7 @@ export const midYearPricing = {
   price: "$4,750",
   notes: [
     "Credited in full toward a Revenue Operations Sprint booked within 14 days.",
-    "Includes the written Second-Half Plan within 24 hours and the complimentary Opportunity Scan.",
+    "Includes the written Second-Half Plan within 24 hours and the complimentary AI Opportunity Scan.",
   ],
 };
 
@@ -132,7 +132,7 @@ export const midYearFaq: FaqItem[] = [
   {
     question: "What is complimentary and what is paid?",
     answer:
-      "The Opportunity Scan is complimentary and bounded to a single standard workflow that surfaced in the room. Anything spanning multiple systems requires a paid Systems and Data Audit before custom work begins. That audit is scoped and priced per engagement.",
+      "The AI Opportunity Scan is complimentary and bounded to a single standard workflow that surfaced in the room. Anything spanning multiple systems requires a paid Systems and Data Audit before custom work begins. That audit is scoped and priced per engagement.",
   },
 ];
 

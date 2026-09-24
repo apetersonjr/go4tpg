@@ -38,7 +38,7 @@ export const serviceCards: ServiceCard[] = [
     title: "Planning Summits",
     whatYouBuy: "What you buy: a written plan.",
     description:
-      "Facilitated one-day summits that produce the plan your business runs on: priorities, success metrics, accountability, and the discipline to deliver. Every summit includes a complimentary Opportunity Scan showing where AI will amplify the work.",
+      "Facilitated one-day summits that produce the plan your business runs on: priorities, success metrics, accountability, and the discipline to deliver. Every summit includes a complimentary AI Opportunity Scan showing where AI will amplify the work.",
     offers: ["Annual Planning Summit", "Mid-Year Reset Summit", "Finish Strong Reset"],
     linkLabel: "See the Summits →",
     href: "/summits",
@@ -81,21 +81,21 @@ export const comparisonRows: ComparisonRow[] = [
     category: "Planning Summits",
     duration: "One day",
     investment: "$4,750",
-    outcome: "The Annual Blueprint and your Opportunity Scan",
+    outcome: "The Annual Blueprint and your AI Opportunity Scan",
   },
   {
     offer: "Mid-Year Reset Summit",
     category: "Planning Summits",
     duration: "One day",
     investment: "$4,750",
-    outcome: "The Second-Half Plan and your Opportunity Scan",
+    outcome: "The Second-Half Plan and your AI Opportunity Scan",
   },
   {
     offer: "Finish Strong Reset",
     category: "Planning Summits",
     duration: "Half a day",
     investment: "$2,750",
-    outcome: "The Finish Strong Plan and your Opportunity Scan",
+    outcome: "The Finish Strong Plan and your AI Opportunity Scan",
   },
   {
     offer: "Revenue Operations Sprint",

@@ -9,7 +9,7 @@ export const faqItems: FaqItem[] = [
   {
     question: "How quickly will we see results?",
     answer:
-      "A Planning Summit gives you the written plan within 24 hours, plus an Opportunity Scan naming exactly which AI workflows to install first and what each costs. In a Revenue Operations Sprint, systems go live across the 10 business days... the deeper impact on margin and pipeline shows in the 30 to 90 days that follow.",
+      "A Planning Summit gives you the written plan within 24 hours, plus an AI Opportunity Scan naming exactly which AI workflows to install first and what each costs. In a Revenue Operations Sprint, systems go live across the 10 business days... the deeper impact on margin and pipeline shows in the 30 to 90 days that follow.",
   },
   {
     question: "Do we need to be technical or AI-savvy?",

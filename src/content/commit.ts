@@ -15,7 +15,7 @@ export const commitBenefit =
  * summit deliverable, and summits do not install AI.
  */
 export const commitBody =
-  "Your complimentary Opportunity Scan shows exactly where AI will amplify the work, and what to install first.";
+  "Your complimentary AI Opportunity Scan shows exactly where AI will amplify the work, and what to install first.";
 
 export const commitSecond =
   "We do not replace your people. We give them the system they have been asking for.";

@@ -50,7 +50,7 @@ export const finishStrongDeliverables: Deliverable[] = [
     ],
   },
   {
-    title: "The Opportunity Scan",
+    title: "The AI Opportunity Scan",
     note: "delivered with your plan, at no cost",
     items: [
       "The AI and automation opportunities that surfaced during your session",
@@ -62,7 +62,7 @@ export const finishStrongDeliverables: Deliverable[] = [
 
 export const finishStrongHowItWorksKicker = "How it works";
 export const finishStrongHowItWorksHeadline =
-  "Five steps. We arrive already knowing where you are stuck.";
+  "Five steps. The pre-work sharpens the day. The room builds the plan.";
 
 export const finishStrongHowItWorksSteps: Step[] = [
   {
@@ -71,7 +71,7 @@ export const finishStrongHowItWorksSteps: Step[] = [
   },
   {
     lead: "We build the session around your answers.",
-    body: " Your responses shape the agenda. We arrive with the constraints already mapped.",
+    body: " Your responses shape the agenda, and we arrive prepared.",
   },
   {
     /* The differentiator — kept at full length deliberately. */
@@ -84,7 +84,7 @@ export const finishStrongHowItWorksSteps: Step[] = [
   },
   {
     lead: "Within 24 hours, both documents.",
-    body: " The written Finish Strong Plan, and your Opportunity Scan.",
+    body: " The written Finish Strong Plan, and your AI Opportunity Scan.",
   },
 ];
 
@@ -108,7 +108,7 @@ export const finishStrongFaq: FaqItem[] = [
   {
     question: "How long is the session?",
     answer:
-      "Half a day... approximately four hours... with the founder and your leadership and execution team. The exact schedule is set with you when we scope the session. Your Finish Strong Plan and Opportunity Scan arrive within 24 hours.",
+      "Half a day... approximately four hours... with the founder and your leadership and execution team. The exact schedule is set with you when we scope the session. Your Finish Strong Plan and AI Opportunity Scan arrive within 24 hours.",
   },
   {
     question: "Is there anything to prepare?",
@@ -128,7 +128,7 @@ export const finishStrongFaq: FaqItem[] = [
   {
     question: "Does the session install anything?",
     answer:
-      "No. It produces your plan and your Opportunity Scan, which shows exactly what to install first, priced. Installation is a separate engagement, chosen a la carte from the TPG AI Installation Menu or delivered inside a Revenue Operations Sprint.",
+      "No. It produces your plan and your AI Opportunity Scan, which shows exactly what to install first, priced. Installation is a separate engagement, chosen a la carte from the TPG AI Installation Menu or delivered inside a Revenue Operations Sprint.",
   },
 ];
 

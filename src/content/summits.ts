@@ -62,98 +62,140 @@ export const summitsMeta = {
     "A facilitated planning summit with your leadership and execution team. You leave with named priorities, a written plan, and a team accountable to deliver it.",
 };
 
+/**
+ * Chooser-first category page (Alan, 23 Sep 2026). The hero defines the format
+ * in one paragraph and hands the reader straight to the Summit that fits the
+ * moment; the offer detail lives on the three child pages.
+ */
 export const summitsHero = {
-  kicker: "Format 01 — Planning Summits",
-  headline: "One day. The plan your business runs on.",
-  /*
-   * V19: the V17 comps closed this paragraph with an in-summit AI
-   * installation promise. Summits are pure planning now, so it is replaced by
-   * the Opportunity Scan sentence already approved on the homepage in
-   * `formats.ts`.
-   */
-  lede: "A facilitated planning summit with your leadership and execution team. You leave with named priorities, a written plan, and a team accountable to deliver it. Every summit includes a complimentary Opportunity Scan showing exactly where AI will amplify the work, and what to install first.",
-  ctaLabel: "Book a Planning Summit",
-  ctaHref: "#commit",
+  kicker: "Planning Summits",
+  headline: {
+    lead: "Three Summits. One outcome... ",
+    /* Set in the sky-blue italic accent, as on the homepage hero. */
+    emphasis: "the plan your business runs on.",
+  },
+  definition:
+    "A Planning Summit is a facilitated working session with your leadership and execution team that produces the written plan your business runs on... priorities, success metrics, accountability, and the discipline to deliver it.",
+  chips: [
+    { label: "Planning the year ahead → Annual", href: "/summits/annual" },
+    { label: "The year has drifted → Mid-Year", href: "/summits/mid-year" },
+    { label: "One quarter left → Finish Strong", href: "/summits/finish-strong" },
+  ],
 };
 
-export const deliverablesKicker = "What you leave with";
-export const deliverablesHeadline = "Two written deliverables. Zero decks.";
+/** One card in the chooser. The `id` is the anchor the homepage deep links target. */
+export type SummitChoice = {
+  id: string;
+  kicker: string;
+  /** Inline orange badge beside the kicker, for the seasonal offer. */
+  badge?: string;
+  title: string;
+  tagline: string;
+  meta: string;
+  price: string;
+  credit: string;
+  bookHref: string;
+  detailHref: string;
+};
 
-export const deliverables: Deliverable[] = [
+export const chooserHeadline = "Which Summit is yours? Pick by where you are in the year.";
+export const chooserSubline =
+  "Same facilitated discipline in every room. The difference is the moment, the scope, and the plan you leave with.";
+
+export const summitChoices: SummitChoice[] = [
   {
-    /*
-     * V19: the old shared deliverable name is retired — it belonged to no
-     * current offer and collided with "The Strategy Blueprint at Sea", a
-     * different product. The two summits produce two named deliverables;
-     * generically the page says "your written plan".
-     */
-    title: "Your written plan",
-    note: "delivered within 24 hours",
-    intro:
-      "The Annual Planning Summit produces the Annual Blueprint. The Mid-Year Reset Summit produces the Second-Half Plan. Both carry:",
-    items: [
-      "Top priorities for the period, locked and sequenced",
-      "Success metrics for each — measurable and time-bound",
-      "Action items driving each priority",
-      "Accountability assigned in the room — every metric and action owned by a role and a person",
-      "90-day execution plan",
-      "KPI scoreboard (5 to 8 metrics) with defined data feeds your team owns",
-      "“Stop Doing” list",
-      "Clear recommendation: execute independently or proceed into the Sprint",
-    ],
+    id: "annual-planning-summit",
+    kicker: "Planning the year ahead",
+    title: "Annual Planning Summit",
+    tagline: "Diagnose, align, and decide. The full plan for the year ahead.",
+    meta: "One day · You leave with the Annual Blueprint",
+    price: "$4,750",
+    credit: "Credited in full toward a Sprint booked within 14 days.",
+    bookHref: "/summits/annual/#commit",
+    detailHref: "/summits/annual",
   },
   {
-    /*
-     * V19: this was the adoption deliverable, installed across two return
-     * sessions. The summit no longer installs anything, so it is renamed to
-     * the Opportunity Scan and cut back to its diagnostic contents. The two
-     * bullets promising hands-on installation and adoption support are gone
-     * rather than reworded.
-     */
-    title: "The Opportunity Scan",
-    note: "complimentary with every summit",
-    items: [
-      "The AI and automation opportunities that surfaced during your summit",
-      "Which workflows from the TPG AI Installation Menu to install first",
-      "What each costs",
-      "Recommended tools and platforms for each",
-      "Remaining opportunities — additional standard units worth installing, and custom opportunities worth scoping independently",
-    ],
-    outro:
-      "The Opportunity Scan is complimentary and bounded to a single standard workflow that surfaced in the room. Anything spanning multiple systems is scoped through a paid Systems and Data Audit before we build.",
+    id: "mid-year-reset-summit",
+    kicker: "The year has drifted",
+    title: "Mid-Year Reset Summit",
+    tagline: "Recalibrate the second half before momentum sets your year.",
+    meta: "One day · You leave with the Second-Half Plan",
+    price: "$4,750",
+    credit: "Credited in full toward a Sprint booked within 14 days.",
+    bookHref: "/summits/mid-year/#commit",
+    detailHref: "/summits/mid-year",
+  },
+  {
+    id: "finish-strong-reset",
+    kicker: "One quarter left",
+    badge: "Now ... Sept-Dec",
+    title: "Finish Strong Reset",
+    tagline: "Half a day. One priority. A written 90-day plan to finish the year.",
+    meta: "Half a day · You leave with the Finish Strong Plan",
+    price: "$2,750",
+    credit: "Credited in full toward a Sprint or a full Annual Planning Summit.",
+    bookHref: "/summits/finish-strong/#commit",
+    detailHref: "/summits/finish-strong",
   },
 ];
 
-export const howItWorksKicker = "How it works";
+export type IncludeCard = {
+  title: string;
+  body: string;
+  /** Expert Facilitation carries the orange accent: it is where the magic happens. */
+  featured?: boolean;
+};
 
+export const includesHeadline = "Every Summit Includes";
+
+export const includes: IncludeCard[] = [
+  {
+    title: "Expert Facilitation",
+    body: "This is where the magic happens. Collaborative intelligence in the room... we extract, conceptualize, ideate, and build with your team, and the facilitation turns what your people already know into the plan they will actually run.",
+    featured: true,
+  },
+  {
+    title: "The Pre-Summit Diagnostic",
+    body: "Every attendee answers it online beforehand. It shapes the agenda, and your team’s own answers open the session.",
+  },
+  {
+    title: "Your written plan, within 24 hours",
+    body: "A working operating document... priorities, metrics, accountability, a 90-day execution plan, and the scoreboard. With it, the system, rhythm, and cadence... simple tools your team actually uses, supporting the discipline the plan requires. Not notes. Not a deck.",
+  },
+  {
+    title: "The AI Opportunity Scan, complimentary",
+    body: "Plainly names the AI tools and opportunities that will raise productivity and automation across your business, matched to the TPG AI Installation Menu with what each costs. You also receive the basic workflow for each... so your team can build it in-house, or we install it for you as a separate engagement.",
+  },
+];
+
+export const howItWorksHeadline = "How Our Summits Work";
 /*
- * Blueprint V20 (23 Sep 2026): every summit opens with the Pre-Summit
- * Diagnostic, and the previous four-step version denied any pre-work. The
- * pre-work is framed as TPG preparation, which is what it actually is.
+ * Framing per Alan, 23 Sep 2026: no claim of foreknowledge about where a client
+ * is stuck. The pre-work sharpens the day; the plan is built in the room.
  */
-export const howItWorksHeadline = "Five steps. We arrive already knowing where you are stuck.";
+export const howItWorksSubline =
+  "Five steps. The pre-work sharpens the day. The room builds the plan.";
 
 export const howItWorksSteps: Step[] = [
   {
     lead: "The Pre-Summit Diagnostic.",
-    body: " Before we meet, every attendee completes an online diagnostic. It surfaces where each function is strained and where the team disagrees... and it is good work in its own right: each person names what is working, what is not, and what they would fix first.",
+    body: " Every attendee answers it online. It surfaces where each function is strained and where the team disagrees... good work in its own right.",
   },
   {
-    lead: "We build the session around your answers.",
-    body: " Your responses shape the agenda. We arrive with the constraints already mapped.",
+    lead: "We build the day around your answers.",
+    body: " Your responses shape the agenda, and we arrive prepared.",
   },
   {
-    /* The differentiator — kept at full length deliberately. */
-    lead: "We facilitate, and your own answers are in the room.",
-    body: " The diagnostic comes back to your team as a working view of what they collectively said. Seeing it together is usually where the real conversation starts. Priorities are locked, metrics defined, and accountability assigned before anyone leaves.",
+    lead: "The facilitated day.",
+    body: " Your team’s own answers open the session, and the plan is built together... extracted, conceptualized, and locked, with accountability assigned in the room.",
   },
   {
-    lead: "Concurrently, we map the AI layer.",
-    body: " As each function’s work surfaces, we capture where automation and AI would amplify it.",
+    lead: "The AI layer, mapped.",
+    body: " As each function’s work surfaces, we capture where automation would amplify it.",
   },
   {
     lead: "Within 24 hours, both documents.",
-    body: " Your written plan... the Annual Blueprint, the Second-Half Plan, or the Finish Strong Plan, depending on the summit... and your complimentary Opportunity Scan.",
+    body: " Your written plan, and your AI Opportunity Scan.",
   },
 ];
 
@@ -164,71 +206,6 @@ export const audienceItems: string[] = [
   "Founders who know something must change but are not sure what to fix first.",
   "Operators drowning in execution who need a sequenced plan.",
   "Teams that have the talent but lack the system.",
-];
-
-export const offeringsKicker = "Planning Summits";
-
-/*
- * The `#summits` group description, minus its closing sentence — an in-summit
- * AI installation promise that V19 retracts.
- */
-export const offeringsHeadline = "Set the year. Reset it. Or finish it.";
-
-export const summitOfferings: Offering[] = [
-  {
-    id: "annual-planning-summit",
-    title: "Annual Planning Summit",
-    tagline:
-      "A facilitated planning summit that aligns your leadership team on priorities, metrics, and ownership — and concurrently maps where AI and automation will amplify the work.",
-    body: [
-      "A facilitated one-day planning summit with your leadership and execution team. Together we lock the priorities that matter most, give each a measurable, time-bound definition of success, name the actions that drive it, and assign every priority, metric, and action to a person in the room. As the work of each function surfaces, we map where automation and AI execution will amplify output across your team.",
-    ],
-    price: "$4,750",
-    priceNotes: ["Credited toward a Sprint if booked within 14 days."],
-    ctaLabel: "Book a Planning Summit",
-    ctaHref: "#commit",
-    detailHref: "/summits/annual",
-    detailLabel: "See the full Annual Planning Summit",
-  },
-  {
-    id: "mid-year-reset-summit",
-    title: "Mid-Year Reset Summit",
-    tagline:
-      "Recalibrate the second half before momentum sets your year — the seasonal entry point into the Reset Series.",
-    body: [
-      /*
-       * V19: the source paragraph ended "One 90-minute installation session
-       * within one week installs the top 2 to 3 standard AI workflows that
-       * surfaced." Removed outright; the Opportunity Scan sentence below is
-       * the approved homepage replacement.
-       */
-      "A facilitated one-day session that assesses exactly where the business stands at mid-year, function by function, and sharpens priorities, metrics, and ownership for the second half. The Second-Half Plan is delivered in writing within 24 hours — position assessment, second-half priorities locked and sequenced, success metrics, action items with ownership assigned in the room, a 90-day second-half execution plan and KPI scoreboard, and a “Stop Doing” list.",
-      "Every summit includes a complimentary Opportunity Scan showing exactly where AI will amplify the work, and what to install first.",
-      "Best run in early July — giving the recalibrated plan a full six months to compound before year-end.",
-    ],
-    price: "$4,750",
-    /* V20 (23 Sep 2026): the Mid-Year Reset Summit now credits toward a Sprint. */
-    priceNotes: ["Credited in full toward a Revenue Operations Sprint booked within 14 days."],
-    ctaLabel: "Book a Mid-Year Reset",
-    ctaHref: "#commit",
-    detailHref: "/summits/mid-year",
-    detailLabel: "See the full Mid-Year Reset Summit",
-  },
-  {
-    id: "finish-strong-reset",
-    title: "Finish Strong Reset",
-    tagline: "Half a day. One priority. A written 90-day plan to finish the year.",
-    body: [
-      "A four-hour facilitated session, described as half a day, with the founder and leadership team. We assess where the year actually stands, lock the one priority that still moves the number, assign ownership in the room, and deliver a written 90-day plan through year-end. You leave with the Finish Strong Plan and your Opportunity Scan. For teams who want the full annual plan, this is the on-ramp to the Annual Planning Summit. Marketed September through December; available year-round for companies whose fiscal year ends elsewhere.",
-    ],
-    price: "$2,750",
-    priceNotes: [
-      "Credited in full toward a Revenue Operations Sprint or a full Annual Planning Summit.",
-    ],
-    ctaLabel: "Book a Finish Strong Reset",
-    /* The CTA is the offer's own page, per V20; it carries the booking block. */
-    ctaHref: "/summits/finish-strong",
-  },
 ];
 
 export const summitsFaq: FaqItem[] = [
@@ -260,7 +237,7 @@ export const summitsFaq: FaqItem[] = [
      * installed hands-on with your team".
      */
     answer:
-      "Two written deliverables. Your written plan — the Annual Blueprint from the Annual Planning Summit, or the Second-Half Plan from the Mid-Year Reset Summit — with priorities, metrics, accountability, the 90-day plan, the scoreboard, and a clear recommendation. The Opportunity Scan: the AI opportunities we surfaced, which workflows to install first, and what each costs.",
+      "Two written deliverables. Your written plan — the Annual Blueprint from the Annual Planning Summit, or the Second-Half Plan from the Mid-Year Reset Summit — with priorities, metrics, accountability, the 90-day plan, the scoreboard, and a clear recommendation. The AI Opportunity Scan: the AI opportunities we surfaced, which workflows to install first, and what each costs.",
   },
   {
     question: "Does the summit install anything?",
@@ -270,7 +247,7 @@ export const summitsFaq: FaqItem[] = [
   {
     question: "What is complimentary and what is paid?",
     answer:
-      "The Opportunity Scan is complimentary and bounded to a single standard workflow that surfaced in the room. Anything spanning multiple systems requires a paid Systems and Data Audit before custom work begins. That audit is scoped and priced per engagement, and you receive a written scope and a fixed price before any work starts.",
+      "The AI Opportunity Scan is complimentary and bounded to a single standard workflow that surfaced in the room. Anything spanning multiple systems requires a paid Systems and Data Audit before custom work begins. That audit is scoped and priced per engagement, and you receive a written scope and a fixed price before any work starts.",
   },
   {
     /*
