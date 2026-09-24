@@ -13,14 +13,6 @@
 
   --tpg-primary: #0088cc;
   --tpg-primary-dark: #006ba8;
-  /*
-   * Top stop of the standard hero gradient (Alan, 24 Sep 2026). The brand
-   * blue's hue, darkened the minimum needed for every small hero text element
-   * (breadcrumbs, kickers, sublines, pills, chips) to reach WCAG AA 4.5:1 at
-   * 375, 1280 and 1920px. It ends a touch darker than the bottom stop because
-   * the sublines and chips sit low in the hero.
-   */
-  --tpg-hero-top: #006191;
   --tpg-deep: #053e63;
   --tpg-ink: #032a45;
   --tpg-tint: #f0f7fc;
@@ -139,21 +131,63 @@ article[id] {
  */
 .bg-hero {
   background:
+    linear-gradient(
+      100deg,
+      rgb(4 48 77 / var(--hero-scrim)) 0%,
+      rgb(4 48 77 / var(--hero-scrim)) var(--hero-scrim-hold),
+      transparent var(--hero-scrim-end)
+    ),
     radial-gradient(1100px 520px at 82% -10%, rgba(232, 101, 31, 0.22), transparent 60%),
     radial-gradient(900px 600px at -10% 110%, rgba(5, 62, 99, 0.5), transparent 60%),
-    linear-gradient(168deg, var(--tpg-hero-top) 0%, var(--tpg-primary-dark) 100%);
+    linear-gradient(168deg, var(--tpg-primary) 0%, var(--tpg-primary-dark) 100%);
+}
+
+/*
+ * Text-side scrim on every blue hero (Alan, 24 Sep 2026). A soft, left-weighted
+ * deepening under the copy column so small hero text reaches WCAG AA, while the
+ * right of the hero keeps the brand sweep and the Finish Strong glow.
+ *
+ * 0.43 is the minimum at which every breadcrumb, kicker, subline, chip and
+ * pill reaches 4.5:1 at 375, 768, 1024, 1280 and 1920px, including where text
+ * crosses a chart-grid line. Full strength runs to 60% so the /summits chips
+ * (which reach 68% at 1280px) sit inside it. Below 1280px the copy spans ~95%
+ * of the hero, so the scrim covers the full width there.
+ */
+:root {
+  --hero-scrim: 0.43;
+  --hero-scrim-hold: 60%;
+  --hero-scrim-end: 82%;
+}
+@media (max-width: 1279px) {
+  :root {
+    --hero-scrim-hold: 100%;
+    --hero-scrim-end: 100%;
+  }
 }
 
 /* Summit child-page hero fields (Alan, 24 Sep 2026). Annual uses .bg-hero. */
 .bg-hero-midyear {
-  background: linear-gradient(165deg, #2e6fae, #1b4c82);
+  background:
+    linear-gradient(
+      100deg,
+      rgb(4 48 77 / var(--hero-scrim)) 0%,
+      rgb(4 48 77 / var(--hero-scrim)) var(--hero-scrim-hold),
+      transparent var(--hero-scrim-end)
+    ),
+    linear-gradient(165deg, #2e6fae, #1b4c82);
 }
 .bg-hero-finish {
   background:
     radial-gradient(700px 360px at 88% 0%, rgba(232, 101, 31, 0.38), transparent 60%),
+    linear-gradient(
+      100deg,
+      rgb(4 48 77 / var(--hero-scrim)) 0%,
+      rgb(4 48 77 / var(--hero-scrim)) var(--hero-scrim-hold),
+      transparent var(--hero-scrim-end)
+    ),
     radial-gradient(1100px 520px at 82% -10%, rgba(232, 101, 31, 0.22), transparent 60%),
     radial-gradient(900px 600px at -10% 110%, rgba(5, 62, 99, 0.5), transparent 60%),
-    linear-gradient(168deg, var(--tpg-hero-top) 0%, var(--tpg-primary-dark) 100%);
+    linear-gradient(168deg, var(--tpg-primary) 0%, var(--tpg-primary-dark) 100%);
 }
 
 .bg-ste {
