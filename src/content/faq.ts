@@ -17,9 +17,9 @@ export const faqItems: FaqItem[] = [
       "No. We design role-based workflows your people use daily... not training they forget. Adoption support is built into every engagement.",
   },
   {
-    question: "What if we already run EOS or work with an implementer?",
+    question: "What if we already run another system or work with an implementer?",
     answer:
-      "The Lighthouse Leadership OS is a direct alternative to EOS, Scaling Up, Petra Coach, Bloom Growth, and MAP. It delivers the plan, alignment, and accountability those programs sell... plus working AI systems built by our own engineering team, which none of them offer.",
+      "The Lighthouse Leadership OS is a direct alternative to the executive leadership, coaching, and business performance systems you may already run. It delivers the plan, alignment, and accountability those systems sell... plus working AI systems built by our own engineering team, which none of them offer.",
   },
   {
     question: "What is standard and what is custom?",

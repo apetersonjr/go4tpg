@@ -39,7 +39,7 @@ export const sprintHire = {
  *
  * The Harvard Business Review 1967 attribution is required and must never be
  * dropped: the term predates every franchise that now sells it, and the whole
- * point of the passage is that Integrator is not an EOS-branded role.
+ * point of the passage is that Integrator is not a franchise-branded role.
  */
 export const sprintIntegrator = {
   heading: "On the Integrator specifically.",

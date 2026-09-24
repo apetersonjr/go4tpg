@@ -76,10 +76,10 @@ export const retreatOfferings: Offering[] = [
       "For entrepreneurs to Fortune 200 leadership teams. Coaching and facilitation from an operator who has built and led, not just studied.",
     body: [
       /*
-       * V19: the comp named three competitors (EOS, Petra Coach, Bloom
-       * Growth). Replaced with the approved five-name sentence from `faq.ts`.
+       * Competitor names never appear on the public site (Alan, 24 Sep 2026).
+       * Same sentence as the FAQ answer in `faq.ts`.
        */
-      "The Lighthouse Leadership OS is a direct alternative to EOS, Scaling Up, Petra Coach, Bloom Growth, and MAP. It delivers the plan, alignment, and accountability those programs sell... plus working AI systems built by our own engineering team, which none of them offer.",
+      "The Lighthouse Leadership OS is a direct alternative to the executive leadership, coaching, and business performance systems you may already run. It delivers the plan, alignment, and accountability those systems sell... plus working AI systems built by our own engineering team, which none of them offer.",
       "It adds what none of them offer: coaching for the leaders themselves, not just the framework. No franchise journey. No per-seat software subscription. Clients stay because it works.",
       "Engagement modes: 1:1 founder/CEO coaching, leadership team facilitation, team-wide engagement, and board & advisory facilitation.",
       /* V19: the catalog phrasing here is now the Installation Menu. */
@@ -327,7 +327,7 @@ export const coachInstaller = {
     subhead: "The economics",
     paragraphs: [
       /* The "directional, from third-party sources" caveat is required. */
-      "Publicly reported figures, directional, from third-party sources, not official rate cards: EOS Implementers typically charge $4,500 to $6,600 per session day, with a standard two-year journey totaling roughly $58,000 to $86,000 in facilitation alone. No systems built, no software included. Coaching retainers in the Bloom Growth network commonly run $2,500 to $4,000 per month, plus a separate platform subscription.",
+      "Publicly reported figures, directional, from third-party sources, not official rate cards: Implementers of the leading business operating systems typically charge $4,500 to $6,600 per session day, with a standard two-year journey totaling roughly $58,000 to $86,000 in facilitation alone. No systems built, no software included. Coaching retainers in comparable networks commonly run $2,500 to $4,000 per month, plus a separate platform subscription.",
       "TPG’s facilitated day is $4,750 and includes what none of those models deliver: working AI systems, built and installed by our own engineering team, that you own outright.",
     ],
   },
