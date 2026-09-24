@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Kicker } from "@/components/ui/Kicker";
+import { Price } from "@/components/ui/Price";
 import type { Offering } from "@/content/summits";
 
 type OfferDetailProps = {
@@ -43,7 +44,7 @@ export function OfferDetail({ offering, children }: OfferDetailProps) {
         <div className="border-tpg-border mt-9 border-t pt-7">
           {offering.price && (
             <p className="text-tpg-ink font-serif text-[clamp(30px,3.4vw,40px)] leading-none">
-              {offering.price}
+              <Price value={offering.price} />
             </p>
           )}
           {offering.priceNotes.map((note) => (
@@ -61,7 +62,10 @@ export function OfferDetail({ offering, children }: OfferDetailProps) {
             href={offering.detailHref}
             className="text-tpg-primary hover:text-tpg-primary-dark text-[16px] font-bold underline decoration-2 underline-offset-4 transition-colors"
           >
-            {offering.detailLabel} →
+            {offering.detailLabel}{" "}
+            <span className="arrow" aria-hidden="true">
+              →
+            </span>
           </Link>
         )}
       </p>

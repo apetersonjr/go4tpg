@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowLabel } from "@/components/ui/ArrowLabel";
+import { MetaDots } from "@/components/ui/MetaDots";
 import { Nav } from "@/components/sections/Nav";
 import { Footer } from "@/components/sections/Footer";
 import { BookingBlock } from "@/components/sections/BookingBlock";
@@ -80,13 +82,13 @@ export default function ServicesPage() {
                 </p>
                 <p className="text-tpg-body grow text-[16.5px]">{card.description}</p>
                 <p className="border-tpg-border text-tpg-primary my-[26px] border-t pt-[22px] text-[15px] font-bold">
-                  {card.offers.join(" · ")}
+                  <MetaDots text={card.offers.join(" · ")} />
                 </p>
                 <Link
                   href={card.href}
                   className="text-tpg-cta hover:text-tpg-cta-hover text-base font-bold"
                 >
-                  {card.linkLabel}
+                  <ArrowLabel label={card.linkLabel} />
                 </Link>
               </div>
             ))}
@@ -136,7 +138,7 @@ export default function ServicesPage() {
               href={headcountReframe.ctaHref}
               className="text-tpg-cta hover:text-tpg-cta-hover text-[17px] font-bold"
             >
-              {headcountReframe.ctaLabel}
+              <ArrowLabel label={headcountReframe.ctaLabel} />
             </Link>
           </p>
         </SectionContainer>

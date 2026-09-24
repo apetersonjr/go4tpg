@@ -1,7 +1,7 @@
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { metrics, proofHeadline, testimonials } from "@/content/proof";
 import { cn } from "@/lib/cn";
-import { cardHover, cellHover } from "@/lib/motion";
+import { cellHover } from "@/lib/motion";
 
 export function Proof() {
   return (
@@ -15,7 +15,7 @@ export function Proof() {
           {testimonials.map((testimonial) => (
             <div
               key={testimonial.attribution}
-              className={cn("border-tpg-border rounded-md border bg-white p-[34px]", cardHover)}
+              className={cn("border-tpg-border rounded-md border bg-white p-[34px]")}
             >
               <p className="text-tpg-accent mb-5 font-serif text-[19px] italic">
                 “{testimonial.quote}”

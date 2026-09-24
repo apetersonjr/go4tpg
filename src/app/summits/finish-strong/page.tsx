@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowLabel } from "@/components/ui/ArrowLabel";
 import { Nav } from "@/components/sections/Nav";
 import { Footer } from "@/components/sections/Footer";
 import { Faq } from "@/components/sections/Faq";
@@ -82,7 +83,7 @@ export default function FinishStrongResetPage() {
               href={finishStrongOnRamp.linkHref}
               className="text-tpg-cta hover:text-tpg-cta-hover text-[17px] font-bold"
             >
-              {finishStrongOnRamp.linkLabel}
+              <ArrowLabel label={finishStrongOnRamp.linkLabel} />
             </Link>
           </p>
         </ProseSection>

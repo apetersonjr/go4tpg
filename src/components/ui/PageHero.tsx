@@ -1,6 +1,7 @@
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { Kicker } from "@/components/ui/Kicker";
 import { Button } from "@/components/ui/Button";
+import { cn } from "@/lib/cn";
 
 type PageHeroProps = {
   kicker: string;
@@ -8,6 +9,8 @@ type PageHeroProps = {
   lede: string;
   ctaLabel: string;
   ctaHref: string;
+  /** Faint chart-grid watermark behind the copy. On for the category pages. */
+  chart?: boolean;
 };
 
 /**
@@ -15,9 +18,20 @@ type PageHeroProps = {
  * as the same site, but is deliberately shorter — the homepage hero is a
  * 92vh landing statement, these are the top of a document someone is reading.
  */
-export function PageHero({ kicker, headline, lede, ctaLabel, ctaHref }: PageHeroProps) {
+export function PageHero({
+  kicker,
+  headline,
+  lede,
+  ctaLabel,
+  ctaHref,
+  chart = false,
+}: PageHeroProps) {
   return (
-    <SectionContainer as="header" className="bg-hero text-white" paddedY={false}>
+    <SectionContainer
+      as="header"
+      className={cn("bg-hero text-white", chart && "bg-hero-chart")}
+      paddedY={false}
+    >
       <div className="py-[clamp(64px,8vw,110px)]">
         <Kicker color="sky">{kicker}</Kicker>
         <h1 className="max-w-[900px] font-serif text-[clamp(38px,5.4vw,68px)] leading-[1.12] font-normal tracking-[-0.01em]">

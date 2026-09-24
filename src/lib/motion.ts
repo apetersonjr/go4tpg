@@ -10,9 +10,15 @@
  * `globals.css`, which collapses every transition on the site to instant.
  */
 
-/** Free-standing cards: a small lift out of the page. */
+/**
+ * Free-standing cards: a small lift out of the page.
+ *
+ * Tailwind v4's `-translate-y-*` utilities set the `translate` property, not
+ * `transform`, so `translate` is what must be transitioned — listing
+ * `transform` here left the lift snapping instead of easing.
+ */
 export const cardHover =
-  "transition-[box-shadow,transform] duration-200 ease-out hover:-translate-y-1 hover:shadow-[0_18px_44px_rgba(3,62,99,0.14)]";
+  "transition-[box-shadow,translate] duration-200 ease-out hover:-translate-y-[3px] hover:shadow-[0_18px_44px_rgba(3,62,99,0.14)]";
 
 /**
  * Cards that butt up against each other in a seamless grid — pricing tiers,

@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowLabel } from "@/components/ui/ArrowLabel";
+import { MetaDots } from "@/components/ui/MetaDots";
+import { Price } from "@/components/ui/Price";
 import { Nav } from "@/components/sections/Nav";
 import { Footer } from "@/components/sections/Footer";
 import { Faq } from "@/components/sections/Faq";
@@ -55,7 +58,7 @@ export default function SummitsPage() {
     <div className="flex flex-1 flex-col">
       <Nav />
       <main className="flex-1">
-        <SectionContainer as="header" className="bg-hero text-white" paddedY={false}>
+        <SectionContainer as="header" className="bg-hero bg-hero-chart text-white" paddedY={false}>
           <div className="py-[clamp(64px,8vw,110px)]">
             <Kicker color="sky">{summitsHero.kicker}</Kicker>
             <h1 className="max-w-[960px] font-serif text-[clamp(38px,5.4vw,68px)] leading-[1.12] font-normal tracking-[-0.01em]">
@@ -73,7 +76,7 @@ export default function SummitsPage() {
                     href={chip.href}
                     className="inline-block rounded-full border border-white/45 px-5 py-2.5 text-[15px] font-semibold text-white transition-colors hover:border-white hover:bg-white/10"
                   >
-                    {chip.label}
+                    <ArrowLabel label={chip.label} warmTail />
                   </Link>
                 </li>
               ))}
@@ -91,7 +94,9 @@ export default function SummitsPage() {
                 key={choice.id}
                 id={choice.id}
                 className={cn(
-                  "border-tpg-border border-t-tpg-primary flex flex-col rounded-md border border-t-[6px] bg-white px-[34px] py-10",
+                  "border-tpg-border flex flex-col rounded-md border border-t-[6px] bg-white px-[34px] py-10",
+                  /* Orange marks the act-now, seasonal card; the two full summits stay blue. */
+                  choice.badge ? "border-t-tpg-cta" : "border-t-tpg-primary",
                   cardHover,
                 )}
               >
@@ -118,9 +123,11 @@ export default function SummitsPage() {
                 <p className="text-tpg-accent mt-3 font-serif text-[17px] italic">
                   {choice.tagline}
                 </p>
-                <p className="text-tpg-muted mt-4 text-[14.5px]">{choice.meta}</p>
+                <p className="text-tpg-muted mt-4 text-[14.5px]">
+                  <MetaDots text={choice.meta} />
+                </p>
                 <p className="text-tpg-ink mt-6 font-serif text-[36px] leading-none">
-                  {choice.price}
+                  <Price value={choice.price} />
                 </p>
                 <p className="text-tpg-muted mt-3 grow text-[15px]">{choice.credit}</p>
                 <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
@@ -131,7 +138,10 @@ export default function SummitsPage() {
                     href={choice.detailHref}
                     className="text-tpg-primary hover:text-tpg-primary-dark text-[15.5px] font-bold underline decoration-2 underline-offset-4 transition-colors"
                   >
-                    Full details →
+                    Full details{" "}
+                    <span className="arrow" aria-hidden="true">
+                      →
+                    </span>
                   </Link>
                 </div>
               </article>
@@ -165,7 +175,7 @@ export default function SummitsPage() {
           <p className="text-tpg-accent mb-12 max-w-[760px] font-serif text-[19px] italic">
             {howItWorksSubline}
           </p>
-          <ol className="grid list-none grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <ol className="steps-connected grid list-none grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
             {howItWorksSteps.map((step, index) => (
               <li
                 key={step.lead}
@@ -173,7 +183,7 @@ export default function SummitsPage() {
               >
                 <span
                   aria-hidden="true"
-                  className="text-tpg-accent block font-serif text-[34px] leading-none"
+                  className="bg-tpg-accent/[0.08] text-tpg-accent flex h-11 w-11 items-center justify-center rounded-full font-serif text-[24px] leading-none"
                 >
                   {index + 1}
                 </span>
@@ -198,7 +208,6 @@ export default function SummitsPage() {
                 key={item}
                 className={cn(
                   "border-tpg-border text-tpg-body rounded-md border bg-white px-8 py-[30px] text-[17px]",
-                  cardHover,
                 )}
               >
                 {item}

@@ -30,7 +30,7 @@ export function NumberedSteps({ kicker, headline, steps, band = "tint" }: Number
           >
             <span
               aria-hidden="true"
-              className="text-tpg-accent block font-serif text-[44px] leading-none"
+              className="bg-tpg-accent/[0.08] text-tpg-accent flex h-11 w-11 items-center justify-center rounded-full font-serif text-[24px] leading-none"
             >
               {index + 1}
             </span>

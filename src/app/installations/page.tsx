@@ -56,7 +56,7 @@ export default function InstallationsPage() {
     <div className="flex flex-1 flex-col">
       <Nav />
       <main className="flex-1">
-        <PageHero {...installationsHero} />
+        <PageHero {...installationsHero} chart />
 
         <SectionContainer className="bg-white">
           <Kicker>{lanesKicker}</Kicker>

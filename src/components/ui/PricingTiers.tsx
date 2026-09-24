@@ -1,4 +1,5 @@
 import type { PricingTier } from "@/content/retreats";
+import { Price } from "@/components/ui/Price";
 import { cn } from "@/lib/cn";
 import { cellHover } from "@/lib/motion";
 
@@ -24,7 +25,7 @@ export function PricingTiers({ tiers, note }: PricingTiersProps) {
               </span>
               {tier.price && (
                 <span className="text-tpg-ink mt-3 block font-serif text-[27px] leading-none">
-                  {tier.price}
+                  <Price value={tier.price} />
                 </span>
               )}
               {tier.detail && (

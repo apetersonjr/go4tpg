@@ -17,6 +17,8 @@
   --tpg-ink: #032a45;
   --tpg-tint: #f0f7fc;
   --tpg-sky: #bfe6f7;
+  /* Warm tint for the Summit names inside the /summits hero chips. */
+  --tpg-warm: #ffd9c2;
 
   --tpg-cta: #e8651f;
   --tpg-cta-hover: #c9530e;
@@ -57,6 +59,7 @@
   --color-tpg-ink: var(--tpg-ink);
   --color-tpg-tint: var(--tpg-tint);
   --color-tpg-sky: var(--tpg-sky);
+  --color-tpg-warm: var(--tpg-warm);
 
   --color-tpg-cta: var(--tpg-cta);
   --color-tpg-cta-hover: var(--tpg-cta-hover);
@@ -512,4 +515,85 @@ article[id] {
   .sc-card-panel[data-open="true"] > .sc-card-panel-inner {
     opacity: 1;
   }
+}
+
+/* ------------------------------------------------------------------------
+ * The little things — site-wide design polish blessed by Alan, 23 Sep 2026.
+ * Pure styling: nothing here changes copy, prices, or structure.
+ * ---------------------------------------------------------------------- */
+
+/* Small currency symbol on large price figures, ~60% of the numerals and
+   aligned to their top. Prices inside running sentences never use this. */
+.price-currency {
+  position: relative;
+  top: 0.12em;
+  margin-right: 0.04em;
+  font-size: 0.6em;
+  line-height: 1;
+  vertical-align: top;
+}
+
+/* Arrow nudge: the glyph lives in its own inline-block, so the 3px slide is a
+   transform on the arrow alone and the text around it never reflows. */
+.arrow {
+  display: inline-block;
+  transition: transform 180ms ease;
+}
+a:hover .arrow,
+a:focus-visible .arrow {
+  transform: translateX(3px);
+}
+
+/* Connected steps: a hairline joins the five cards on the one desktop line
+   they share; below that width the cards wrap and the line disappears. */
+.steps-connected > li {
+  position: relative;
+}
+@media (min-width: 1024px) {
+  .steps-connected > li:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 50px; /* centre of the 44px numeral circle, under 28px of padding */
+    right: -16px; /* spans the 16px grid gap to the next card */
+    width: 16px;
+    height: 1px;
+    background: var(--tpg-border);
+  }
+}
+
+/* Branded invisible states. Selection in Signal Blue; keyboard focus in brand
+   blue on everything, replacing the browser default rather than removing it. */
+::selection {
+  background: var(--tpg-primary);
+  color: #fff;
+}
+:focus-visible {
+  outline: 2px solid var(--tpg-primary);
+  outline-offset: 2px;
+}
+
+/* Nautical watermark: a faint chart grid behind the category-page hero copy.
+   Two scales, 3.5% and 1.8% white, so it reads as latitude and longitude
+   rather than graph paper. `isolation` keeps the pseudo-element under the
+   content and over the gradient; contrast on the copy is unchanged. */
+.bg-hero-chart {
+  position: relative;
+  isolation: isolate;
+}
+.bg-hero-chart::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+  background-size:
+    120px 120px,
+    120px 120px,
+    24px 24px,
+    24px 24px;
 }

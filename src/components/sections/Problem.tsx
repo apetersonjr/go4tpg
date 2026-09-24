@@ -1,7 +1,7 @@
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { problemHeadline, problemItems } from "@/content/problem";
 import { cn } from "@/lib/cn";
-import { cardHover } from "@/lib/motion";
+import {} from "@/lib/motion";
 
 export function Problem() {
   return (
@@ -15,7 +15,6 @@ export function Problem() {
             key={item.lead}
             className={cn(
               "border-tpg-border flex items-start gap-[22px] rounded-md border bg-white px-8 py-[34px]",
-              cardHover,
             )}
           >
             <span className="text-tpg-accent min-w-[44px] font-serif text-[44px] leading-none">

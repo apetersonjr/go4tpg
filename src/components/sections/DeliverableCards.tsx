@@ -4,7 +4,7 @@ import type { Deliverable } from "@/content/summits";
 import type { Band } from "@/lib/band";
 import { bandClass } from "@/lib/band";
 import { cn } from "@/lib/cn";
-import { cardHover } from "@/lib/motion";
+import {} from "@/lib/motion";
 
 type DeliverableCardsProps = {
   kicker?: string;
@@ -37,7 +37,6 @@ export function DeliverableCards({
             key={deliverable.title}
             className={cn(
               "border-tpg-border border-t-tpg-primary rounded-md border border-t-[6px] bg-white px-[34px] py-10",
-              cardHover,
             )}
           >
             <h3 className="text-tpg-ink font-serif text-[25px] leading-[1.15]">

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowLabel } from "@/components/ui/ArrowLabel";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { Kicker } from "@/components/ui/Kicker";
 import { formatCards, formatsHeadline, formatsKicker } from "@/content/formats";
@@ -49,7 +50,7 @@ export function Formats() {
               href={card.href}
               className="text-tpg-cta hover:text-tpg-cta-hover text-base font-bold"
             >
-              {card.linkLabel}
+              <ArrowLabel label={card.linkLabel} />
             </Link>
           </div>
         ))}

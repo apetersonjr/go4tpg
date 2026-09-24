@@ -71,7 +71,7 @@ export function Button({
      * focus ring is left alone on top of it — nothing here suppresses
      * the outline.
      */
-    "transition-[background-color,border-color,color,transform] duration-200 ease-out",
+    "transition-[background-color,border-color,color,translate] duration-200 ease-out",
     "hover:-translate-y-0.5 focus-visible:-translate-y-0.5",
     variantClassMap[variant],
     sizeClassMap[size],

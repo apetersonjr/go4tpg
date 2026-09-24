@@ -53,7 +53,7 @@ export default function RetreatsCoachingPage() {
     <div className="flex flex-1 flex-col">
       <Nav />
       <main className="flex-1">
-        <PageHero {...retreatsHero} />
+        <PageHero {...retreatsHero} chart />
 
         {/* The Cyrolia Retreats collection */}
         <SectionContainer className="bg-white">

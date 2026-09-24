@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Price } from "@/components/ui/Price";
 import type { Band } from "@/lib/band";
 import { bandClass } from "@/lib/band";
 
@@ -43,7 +44,9 @@ export function PricingBlock({
       )}
 
       {price && (
-        <p className="text-tpg-ink font-serif text-[clamp(44px,6vw,72px)] leading-none">{price}</p>
+        <p className="text-tpg-ink font-serif text-[clamp(44px,6vw,72px)] leading-none">
+          <Price value={price} />
+        </p>
       )}
 
       {notes.map((note) => (

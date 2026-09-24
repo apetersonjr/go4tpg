@@ -116,7 +116,10 @@ export default function StrategyBlueprintAtSeaPage() {
               href={atSeaSibling.linkHref}
               className="text-tpg-primary hover:text-tpg-primary-dark text-[16px] font-bold underline decoration-2 underline-offset-4 transition-colors"
             >
-              {atSeaSibling.linkLabel} →
+              {atSeaSibling.linkLabel}{" "}
+              <span className="arrow" aria-hidden="true">
+                →
+              </span>
             </Link>
           </p>
         </ProseSection>
