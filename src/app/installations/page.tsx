@@ -9,7 +9,6 @@ import { SectionContainer } from "@/components/ui/SectionContainer";
 import { Kicker } from "@/components/ui/Kicker";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
-import { cardHover } from "@/lib/motion";
 import {
   auditBody,
   auditCta,
@@ -69,7 +68,6 @@ export default function InstallationsPage() {
                 key={lane.title}
                 className={cn(
                   "border-tpg-border rounded-md border border-t-[6px] bg-white px-[34px] py-10",
-                  cardHover,
                   lane.variant === "standard" ? "border-t-tpg-cta" : "border-t-tpg-accent",
                 )}
               >
@@ -129,7 +127,6 @@ export default function InstallationsPage() {
                     the two- and three-line labels the narrow columns produce.
                   */
                   "flex min-h-[132px] flex-col items-center justify-center gap-2",
-                  cardHover,
                 )}
               >
                 <span className="text-tpg-muted font-serif text-[13px] tracking-[0.18em]">
