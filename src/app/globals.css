@@ -13,6 +13,14 @@
 
   --tpg-primary: #0088cc;
   --tpg-primary-dark: #006ba8;
+  /*
+   * Top stop of the standard hero gradient (Alan, 24 Sep 2026). The brand
+   * blue's hue, darkened the minimum needed for every small hero text element
+   * (breadcrumbs, kickers, sublines, pills, chips) to reach WCAG AA 4.5:1 at
+   * 375, 1280 and 1920px. It ends a touch darker than the bottom stop because
+   * the sublines and chips sit low in the hero.
+   */
+  --tpg-hero-top: #006191;
   --tpg-deep: #053e63;
   --tpg-ink: #032a45;
   --tpg-tint: #f0f7fc;
@@ -133,7 +141,7 @@ article[id] {
   background:
     radial-gradient(1100px 520px at 82% -10%, rgba(232, 101, 31, 0.22), transparent 60%),
     radial-gradient(900px 600px at -10% 110%, rgba(5, 62, 99, 0.5), transparent 60%),
-    linear-gradient(168deg, var(--tpg-primary) 0%, var(--tpg-primary-dark) 100%);
+    linear-gradient(168deg, var(--tpg-hero-top) 0%, var(--tpg-primary-dark) 100%);
 }
 
 /* Summit child-page hero fields (Alan, 24 Sep 2026). Annual uses .bg-hero. */
@@ -145,7 +153,7 @@ article[id] {
     radial-gradient(700px 360px at 88% 0%, rgba(232, 101, 31, 0.38), transparent 60%),
     radial-gradient(1100px 520px at 82% -10%, rgba(232, 101, 31, 0.22), transparent 60%),
     radial-gradient(900px 600px at -10% 110%, rgba(5, 62, 99, 0.5), transparent 60%),
-    linear-gradient(168deg, var(--tpg-primary) 0%, var(--tpg-primary-dark) 100%);
+    linear-gradient(168deg, var(--tpg-hero-top) 0%, var(--tpg-primary-dark) 100%);
 }
 
 .bg-ste {
