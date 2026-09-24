@@ -50,10 +50,10 @@ export function SummitHero({
 }: SummitHeroProps) {
   return (
     <SectionContainer as="header" className={cn(fieldClass[field], "text-white")} paddedY={false}>
-      <div className="py-[clamp(64px,8vw,110px)]">
+      <div className="py-[clamp(56px,5vw,72px)]">
         <div className="mb-[22px] flex flex-wrap items-center gap-x-3 gap-y-2">
           <nav aria-label="Breadcrumb">
-            <ol className="flex items-center gap-2 text-[13px] font-bold tracking-[0.22em] uppercase">
+            <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] font-bold tracking-[0.22em] whitespace-nowrap uppercase">
               <li>
                 <Link
                   href="/summits"
@@ -76,18 +76,15 @@ export function SummitHero({
             </span>
           )}
         </div>
-        <h1 className="max-w-[900px] font-serif text-[clamp(38px,5.4vw,68px)] leading-[1.12] font-normal tracking-[-0.01em]">
+        <h1 className="max-w-[1040px] font-serif text-[clamp(40px,5.6vw,72px)] leading-[1.08] font-medium tracking-[-0.01em] text-balance">
           {name}
         </h1>
-        {/*
-          24px floor keeps the tagline in WCAG's large-text band, where 3:1 is
-          the AA bar; the light top of the standard field cannot give smaller
-          text 4.5:1.
-        */}
-        <p className="text-tpg-ice mt-4 max-w-[860px] font-serif text-[clamp(24px,2.2vw,26px)] leading-[1.3] italic">
+        {/* Sits 16px under the name: it belongs to it. The hero scrim keeps it
+            at 4.5:1 even below the 24px large-text size. */}
+        <p className="text-tpg-ice mt-4 max-w-[860px] font-serif text-[clamp(19px,2.2vw,26px)] leading-[1.3] italic">
           {tagline}
         </p>
-        <p className="mt-7 mb-10 max-w-[680px] text-[clamp(17px,1.9vw,21px)] leading-[1.65] text-white/[0.82]">
+        <p className="mt-[22px] mb-[34px] max-w-[680px] text-[clamp(17px,1.9vw,21px)] leading-[1.65] text-white/[0.82]">
           {lede}
         </p>
         <Button href={ctaHref}>{ctaLabel}</Button>
