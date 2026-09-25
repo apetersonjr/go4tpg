@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { shareImage } from "@/lib/site";
 import Link from "next/link";
 import { ArrowLabel } from "@/components/ui/ArrowLabel";
 import { MetaDots } from "@/components/ui/MetaDots";
@@ -40,9 +41,11 @@ export const metadata: Metadata = {
     description: summitsMeta.description,
     url: "/summits/",
     type: "website",
+    images: [shareImage],
   },
   twitter: {
     card: "summary_large_image",
+    images: [shareImage],
     title: summitsMeta.title,
     description: summitsMeta.description,
   },

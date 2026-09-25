@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { shareImage } from "@/lib/site";
 import { Nav } from "@/components/sections/Nav";
 import { Footer } from "@/components/sections/Footer";
 import { BerthForm } from "@/components/sections/BerthForm";
@@ -16,9 +17,11 @@ export const metadata: Metadata = {
     description: reserveMeta.description,
     url: "/retreats-coaching/reserve/",
     type: "website",
+    images: [shareImage],
   },
   twitter: {
     card: "summary_large_image",
+    images: [shareImage],
     title: reserveMeta.title,
     description: reserveMeta.description,
   },

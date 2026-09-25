@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { figtree, newsreader } from "./fonts";
 import { ScorecardWidget } from "@/components/scorecard/ScorecardWidget";
 import { SectionReveal } from "@/components/ui/SectionReveal";
-import { siteUrl } from "@/lib/site";
+import { shareDescription, shareImage, siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const title = "The Peterson Group | Blueprints, not decks. Installed systems, not advice.";
@@ -18,23 +18,17 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title,
-    description,
+    description: shareDescription,
     url: siteUrl,
     siteName: "The Peterson Group",
     type: "website",
-    images: [
-      {
-        url: "/assets/tpg-logo-header.png",
-        width: 576,
-        height: 82,
-        alt: "The Peterson Group",
-      },
-    ],
+    images: [shareImage],
   },
   twitter: {
     card: "summary_large_image",
     title,
-    description,
+    description: shareDescription,
+    images: [shareImage],
   },
 };
 

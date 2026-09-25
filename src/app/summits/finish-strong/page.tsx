@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { shareImage } from "@/lib/site";
 import Link from "next/link";
 import { ArrowLabel } from "@/components/ui/ArrowLabel";
 import { Nav } from "@/components/sections/Nav";
@@ -35,9 +36,11 @@ export const metadata: Metadata = {
     description: finishStrongMeta.description,
     url: "/summits/finish-strong/",
     type: "website",
+    images: [shareImage],
   },
   twitter: {
     card: "summary_large_image",
+    images: [shareImage],
     title: finishStrongMeta.title,
     description: finishStrongMeta.description,
   },

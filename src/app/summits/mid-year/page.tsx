@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { shareImage } from "@/lib/site";
 import { Nav } from "@/components/sections/Nav";
 import { Footer } from "@/components/sections/Footer";
 import { Faq } from "@/components/sections/Faq";
@@ -32,9 +33,11 @@ export const metadata: Metadata = {
     description: midYearMeta.description,
     url: "/summits/mid-year/",
     type: "website",
+    images: [shareImage],
   },
   twitter: {
     card: "summary_large_image",
+    images: [shareImage],
     title: midYearMeta.title,
     description: midYearMeta.description,
   },

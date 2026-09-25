@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { shareImage } from "@/lib/site";
 import Link from "next/link";
 import { Nav } from "@/components/sections/Nav";
 import { Footer } from "@/components/sections/Footer";
@@ -37,9 +38,11 @@ export const metadata: Metadata = {
     description: atSeaMeta.description,
     url: "/retreats-coaching/at-sea/",
     type: "website",
+    images: [shareImage],
   },
   twitter: {
     card: "summary_large_image",
+    images: [shareImage],
     title: atSeaMeta.title,
     description: atSeaMeta.description,
   },
