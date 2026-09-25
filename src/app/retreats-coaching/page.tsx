@@ -7,6 +7,15 @@ import { PageHero } from "@/components/ui/PageHero";
 import { PricingTiers } from "@/components/ui/PricingTiers";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { Kicker } from "@/components/ui/Kicker";
+import { Photo } from "@/components/ui/Photo";
+import {
+  aerialDinghy,
+  alanSummit,
+  atAnchor,
+  greenPeak,
+  lagoonPanorama,
+  sharkSnorkel,
+} from "@/content/retreatPhotos";
 import {
   coachInstaller,
   collection,
@@ -78,7 +87,30 @@ export default function RetreatsCoachingPage() {
         {/* The two voyages */}
         <SectionContainer className="bg-tpg-tint">
           <div className="grid gap-[26px]">
-            <OfferDetail offering={retreatOfferings[0]}>
+            <OfferDetail
+              offering={retreatOfferings[0]}
+              lead={
+                <>
+                  <Photo
+                    photo={atAnchor}
+                    sizes="(min-width: 1200px) 1100px, 92vw"
+                    imgClassName="aspect-[16/9] object-cover object-[50%_40%]"
+                  />
+                  <div className="mt-8 grid gap-8 sm:grid-cols-2 sm:gap-6">
+                    <Photo
+                      photo={aerialDinghy}
+                      sizes="(min-width: 1200px) 540px, (min-width: 640px) 46vw, 92vw"
+                      imgClassName="aspect-[3/2] object-cover"
+                    />
+                    <Photo
+                      photo={sharkSnorkel}
+                      sizes="(min-width: 1200px) 540px, (min-width: 640px) 46vw, 92vw"
+                      imgClassName="aspect-[3/2] object-cover"
+                    />
+                  </div>
+                </>
+              }
+            >
               <div className="mt-10">
                 <Kicker>{sailingCalendar.kicker}</Kicker>
                 <p className="text-tpg-ink font-serif text-[23px] leading-[1.2]">
@@ -98,8 +130,28 @@ export default function RetreatsCoachingPage() {
 
               <PricingTiers tiers={retreatTiers} note={retreatTiersNote} />
             </OfferDetail>
+          </div>
+        </SectionContainer>
 
-            <OfferDetail offering={jdlOffering}>
+        {/* Atmosphere band between the two voyages: full bleed, no text. */}
+        <Photo
+          photo={lagoonPanorama}
+          sizes="100vw"
+          imgClassName="h-[clamp(320px,26vw,420px)] rounded-none object-cover object-[50%_55%]"
+        />
+
+        <SectionContainer className="bg-tpg-tint">
+          <div className="grid gap-[26px]">
+            <OfferDetail
+              offering={jdlOffering}
+              lead={
+                <Photo
+                  photo={greenPeak}
+                  sizes="(min-width: 1200px) 1100px, 92vw"
+                  imgClassName="aspect-[16/9] object-cover object-[50%_25%]"
+                />
+              }
+            >
               <h4 className={subheadClass}>{jdlSections.problem.heading}</h4>
               {jdlSections.problem.paragraphs.map((paragraph) => (
                 <p key={paragraph} className="text-tpg-body mt-4 max-w-[860px] text-[16.5px]">
@@ -206,13 +258,18 @@ export default function RetreatsCoachingPage() {
 
         {/* Coach and Installer */}
         <SectionContainer className="bg-white">
-          <h2 className="text-tpg-ink mb-10 max-w-[860px] font-serif text-[clamp(30px,3.8vw,48px)] leading-[1.12]">
-            {coachInstaller.headline}
-          </h2>
-          <div className="max-w-[860px] space-y-5 text-[17px]">
-            {coachInstaller.paragraphs.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
+          <div className="grid items-start gap-x-14 gap-y-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)]">
+            <div>
+              <h2 className="text-tpg-ink mb-10 max-w-[860px] font-serif text-[clamp(30px,3.8vw,48px)] leading-[1.12]">
+                {coachInstaller.headline}
+              </h2>
+              <div className="max-w-[860px] space-y-5 text-[17px]">
+                {coachInstaller.paragraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+            </div>
+            <Photo photo={alanSummit} sizes="(min-width: 1200px) 480px, 92vw" className="lg:mt-3" />
           </div>
 
           <h3 className="text-tpg-ink mt-14 mb-5 font-serif text-[26px] leading-[1.15]">

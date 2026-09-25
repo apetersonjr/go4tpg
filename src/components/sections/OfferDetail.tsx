@@ -9,6 +9,8 @@ type OfferDetailProps = {
   offering: Offering;
   /** Extra blocks (deliverable lists, tier tables) rendered before the CTA. */
   children?: ReactNode;
+  /** Lead media (a photo, a gallery) rendered at the top of the card. */
+  lead?: ReactNode;
 };
 
 /**
@@ -19,12 +21,13 @@ type OfferDetailProps = {
  * an offer with no fixed price (the Fractional CRA) still gets the same
  * treatment, carrying its scoping sentence where the figure would sit.
  */
-export function OfferDetail({ offering, children }: OfferDetailProps) {
+export function OfferDetail({ offering, children, lead }: OfferDetailProps) {
   return (
     <article
       id={offering.id}
       className="border-tpg-border rounded-md border bg-white px-[clamp(24px,4vw,48px)] py-[clamp(32px,4vw,52px)]"
     >
+      {lead && <div className="mb-10">{lead}</div>}
       {offering.eyebrow && <Kicker>{offering.eyebrow}</Kicker>}
       <h3 className="text-tpg-ink font-serif text-[clamp(26px,3vw,36px)] leading-[1.15]">
         {offering.title}
