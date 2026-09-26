@@ -6,6 +6,9 @@ import { shareDescription, shareImage, siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const title = "The Peterson Group | Blueprints, not decks. Installed systems, not advice.";
+/** Share-card headline; the <title> above stays as the tab and search title. */
+const shareTitle =
+  "The Peterson Group | Facilitated planning summits for founders and their leadership teams.";
 const description =
   "We facilitate the plan your business runs on... then our own engineering team installs the AI systems that execute it.";
 
@@ -17,7 +20,7 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title,
+    title: shareTitle,
     description: shareDescription,
     url: siteUrl,
     siteName: "The Peterson Group",
@@ -26,7 +29,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title,
+    title: shareTitle,
     description: shareDescription,
     images: [shareImage],
   },
